@@ -1,0 +1,31 @@
+{
+  "name": "eslint-config",
+  "version": "1.0.0",
+  "description": "eslint config",
+  "packageManager": "pnpm@7.27.0",
+  "type": "module",
+  "main": "./index.js",
+  "module": "./index.js",
+  "types": "./index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wangsizhu0504/eslint-config.git"
+  },
+  "keywords": [
+    "eslint",
+    "config"
+  ],
+  "author": "wsz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wangsizhu0504/eslint-config/issues"
+  },
+  "homepage": "https://github.com/wangsizhu0504/eslint-config#readme",
+    "files": [
+    "index.js",
+    "src"
+  ]
+}
