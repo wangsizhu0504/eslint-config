@@ -2,7 +2,7 @@
   "name": "@kriszu/eslint-config",
   "version": "1.0.1",
   "description": "eslint config",
-  "packageManager": "pnpm@7.27.0",
+  "packageManager": "pnpm@7.32.0",
   "type": "module",
   "main": "./src/index.js",
   "module": "./src/index.js",
@@ -43,7 +43,7 @@
     "@types/node": "^18.15.5",
     "bumpp": "^9.1.0",
     "eslint": "^8.37.0",
-    "rimraf": "^4.4.1",
+    "rimraf": "^5.0.0",
     "typescript": "^5.0.3"
   }
 }
