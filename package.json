@@ -1,14 +1,22 @@
 {
-  "name": "eslint-config",
-  "version": "1.0.0",
+  "name": "@kriszu/eslint-config",
+  "version": "1.0.1",
   "description": "eslint config",
   "packageManager": "pnpm@7.27.0",
   "type": "module",
-  "main": "./index.js",
-  "module": "./index.js",
+  "main": "./src/index.js",
+  "module": "./src/index.js",
   "types": "./index.d.ts",
+  "peerDependencies": {
+    "eslint": ">=7.4.0"
+  },
+  "engines": {
+    "node": ">=14.19.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint .",
+    "test": "pnpm -r run test",
+    "release": "bumpp -r && pnpm -r publish"
   },
   "repository": {
     "type": "git",
@@ -24,8 +32,18 @@
     "url": "https://github.com/wangsizhu0504/eslint-config/issues"
   },
   "homepage": "https://github.com/wangsizhu0504/eslint-config#readme",
-    "files": [
+  "files": [
     "index.js",
     "src"
-  ]
+  ],
+  "dependencies": {
+    "local-pkg": "^0.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^18.15.5",
+    "bumpp": "^9.1.0",
+    "eslint": "^8.37.0",
+    "rimraf": "^4.4.1",
+    "typescript": "^5.0.3"
+  }
 }
