@@ -2,7 +2,7 @@
   "name": "@kriszu/eslint-config",
   "version": "1.0.1",
   "description": "eslint config",
-  "packageManager": "pnpm@7.27.0",
+  "packageManager": "pnpm@7.32.0",
   "type": "module",
   "main": "./src/index.js",
   "module": "./src/index.js",
