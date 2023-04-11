@@ -1,5 +1,16 @@
-const { isPackageExists } = require('local-pkg')
+const { isPackageExists,getPackageInfoSync } = require('local-pkg')
 
+function getVueVersion() {
+  const pkg = getPackageInfoSync('vue', { paths: [process.cwd()] });
+  if (
+    pkg &&
+    typeof pkg.version === 'string' &&
+    !Number.isNaN(+pkg.version[0])
+  ) {
+    return +pkg.version[0];
+  }
+  return 3;
+}
 const TS = isPackageExists('typescript')
 
 if (!TS)
@@ -19,17 +30,6 @@ const vue3Rules = {
 
 }
 module.exports = {
-  languageOptions: {
-    globals: {
-      $: 'readonly',
-      $$: 'readonly',
-      $ref: 'readonly',
-      $computed: 'readonly',
-      $shallowRef: 'readonly',
-      $toRef: 'readonly',
-      $customRef: 'readonly',
-    },
-  },
   overrides: [
     {
       files: ['*.vue'],

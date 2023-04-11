@@ -1,5 +1,3 @@
-const basic = require('./basic')
-
 module.exports =  {
   env: {
     es6: true,
@@ -48,4 +46,5 @@ module.exports =  {
     'no-only-tests',
     'unused-imports',
   ],
+  extends:['./vue']
 }
