@@ -3,7 +3,7 @@
   "version": "1.0.2",
   "private": false,
   "description": "eslint config",
-  "packageManager": "pnpm@7.32.0",
+  "packageManager": "pnpm@8.2.0",
   "main": "./src/index.js",
   "publishConfig": {
     "access": "public"
