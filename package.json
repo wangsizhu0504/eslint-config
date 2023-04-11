@@ -1,6 +1,6 @@
 {
   "name": "@kriszu/eslint-config",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "private": false,
   "description": "eslint config",
   "packageManager": "pnpm@7.32.0",
