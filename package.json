@@ -1,12 +1,13 @@
 {
   "name": "@kriszu/eslint-config",
   "version": "1.0.2",
+  "private": false,
   "description": "eslint config",
   "packageManager": "pnpm@7.32.0",
-  "type": "module",
   "main": "./src/index.js",
-  "module": "./src/index.js",
-  "types": "./index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
   "peerDependencies": {
     "eslint": ">=7.4.0"
   },
@@ -33,7 +34,7 @@
   },
   "homepage": "https://github.com/wangsizhu0504/eslint-config#readme",
   "files": [
-    "index.js",
+    "README.md",
     "src"
   ],
   "dependencies": {
