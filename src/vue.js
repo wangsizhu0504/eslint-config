@@ -1,15 +1,15 @@
-const { isPackageExists,getPackageInfoSync } = require('local-pkg')
+const { isPackageExists, getPackageInfoSync } = require('local-pkg')
 
 function getVueVersion() {
-  const pkg = getPackageInfoSync('vue', { paths: [process.cwd()] });
+  const pkg = getPackageInfoSync('vue', { paths: [process.cwd()] })
   if (
-    pkg &&
-    typeof pkg.version === 'string' &&
-    !Number.isNaN(+pkg.version[0])
-  ) {
-    return +pkg.version[0];
-  }
-  return 3;
+    pkg
+    && typeof pkg.version === 'string'
+    && !Number.isNaN(+pkg.version[0])
+  )
+    return +pkg.version[0]
+
+  return 3
 }
 const TS = isPackageExists('typescript')
 
@@ -19,7 +19,6 @@ if (!TS)
 const isVue3 = getVueVersion() === 3
 
 const vue3Rules = {
-  'vue/no-setup-props-destructure': 'off',
   'vue/prefer-import-from-vue': 'off',
   'vue/require-prop-types': 'off',
   // reactivity transform
@@ -87,14 +86,6 @@ module.exports = {
     'vue/prefer-template': 'error',
     'vue/eqeqeq': ['error', 'smart'],
     'vue/no-constant-condition': 'warn',
-    'vue/object-shorthand': [
-      'error',
-      'always',
-      {
-        ignoreConstructors: false,
-        avoidQuotes: true,
-      },
-    ],
     'vue/no-loss-of-precision': 'error',
     'vue/no-empty-pattern': 'error',
 
@@ -109,7 +100,6 @@ module.exports = {
     'vue/comma-style': ['error', 'last'],
     'vue/dot-location': ['error', 'property'],
     'vue/dot-notation': ['error', { allowKeywords: true }],
-    'vue/eqeqeq': ['error', 'smart'],
     'vue/key-spacing': ['error', { beforeColon: false, afterColon: true }],
     'vue/keyword-spacing': ['error', { before: true, after: true }],
     'vue/no-extra-parens': ['error', 'functions'],
@@ -133,12 +123,11 @@ module.exports = {
       },
     ],
     'vue/operator-linebreak': ['error', 'before'],
-    'vue/prefer-template': 'error',
     'vue/quote-props': ['error', 'consistent-as-needed'],
     'vue/space-in-parens': ['error', 'never'],
     'vue/space-infix-ops': 'error',
     'vue/space-unary-ops': ['error', { words: true, nonwords: false }],
     'vue/template-curly-spacing': 'error',
-    ...(isVue3 ? vue3Rules : {})
+    ...(isVue3 ? vue3Rules : {}),
   },
 }

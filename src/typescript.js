@@ -51,11 +51,11 @@ module.exports = {
             '@typescript-eslint/unbound-method': 'error',
           },
         }, {
-          // https://github.com/jest-community/eslint-plugin-jest/blob/main/docs/rules/unbound-method.md
+        // https://github.com/jest-community/eslint-plugin-jest/blob/main/docs/rules/unbound-method.md
           files: ['**/__tests__/**/*.ts', '**/*.spec.ts', '**/*.test.ts'],
           plugins: ['jest'],
           rules: {
-            // you should turn the original rule off *only* for test files
+          // you should turn the original rule off *only* for test files
             '@typescript-eslint/unbound-method': 'off',
             'jest/unbound-method': 'error',
             'no-unused-expressions': 'off',
@@ -66,13 +66,15 @@ module.exports = {
     'import/named': 'off',
 
     // TS
-    '@typescript-eslint/ban-ts-comment': ['error', { 'ts-ignore': 'allow-with-description' }],
+    '@typescript-eslint/ban-ts-comment': ['error', {
+      'ts-ignore': 'allow-with-description',
+      'ts-expect-error': 'allow-with-description',
+    }],
     '@typescript-eslint/member-delimiter-style': ['error', { multiline: { delimiter: 'none' } }],
     '@typescript-eslint/type-annotation-spacing': ['error', {}],
     '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports', disallowTypeAnnotations: false }],
     '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
     '@typescript-eslint/prefer-ts-expect-error': 'error',
-    '@typescript-eslint/no-require-imports': 'error',
 
     // Override JS
     'no-useless-constructor': 'off',

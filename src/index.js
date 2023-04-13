@@ -1,4 +1,4 @@
-module.exports =  {
+module.exports = {
   env: {
     es6: true,
     browser: true,
@@ -46,5 +46,5 @@ module.exports =  {
     'no-only-tests',
     'unused-imports',
   ],
-  extends:['./vue']
+  extends: ['./vue'],
 }
