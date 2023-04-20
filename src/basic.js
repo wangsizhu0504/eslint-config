@@ -153,7 +153,7 @@ module.exports = {
       'warn',
       { vars: 'all', varsIgnorePattern: '^_', args: 'after-used', argsIgnorePattern: '^_' },
     ],
-
+    'brace-style': 'off',
     'no-param-reassign': 'off',
     'array-bracket-spacing': ['error', 'never'],
     'block-spacing': ['error', 'always'],
