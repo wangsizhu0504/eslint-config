@@ -67,8 +67,8 @@ module.exports = {
 
     // TS
     '@typescript-eslint/ban-ts-comment': ['error', {
-      'ts-ignore': 'allow-with-description',
-      'ts-expect-error': 'allow-with-description',
+      'ts-ignore': true,
+      'ts-expect-error': false,
     }],
     '@typescript-eslint/member-delimiter-style': ['error', { multiline: { delimiter: 'none' } }],
     '@typescript-eslint/type-annotation-spacing': ['error', {}],
