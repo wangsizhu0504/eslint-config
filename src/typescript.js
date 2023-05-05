@@ -64,8 +64,10 @@ module.exports = {
   ),
   rules: {
     'import/named': 'off',
+    'no-invalid-this': 'off',
 
     // TS
+    '@typescript-eslint/no-invalid-this': 'error',
     '@typescript-eslint/ban-ts-comment': ['error', {
       'ts-ignore': true,
       'ts-expect-error': false,
