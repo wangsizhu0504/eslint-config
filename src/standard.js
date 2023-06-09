@@ -9,20 +9,24 @@ module.exports = {
     },
     sourceType: 'module',
   },
+
   env: {
     es2021: true,
     node: true,
   },
+
   plugins: [
     'import',
     'n',
     'promise',
   ],
+
   globals: {
     document: 'readonly',
     navigator: 'readonly',
     window: 'readonly',
   },
+
   rules: {
     'no-var': 'warn',
     'object-shorthand': ['warn', 'properties'],
@@ -35,6 +39,7 @@ module.exports = {
     }],
     'arrow-spacing': ['error', { before: true, after: true }],
     'block-spacing': ['error', 'always'],
+    'brace-style': ['error', '1tbs', { allowSingleLine: true }],
     'camelcase': ['error', {
       allow: ['^UNSAFE_'],
       properties: 'never',
@@ -125,7 +130,7 @@ module.exports = {
     'no-mixed-operators': ['error', {
       groups: [
         ['==', '!=', '===', '!==', '>', '>=', '<', '<='],
-        ['&&', '||', '?:'],
+        ['&&', '||'],
         ['in', 'instanceof'],
       ],
       allowSamePrecedence: true,
