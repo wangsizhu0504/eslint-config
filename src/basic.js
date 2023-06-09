@@ -289,6 +289,8 @@ module.exports = {
     'unicorn/throw-new-error': 'error',
     // Prefer using the node: protocol
     'unicorn/prefer-node-protocol': 'error',
+    // Prefer using number properties like `Number.isNaN` rather than `isNaN`
+    'unicorn/prefer-number-properties': 'error',
 
     'no-use-before-define': ['error', { functions: false, classes: false, variables: true }],
     'eslint-comments/disable-enable-pair': 'off',
