@@ -24,7 +24,7 @@ const vue3Rules = {
   // reactivity transform
   'vue/no-setup-props-destructure': 'off',
   'vue/define-macros-order': ['error', {
-    order: ['defineProps', 'defineEmits'],
+    order: ['defineOptions', 'defineProps', 'defineEmits', 'defineSlots'],
   }],
 
 }
