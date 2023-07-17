@@ -72,7 +72,7 @@ npm i -D lint-staged simple-git-hooks
 
 [antfu/eslint-config](https://github.com/antfu/eslint-config)
 
-[sxzz/eslint-config](https://github.com/sxzz/eslint-config)
+[chris-zhu/eslint-config](https://github.com/zyyv/eslint-config)
 
 
 ## License

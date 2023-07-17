@@ -1,0 +1,55 @@
+{
+  "name": "@kriszu/eslint-plugin",
+  "version": "2.0.0",
+  "description": "My ESLint plugin",
+  "author": "Kriszu <wangsizhu0504@outlook.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wangsizhu0504/eslint-config.git",
+    "directory": "packages/eslint-plugin"
+  },
+  "keywords": [
+    "eslint-plugin"
+  ],
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "stub": "unbuild --stub",
+    "build": "unbuild"
+  },
+  "peerDependencies": {
+    "eslint": "^8.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.61.0",
+    "@typescript-eslint/parser": "^5.61.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-import-resolver-typescript": "^3.5.5",
+    "eslint-plugin-eslint-comments": "^3.2.0",
+    "eslint-plugin-html": "^7.1.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsonc": "^2.9.0",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-markdown": "^3.0.0",
+    "eslint-plugin-n": "^16.0.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-unicorn": "^48.0.0",
+    "eslint-plugin-vue": "^9.15.1",
+    "eslint-plugin-yml": "^1.8.0",
+    "jsonc-eslint-parser": "^2.3.0",
+    "local-pkg": "^0.4.3",
+    "yaml-eslint-parser": "^1.2.2"
+  },
+  "devDependencies": {
+    "@babel/types": "^7.22.5",
+    "@types/node": "^20.4.2",
+    "@typescript-eslint/utils": "^5.61.0"
+  }
+}
