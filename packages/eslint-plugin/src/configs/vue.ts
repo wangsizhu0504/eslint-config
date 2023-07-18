@@ -18,7 +18,8 @@ const TS = isPackageExists('typescript')
 
 if (!TS)
   console.warn('[@kriszu/eslint-config] TypeScript is not installed, fallback to JS only.')
-
+else
+  console.log('[@kriszu/eslint-config] TypeScript is installed, use TS rules.')
 const isVue3 = getVueVersion() === 3
 
 export default defineConfig({

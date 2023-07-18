@@ -1,4 +1,5 @@
 import config from 'eslint-config-standard/.eslintrc.json'
+
 import type { TSESLint } from '@typescript-eslint/utils'
 
 export const TSEquivalents = [
