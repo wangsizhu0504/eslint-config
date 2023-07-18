@@ -34,6 +34,8 @@ export default defineConfig({
         'vue/setup-compiler-macros': true,
       },
       rules: {
+        'indent': 'off',
+        'vue/script-indent': ['error', 2, { baseIndent: 1 }],
         'no-undef': 'off',
         'no-unused-vars': 'off',
 
