@@ -83,5 +83,9 @@ export default defineConfig({
       },
     },
   ],
-
+  extends: [
+    TS
+      ? 'plugin:@kriszu/typescript'
+      : 'plugin:@kriszu/core',
+  ],
 })

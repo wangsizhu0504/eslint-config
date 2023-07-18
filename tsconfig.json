@@ -3,8 +3,7 @@
     "module": "ESNext",
     "target": "ESNext",
     "lib": [
-      "ESNext",
-      "dom"
+      "ESNext"
     ],
     "esModuleInterop": true,
     "strict": true,
@@ -15,7 +14,8 @@
     "jsx": "preserve"
   },
   "exclude": [
-    "dist/**",
-    "node_modules/**"
+    "**/dist/**",
+    "**/node_modules/**",
+    "**/test/dts/**"
   ]
 }
