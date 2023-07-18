@@ -3,7 +3,7 @@ import { TSEquivalents, resolverExtensionsWithTS } from '../constants'
 
 export default defineConfig({
   extends: [
-    'plugin:@kriszu/esnext',
+    // 'plugin:@kriszu/esnext',
     'plugin:import/typescript',
   ],
   settings: {

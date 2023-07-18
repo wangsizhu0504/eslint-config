@@ -1,6 +1,6 @@
 {
   "name": "@kriszu/eslint-config-monorepo",
-  "version": "0.0.0",
+  "version": "2.0.2-beta.0",
   "private": true,
   "packageManager": "pnpm@8.6.6",
   "author": "Kriszu <wangsizhu0504@outlook.com>",
@@ -10,7 +10,7 @@
     "dev": "nr stub",
     "stub": "pnpm -r --parallel run stub",
     "lint": "eslint .",
-    "release": "bumpp packages/*/package.json"
+    "release": "bumpp -r && pnpm -r publish"
   },
   "devDependencies": {
     "@kriszu/eslint-config": "workspace:*",

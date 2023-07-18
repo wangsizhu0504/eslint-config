@@ -30,6 +30,11 @@ export default defineConfig({
       parserOptions: {
         parser: '@typescript-eslint/parser',
       },
+      extends: [
+        isVue3 ? 'plugin:vue/vue3-recommended' : 'plugin:vue/recommended',
+        isVue3 ? 'plugin:vue/vue3-essential' : 'plugin:vue/essential',
+        isVue3 ? 'plugin:vue/vue3-strongly-recommended' : 'plugin:vue/strongly-recommended',
+      ],
       env: {
         'vue/setup-compiler-macros': true,
       },
@@ -38,6 +43,9 @@ export default defineConfig({
         'vue/script-indent': ['error', 2, { baseIndent: 1 }],
         'no-undef': 'off',
         'no-unused-vars': 'off',
+        ...(TS
+          ? { '@typescript-eslint/no-unused-vars': 'off' }
+          : null),
 
         // vue versions of Standard.js rules:
         ...fromEntries(VueEquivalents.map(name => [`vue/${name}`, ruleFromStandard(name)])),
@@ -75,9 +83,5 @@ export default defineConfig({
       },
     },
   ],
-  extends: [
-    isVue3 ? 'plugin:vue/vue3-recommended' : 'plugin:vue/recommended',
-    isVue3 ? 'plugin:vue/vue3-essential' : 'plugin:vue/essential',
-    isVue3 ? 'plugin:vue/vue3-strongly-recommended' : 'plugin:vue/strongly-recommended',
-  ],
+
 })
