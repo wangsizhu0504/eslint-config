@@ -1,6 +1,3 @@
 {
-  "extends":"@kriszu",
-  "rules": {
-    "no-console": "off"
-  }
+  "extends":"@kriszu"
 }
