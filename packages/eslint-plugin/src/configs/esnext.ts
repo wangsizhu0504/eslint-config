@@ -1,6 +1,4 @@
 import { defineConfig } from '../utils'
-import { resolverExtensions } from '../constants'
-import unicornRules from './rules/unicorn'
 
 export default defineConfig({
   env: {
@@ -15,28 +13,13 @@ export default defineConfig({
   },
   extends: [
     'plugin:@kriszu/core',
-    'plugin:import/recommended',
     'plugin:promise/recommended',
   ],
-  plugins: ['unicorn'],
-  settings: {
-    'import/resolver': {
-      node: {
-        extensions: resolverExtensions,
-      },
-    },
-  },
   overrides: [
     {
       files: ['scripts/**/*'],
       rules: {
         'no-console': 'off',
-      },
-    },
-    {
-      files: ['*.test.ts', '*.test.js', '*.spec.ts', '*.spec.js'],
-      rules: {
-        'no-unused-expressions': 'off',
       },
     },
   ],
@@ -45,7 +28,7 @@ export default defineConfig({
     'prefer-const': [
       'error',
       {
-        destructuring: 'any',
+        destructuring: 'all',
         ignoreReadBeforeAssign: true,
       },
     ],
@@ -64,51 +47,27 @@ export default defineConfig({
         avoidQuotes: true,
       },
     ],
+    'prefer-exponentiation-operator': 'error',
     'prefer-rest-params': 'error',
     'prefer-spread': 'error',
     'prefer-template': 'error',
+    'template-curly-spacing': 'error',
     'arrow-parens': ['error', 'as-needed', { requireForBlockBody: true }],
-    'generator-star-spacing': ['error', { before: true, after: false }],
-
-    // import
-    'import/order': [
-      'error',
-      {
-        groups: [
-          'builtin',
-          'external',
-          'internal',
-          'parent',
-          'sibling',
-          'index',
-          'type',
-        ],
-        pathGroups: [
-          {
-            pattern: '@/**',
-            group: 'external',
-            position: 'after',
-          },
-          {
-            pattern: '~/**',
-            group: 'external',
-            position: 'after',
-          },
-        ],
-        pathGroupsExcludedImportTypes: ['type'],
+    'generator-star-spacing': 'off',
+    'spaced-comment': ['error', 'always', {
+      line: {
+        markers: ['/'],
+        exceptions: ['/', '#'],
       },
-    ],
-    'import/first': 'error',
-    'import/no-mutable-exports': 'error',
-    'import/no-unresolved': 'off',
-    'import/no-absolute-path': 'off',
-    'import/no-named-as-default-member': 'off',
+      block: {
+        markers: ['!'],
+        exceptions: ['*'],
+        balanced: true,
+      },
+    }],
 
     // promise
     'promise/always-return': 'off',
     'promise/catch-or-return': 'off',
-
-    // unicorns
-    ...unicornRules,
   },
 })

@@ -1,5 +1,5 @@
-import type { TSESLint } from '@typescript-eslint/utils'
 import { configStandard } from './constants'
+import type { TSESLint } from '@typescript-eslint/utils'
 
 /** 定义Eslint配置 */
 export function defineConfig(config: TSESLint.Linter.Config): TSESLint.Linter.Config {
@@ -25,6 +25,7 @@ export const ruleFromStandard = (name: string): TSESLint.Linter.RuleEntry => {
   return JSON.parse(JSON.stringify(rule))
 }
 
+/** [key,value] 数组转对象 */
 export function fromEntries<T>(iterable: Array<[string, T]>): Record<string, T> {
   return [...iterable].reduce<Record<string, T>>((obj, [key, val]) => {
     obj[key] = val

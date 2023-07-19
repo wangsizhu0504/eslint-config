@@ -1,3 +1,4 @@
+import process from 'node:process'
 import { getPackageInfoSync, isPackageExists } from 'local-pkg'
 import { VueEquivalents } from '../constants'
 import { defineConfig, fromEntries, ruleFromStandard } from '../utils'
@@ -18,8 +19,7 @@ const TS = isPackageExists('typescript')
 
 if (!TS)
   console.warn('[@kriszu/eslint-config] TypeScript is not installed, fallback to JS only.')
-else
-  console.log('[@kriszu/eslint-config] TypeScript is installed, use TS rules.')
+
 const isVue3 = getVueVersion() === 3
 
 export default defineConfig({
@@ -86,6 +86,6 @@ export default defineConfig({
   extends: [
     TS
       ? 'plugin:@kriszu/typescript'
-      : 'plugin:@kriszu/core',
+      : 'plugin:@kriszu/esnext',
   ],
 })

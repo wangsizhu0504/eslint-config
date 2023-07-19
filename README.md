@@ -14,6 +14,18 @@ Flat ESLint config for JavaScript, TypeScript, Vue 2, Vue 3.
 
 > You don't need `.eslintignore` normally as it has been provided by the preset.
 
+## Packages
+
+- eslint-config: default config preset
+- eslint-plugin:
+  - esnext: base config
+  - json: parse json + package.json sort
+  - markdown: parse markdown
+  - typescript-type-checking: typescript type checking
+  - typescript: typescript support
+  - vue: vue support
+  - yml: parse yml
+
 ## Install
 
 ```bash
@@ -23,7 +35,7 @@ Config .eslintrc
 
 ```jsonc
 {
-  "extends": "@kriszu/eslint-config"
+  "extends": "@kriszu"
 }
 ```
 ### Add script for package.json
@@ -77,4 +89,4 @@ npm i -D lint-staged simple-git-hooks
 
 ## License
 
-[MIT](./LICENSE) License © 2022-PRESENT [WSZ](https://github.com/wangsizhu0504)
+[MIT](./LICENSE) License © 2022-PRESENT [Kriszu](https://github.com/wangsizhu0504)
