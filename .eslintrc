@@ -1,3 +1,6 @@
 {
-  "extends":"./src/index"
+  "extends":"@kriszu",
+  "rules": {
+    "no-console": "off"
+  }
 }

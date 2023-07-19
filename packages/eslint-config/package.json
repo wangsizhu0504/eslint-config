@@ -1,0 +1,34 @@
+{
+  "name": "@kriszu/eslint-config",
+  "version": "2.0.2",
+  "description": "My ESLint config",
+  "author": "Kriszu <wangsizhu0504@outlook.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wangsizhu0504/eslint-config.git",
+    "directory": "packages/eslint-config"
+  },
+  "keywords": [
+    "eslint-config"
+  ],
+  "sideEffects": false,
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "stub": "unbuild --stub",
+    "build": "unbuild"
+  },
+  "peerDependencies": {
+    "eslint": "^8.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@kriszu/eslint-plugin": "workspace:*"
+  }
+}
