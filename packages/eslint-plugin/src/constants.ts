@@ -6,19 +6,15 @@ export const TSEquivalents = [
   'comma-spacing',
   'brace-style',
   'func-call-spacing',
-  'indent',
   'keyword-spacing',
   'lines-between-class-members',
   'no-array-constructor',
   'no-dupe-class-members',
   'no-redeclare',
-  'no-unused-vars',
   'no-unused-expressions',
   'no-useless-constructor',
-  'no-use-before-define',
   'quotes',
   'semi',
-  'space-before-function-paren',
   'space-infix-ops',
   'object-curly-spacing',
 ] as const
@@ -57,6 +53,23 @@ export const VueEquivalents = [
   'template-curly-spacing',
 ] as const
 
+export const OffTSRules = [
+  'naming-convention',
+  'explicit-function-return-type',
+  'explicit-member-accessibility',
+  'no-explicit-any',
+  'parameter-properties',
+  'no-empty-interface',
+  'ban-ts-ignore',
+  'no-empty-function',
+  'no-non-null-assertion',
+  'explicit-module-boundary-types',
+  'ban-types',
+  'no-var-requires',
+  'triple-slash-reference',
+  'no-namespace',
+  'consistent-indexed-object-style',
+]
 // Standard规则
 export const configStandard = config as unknown as TSESLint.Linter.Config
 
