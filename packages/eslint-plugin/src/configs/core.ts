@@ -47,7 +47,7 @@ export default defineConfig({
     'no-param-reassign': 'off',
     'camelcase': 'off',
     'comma-dangle': ['error', 'always-multiline'],
-    'no-console': 'error',
+    'no-console': 'off',
     'no-cond-assign': ['error', 'always'],
     'no-return-await': 'error',
     'operator-linebreak': ['error', 'before'],

@@ -3,12 +3,13 @@
     "module": "ESNext",
     "target": "ESNext",
     "lib": [
-      "ESNext"
+      "ESNext",
+      "DOM"
     ],
     "esModuleInterop": true,
     "strict": true,
     "strictNullChecks": true,
-    "moduleResolution": "Node",
+    "moduleResolution": "NodeNext",
     "resolveJsonModule": true,
     "noUnusedParameters": true,
     "jsx": "preserve"
