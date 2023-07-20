@@ -75,7 +75,6 @@ export default defineConfig({
     'no-param-reassign': 'off',
 
     'array-bracket-spacing': ['error', 'never'],
-    'brace-style': ['error', 'stroustrup', { allowSingleLine: true }],
     'block-spacing': ['error', 'always'],
     'camelcase': 'off',
     'comma-spacing': ['error', { before: false, after: true }],
@@ -148,7 +147,7 @@ export default defineConfig({
     ...bestPracticeRules,
 
     // node
-    'n/prefer-global/process': ['error', 'never'],
+    'n/prefer-global/process': 'off',
     'n/prefer-global/buffer': ['error', 'never'],
     'n/no-callback-literal': 'off',
   },
