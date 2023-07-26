@@ -163,6 +163,6 @@ export default defineConfig({
     '@typescript-eslint/no-loss-of-precision': 'error',
 
     // off
-    ...fromEntries(OffTSRules.map(name => [name, 'off'])),
+    ...fromEntries(OffTSRules.map(name => [`@typescript-eslint/${name}`, 'off'])),
   },
 })
