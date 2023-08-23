@@ -35,7 +35,7 @@ const ignorePatterns = [
   '!.vitepress',
   '!.vscode',
   // force exclude
-  '.vitepress/cache',
+  '**/.vitepress/cache',
 ]
 
 export default defineConfig({
