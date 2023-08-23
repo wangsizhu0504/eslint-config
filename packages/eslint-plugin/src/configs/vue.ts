@@ -40,7 +40,7 @@ export default defineConfig({
       },
       rules: {
         'indent': 'off',
-        'vue/script-indent': ['error', 2, { baseIndent: 1 }],
+        'vue/script-indent': ['error', 2, { baseIndent: 1, switchCase: 1 }],
         'no-undef': 'off',
         'no-unused-vars': 'off',
         ...(TS

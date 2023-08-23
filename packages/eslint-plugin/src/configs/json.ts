@@ -82,8 +82,8 @@ export default defineConfig({
             pathPattern: '^exports.*$',
             order: [
               'types',
-              'require',
               'import',
+              'require',
             ],
           },
         ],
