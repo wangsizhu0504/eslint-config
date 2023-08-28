@@ -2,7 +2,7 @@
   "name": "@kriszu/eslint-config-monorepo",
   "version": "2.0.6",
   "private": true,
-  "packageManager": "pnpm@8.6.12",
+  "packageManager": "pnpm@8.7.0",
   "author": "Kriszu <wangsizhu0504@outlook.com>",
   "license": "MIT",
   "scripts": {
@@ -16,8 +16,8 @@
     "@kriszu/eslint-config": "workspace:*",
     "@kriszu/eslint-plugin": "workspace:*",
     "bumpp": "^9.2.0",
-    "eslint": "^8.47.0",
-    "typescript": "^5.1.6",
+    "eslint": "^8.48.0",
+    "typescript": "^5.2.2",
     "unbuild": "^2.0.0"
   }
 }

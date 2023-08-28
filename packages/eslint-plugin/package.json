@@ -49,8 +49,8 @@
     "yaml-eslint-parser": "^1.2.2"
   },
   "devDependencies": {
-    "@babel/types": "^7.22.10",
-    "@types/node": "^20.5.3",
+    "@babel/types": "^7.22.11",
+    "@types/node": "^20.5.7",
     "@typescript-eslint/utils": "^6.4.1"
   }
 }
