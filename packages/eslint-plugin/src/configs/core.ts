@@ -10,6 +10,7 @@ const ignorePatterns = [
   '*.d.ts',
   'CHANGELOG.md',
   'dist',
+  'LICENSE*',
   'output',
   'out',
   'coverage',
