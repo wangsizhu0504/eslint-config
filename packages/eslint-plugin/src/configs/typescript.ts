@@ -111,10 +111,11 @@ export default defineConfig({
               'moduleDetection',
               /* Modules */
               'module',
-              'rootDirs',
+              'rootDir',
               'moduleResolution',
               'baseUrl',
               'paths',
+              'rootDirs',
               'typeRoots',
               'types',
               'allowUmdGlobalAccess',
