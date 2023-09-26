@@ -3,7 +3,6 @@ import esnext from './configs/esnext'
 import json from './configs/json'
 import vue from './configs/vue'
 import yml from './configs/yml'
-import markdown from './configs/markdown'
 import typescript from './configs/typescript'
 import typescriptTypeChecking from './configs/typescript-type-checking'
 import { definePlugin } from './utils'
@@ -22,8 +21,6 @@ const plugin = definePlugin({
     // config format
     yml,
     json,
-    // docs
-    markdown,
   },
 })
 
