@@ -62,7 +62,7 @@
     "vue-eslint-parser": "^9.3.2"
   },
   "devDependencies": {
-    "@stylistic/eslint-plugin-migrate": "^0.0.11"
+    "@stylistic/eslint-plugin-migrate": "^0.1.0"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged"
