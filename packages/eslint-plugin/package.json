@@ -1,7 +1,7 @@
 {
   "name": "@kriszu/eslint-plugin",
   "version": "2.0.11",
-  "description": "My ESLint plugin",
+  "description": "Kriszu extended ESLint rules",
   "author": "Kriszu <wangsizhu0504@outlook.com>",
   "license": "MIT",
   "repository": {
@@ -9,47 +9,47 @@
     "url": "git+https://github.com/wangsizhu0504/eslint-config.git",
     "directory": "packages/eslint-plugin"
   },
-  "keywords": [
-    "eslint-plugin"
-  ],
-  "main": "dist/index.cjs",
-  "module": "dist/index.mjs",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "stub": "unbuild --stub",
-    "build": "unbuild"
+    "build": "unbuild",
+    "dev": "unbuild --stub",
+    "lint": "pnpm run dev && eslint .",
+    "prepublishOnly": "nr build",
+    "release": "bumpp && npm publish",
+    "start": "esno src/index.ts",
+    "test": "vitest",
+    "typecheck": "tsc --noEmit",
+    "prepare": "simple-git-hooks"
   },
   "peerDependencies": {
-    "eslint": "^8.0.0"
-  },
-  "publishConfig": {
-    "access": "public"
+    "eslint": "*"
   },
   "dependencies": {
-    "@typescript-eslint/eslint-plugin": "^6.7.0",
-    "@typescript-eslint/parser": "^6.7.0",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-import-resolver-typescript": "^3.6.0",
-    "eslint-plugin-eslint-comments": "^3.2.0",
-    "eslint-plugin-html": "^7.1.0",
-    "eslint-plugin-import": "npm:eslint-plugin-i@2.28.1",
-    "eslint-plugin-jsonc": "^2.9.0",
-    "eslint-plugin-n": "^16.1.0",
-    "eslint-plugin-no-only-tests": "^3.1.0",
-    "eslint-plugin-promise": "^6.1.1",
-    "eslint-plugin-unicorn": "^48.0.1",
-    "eslint-plugin-unused-imports": "^3.0.0",
-    "eslint-plugin-vue": "^9.17.0",
-    "eslint-plugin-yml": "^1.9.0",
-    "jsonc-eslint-parser": "^2.3.0",
-    "local-pkg": "^0.5.0",
-    "yaml-eslint-parser": "^1.2.2"
+    "@typescript-eslint/utils": "^6.7.4"
   },
   "devDependencies": {
-    "@babel/types": "^7.22.19",
-    "@types/node": "^20.6.2",
-    "@typescript-eslint/utils": "^6.7.0"
+    "@types/lodash.merge": "^4.6.7",
+    "@types/semver": "^7.5.3",
+    "@typescript-eslint/rule-tester": "^6.7.4",
+    "@typescript-eslint/typescript-estree": "^6.7.4",
+    "@typescript-eslint/utils": "^6.7.4",
+    "ajv": "^6.10.0",
+    "eslint-define-config": "^1.23.0",
+    "lint-staged": "^14.0.1",
+    "lodash.merge": "4.6.2",
+    "semver": "^7.5.4"
   }
 }

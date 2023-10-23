@@ -1,7 +1,10 @@
-export default {
-  extends: [
-    'plugin:@kriszu/vue',
-    'plugin:@kriszu/json',
-    'plugin:@kriszu/yml',
-  ],
-}
+import { kriszu } from './factory'
+
+export * from './types'
+export * from './factory'
+export * from './configs'
+export * from './plugins'
+export * from './utils'
+export * from './globs'
+
+export default kriszu

@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "baseUrl": ".",
+    "module": "es2020",
+    "moduleResolution": "Bundler"
+  },
+  "include": [
+    "**/*.ts"
+  ]
+}
