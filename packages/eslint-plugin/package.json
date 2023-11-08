@@ -38,17 +38,17 @@
     "eslint": "*"
   },
   "dependencies": {
-    "@typescript-eslint/utils": "^6.9.1"
+    "@typescript-eslint/utils": "^6.10.0"
   },
   "devDependencies": {
-    "@types/lodash.merge": "^4.6.8",
-    "@types/semver": "^7.5.4",
-    "@typescript-eslint/rule-tester": "^6.9.1",
-    "@typescript-eslint/typescript-estree": "^6.9.1",
-    "@typescript-eslint/utils": "^6.9.1",
+    "@types/lodash.merge": "^4.6.9",
+    "@types/semver": "^7.5.5",
+    "@typescript-eslint/rule-tester": "^6.10.0",
+    "@typescript-eslint/typescript-estree": "^6.10.0",
+    "@typescript-eslint/utils": "^6.10.0",
     "ajv": "^8.12.0",
     "eslint-define-config": "^1.24.1",
-    "lint-staged": "^14.0.1",
+    "lint-staged": "^15.0.2",
     "lodash.merge": "4.6.2",
     "semver": "^7.5.4"
   }
