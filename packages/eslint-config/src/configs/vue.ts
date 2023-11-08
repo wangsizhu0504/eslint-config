@@ -1,6 +1,12 @@
 import { GLOB_VUE } from '../globs'
 import { parserTs, parserVue, pluginVue } from '../plugins'
-import type { ConfigItem, OptionsHasTypeScript, OptionsOverrides, OptionsStylistic, OptionsVueVersion } from '../types'
+import type {
+  ConfigItem,
+  OptionsHasTypeScript,
+  OptionsOverrides,
+  OptionsStylistic,
+  OptionsVueVersion,
+} from '../types'
 
 export function vue(
   options: OptionsHasTypeScript & OptionsOverrides & OptionsStylistic & OptionsVueVersion = {},
@@ -45,7 +51,7 @@ export function vue(
         ...(isVue3 ? pluginVue.configs['vue3-recommended'].rules : pluginVue.configs.recommended.rules) as any,
 
         'node/prefer-global/process': 'off',
-        'indent': 'off',
+        'style/indent': 'off',
         'vue/script-indent': ['error', 2, { baseIndent: 1, switchCase: 1 }],
 
         'vue/block-order': ['error', {
@@ -120,50 +126,50 @@ export function vue(
 
         ...stylistic
           ? {
-            'vue/array-bracket-spacing': ['error', 'never'],
-            'vue/arrow-spacing': ['error', { after: true, before: true }],
-            'vue/block-spacing': ['error', 'always'],
-            'vue/block-tag-newline': ['error', {
-              multiline: 'always',
-              singleline: 'always',
-            }],
-            'vue/brace-style': ['error', 'stroustrup', { allowSingleLine: true }],
-            'vue/comma-dangle': ['error', 'always-multiline'],
-            'vue/comma-spacing': ['error', { after: true, before: false }],
-            'vue/comma-style': ['error', 'last'],
-            'vue/html-comment-content-spacing': ['error', 'always', {
-              exceptions: ['-'],
-            }],
-            'vue/key-spacing': ['error', { afterColon: true, beforeColon: false }],
-            'vue/keyword-spacing': ['error', { after: true, before: true }],
-            'vue/object-curly-newline': 'off',
-            'vue/object-curly-spacing': ['error', 'always'],
-            'vue/object-property-newline': ['error', { allowMultiplePropertiesPerLine: true }],
-            'vue/operator-linebreak': ['error', 'before'],
-            'vue/padding-line-between-blocks': ['error', 'always'],
-            'vue/quote-props': ['error', 'consistent-as-needed'],
-            'vue/space-in-parens': ['error', 'never'],
-            'vue/template-curly-spacing': 'error',
-          }
+              'vue/array-bracket-spacing': ['error', 'never'],
+              'vue/arrow-spacing': ['error', { after: true, before: true }],
+              'vue/block-spacing': ['error', 'always'],
+              'vue/block-tag-newline': ['error', {
+                multiline: 'always',
+                singleline: 'always',
+              }],
+              'vue/brace-style': ['error', 'stroustrup', { allowSingleLine: true }],
+              'vue/comma-dangle': ['error', 'always-multiline'],
+              'vue/comma-spacing': ['error', { after: true, before: false }],
+              'vue/comma-style': ['error', 'last'],
+              'vue/html-comment-content-spacing': ['error', 'always', {
+                exceptions: ['-'],
+              }],
+              'vue/key-spacing': ['error', { afterColon: true, beforeColon: false }],
+              'vue/keyword-spacing': ['error', { after: true, before: true }],
+              'vue/object-curly-newline': 'off',
+              'vue/object-curly-spacing': ['error', 'always'],
+              'vue/object-property-newline': ['error', { allowMultiplePropertiesPerLine: true }],
+              'vue/operator-linebreak': ['error', 'before'],
+              'vue/padding-line-between-blocks': ['error', 'always'],
+              'vue/quote-props': ['error', 'consistent-as-needed'],
+              'vue/space-in-parens': ['error', 'never'],
+              'vue/template-curly-spacing': 'error',
+            }
           : {},
 
         ...overrides,
         ...(
           isVue3
             ? {
-              'vue/prefer-import-from-vue': 'off',
-              'vue/require-prop-types': 'off',
-              // reactivity transform
-              'vue/no-setup-props-reactivity-loss': 'off',
-              'vue/define-macros-order': ['error', {
-                order: [
-                  'defineOptions',
-                  'defineProps',
-                  'defineEmits',
-                  'defineSlots',
-                ],
-              }],
-            }
+                'vue/prefer-import-from-vue': 'off',
+                'vue/require-prop-types': 'off',
+                // reactivity transform
+                'vue/no-setup-props-reactivity-loss': 'off',
+                'vue/define-macros-order': ['error', {
+                  order: [
+                    'defineOptions',
+                    'defineProps',
+                    'defineEmits',
+                    'defineSlots',
+                  ],
+                }],
+              }
             : {}),
       },
     },
