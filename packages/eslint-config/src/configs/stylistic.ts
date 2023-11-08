@@ -22,6 +22,7 @@ export function stylistic(options: StylisticConfig = {}): ConfigItem[] {
         'curly': ['error', 'multi-or-nest', 'consistent'],
 
         'style/array-bracket-spacing': ['error', 'never'],
+        'style/arrow-parens': ['error', 'as-needed', { requireForBlockBody: true }],
         'style/arrow-spacing': ['error', { after: true, before: true }],
         'style/block-spacing': ['error', 'always'],
         'style/brace-style': ['error', '1tbs', { allowSingleLine: true }],
@@ -94,7 +95,6 @@ export function stylistic(options: StylisticConfig = {}): ConfigItem[] {
         'style/no-trailing-spaces': 'error',
         'style/no-whitespace-before-property': 'error',
         'style/object-curly-spacing': ['error', 'always'],
-        'style/object-property-newline': ['error', { allowMultiplePropertiesPerLine: true }],
         'style/operator-linebreak': ['error', 'before'],
         'style/padded-blocks': ['error', { blocks: 'never', classes: 'never', switches: 'never' }],
         'style/quote-props': ['error', 'consistent-as-needed'],
