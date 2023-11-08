@@ -4,8 +4,8 @@ import type { ConfigItem, OptionsOverrides, OptionsStylistic } from '../types'
 
 export function jsonc(options: OptionsStylistic & OptionsOverrides = {}): ConfigItem[] {
   const {
-    stylistic = true,
     overrides = {},
+    stylistic = true,
   } = options
 
   const {

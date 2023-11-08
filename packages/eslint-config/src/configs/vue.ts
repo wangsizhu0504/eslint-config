@@ -30,7 +30,6 @@ export function vue(
       },
     },
     {
-      name: 'kriszu:vue:rules',
       files: [GLOB_VUE],
       languageOptions: {
         parser: parserVue,
@@ -43,6 +42,7 @@ export function vue(
           sourceType: 'module',
         },
       },
+      name: 'kriszu:vue:rules',
       processor: pluginVue.processors['.vue'],
       rules: {
         ...pluginVue.configs.base.rules as any,
@@ -52,12 +52,22 @@ export function vue(
 
         'node/prefer-global/process': 'off',
         'style/indent': 'off',
-        'vue/script-indent': ['error', 2, { baseIndent: 1, switchCase: 1 }],
-
         'vue/block-order': ['error', {
           order: ['script', 'template', 'style'],
         }],
 
+        'vue/block-tag-newline': ['error', {
+          multiline: 'always',
+          singleline: 'always',
+        }],
+
+        'vue/camelcase': 'off',
+        'vue/comma-dangle': ['error', 'always-multiline'],
+        // Uncategorized rules
+        'vue/component-name-in-template-casing': ['error', 'PascalCase', {
+          registeredComponentsOnly: true,
+        }],
+        'vue/component-options-name-casing': ['error', 'PascalCase'],
         'vue/custom-event-name-casing': ['error', 'camelCase'],
         'vue/define-macros-order': ['error', {
           order: ['defineOptions', 'defineProps', 'defineEmits', 'defineSlots'],
@@ -65,24 +75,34 @@ export function vue(
         'vue/dot-location': ['error', 'property'],
         'vue/dot-notation': ['error', { allowKeywords: true }],
         'vue/eqeqeq': ['error', 'smart'],
+        'vue/html-comment-content-spacing': ['error', 'always', {
+          exceptions: ['-'],
+        }],
         'vue/html-indent': ['error', indent],
         'vue/html-quotes': ['error', 'double'],
+        'vue/max-attributes-per-line': ['warn', { singleline: 4 }],
         'vue/multi-word-component-names': 'off',
         'vue/no-dupe-keys': 'off',
         'vue/no-empty-pattern': 'error',
         'vue/no-extra-parens': ['error', 'functions'],
         'vue/no-irregular-whitespace': 'error',
         'vue/no-loss-of-precision': 'error',
+
         'vue/no-restricted-syntax': [
           'error',
           'DebuggerStatement',
           'LabeledStatement',
           'WithStatement',
         ],
+        'vue/no-restricted-v-bind': ['error', '/^v-/'],
         'vue/no-setup-props-reactivity-loss': 'off',
         'vue/no-sparse-arrays': 'error',
         'vue/no-unused-refs': 'error',
+
+        'vue/no-unused-vars': ['error', { ignorePattern: '^_' }],
+        'vue/no-useless-v-bind': 'error',
         'vue/no-v-html': 'off',
+        'vue/no-v-text-v-html-on-component': 'error',
         'vue/object-shorthand': [
           'error',
           'always',
@@ -92,37 +112,17 @@ export function vue(
           },
         ],
 
-        'vue/prefer-template': 'error',
-        'vue/require-default-prop': 'off',
-        'vue/require-prop-types': 'off',
-        'vue/space-infix-ops': 'error',
-        'vue/space-unary-ops': ['error', { nonwords: false, words: true }],
+        'vue/padding-line-between-blocks': ['error', 'always'],
 
+        'vue/prefer-separate-static-class': 'error',
+        'vue/prefer-template': 'error',
         // Override custom JS rules
         'vue/quote-props': ['error', 'consistent-as-needed'],
-        'vue/no-unused-vars': ['error', { ignorePattern: '^_' }],
-        'vue/camelcase': 'off',
-        'vue/comma-dangle': ['error', 'always-multiline'],
-        'vue/max-attributes-per-line': ['warn', { singleline: 4 }],
-
-        'vue/block-tag-newline': ['error', {
-          singleline: 'always',
-          multiline: 'always',
-        }],
-
-        // Uncategorized rules
-        'vue/component-name-in-template-casing': ['error', 'PascalCase', {
-          registeredComponentsOnly: true,
-        }],
-        'vue/component-options-name-casing': ['error', 'PascalCase'],
-        'vue/html-comment-content-spacing': ['error', 'always', {
-          exceptions: ['-'],
-        }],
-        'vue/no-restricted-v-bind': ['error', '/^v-/'],
-        'vue/no-useless-v-bind': 'error',
-        'vue/no-v-text-v-html-on-component': 'error',
-        'vue/padding-line-between-blocks': ['error', 'always'],
-        'vue/prefer-separate-static-class': 'error',
+        'vue/require-default-prop': 'off',
+        'vue/require-prop-types': 'off',
+        'vue/script-indent': ['error', 2, { baseIndent: 1, switchCase: 1 }],
+        'vue/space-infix-ops': 'error',
+        'vue/space-unary-ops': ['error', { nonwords: false, words: true }],
 
         ...stylistic
           ? {
@@ -157,10 +157,6 @@ export function vue(
         ...(
           isVue3
             ? {
-                'vue/prefer-import-from-vue': 'off',
-                'vue/require-prop-types': 'off',
-                // reactivity transform
-                'vue/no-setup-props-reactivity-loss': 'off',
                 'vue/define-macros-order': ['error', {
                   order: [
                     'defineOptions',
@@ -169,6 +165,10 @@ export function vue(
                     'defineSlots',
                   ],
                 }],
+                // reactivity transform
+                'vue/no-setup-props-reactivity-loss': 'off',
+                'vue/prefer-import-from-vue': 'off',
+                'vue/require-prop-types': 'off',
               }
             : {}),
       },

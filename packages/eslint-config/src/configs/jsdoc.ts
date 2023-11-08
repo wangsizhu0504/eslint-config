@@ -31,9 +31,9 @@ export function jsdoc(options: OptionsStylistic = {}): ConfigItem[] {
 
         ...stylistic
           ? {
-            'jsdoc/check-alignment': 'warn',
-            'jsdoc/multiline-blocks': 'warn',
-          }
+              'jsdoc/check-alignment': 'warn',
+              'jsdoc/multiline-blocks': 'warn',
+            }
           : {},
       },
     },

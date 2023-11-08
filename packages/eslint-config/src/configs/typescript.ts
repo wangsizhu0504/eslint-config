@@ -50,8 +50,8 @@ export function typescript(
       // Install the plugins without globs, so they can be configured separately.
       name: 'kriszu:typescript:setup',
       plugins: {
-        kriszu: pluginKriszu,
         import: pluginImport,
+        kriszu: pluginKriszu,
         ts: pluginTs as any,
       },
     },

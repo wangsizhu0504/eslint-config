@@ -35,23 +35,23 @@ export function unicorn(): ConfigItem[] {
         // 检查存在时使用 includes 而不是 indexOf
         'unicorn/prefer-includes': 'error',
         // String methods startsWith/endsWith instead of more complicated stuff
-        // 字符串方法 startsWith/endsWith 而不是更复杂的东西
-        'unicorn/prefer-starts-ends-with': 'error',
-        // textContent instead of innerText
-        // 使用 textContent 而不是 innerText
-        'unicorn/prefer-text-content': 'error',
-        // Enforce throwing type error when throwing error while checking typeof
-        // 在检查 typeof 时抛出错误时强制抛出类型错误
-        'unicorn/prefer-type-error': 'error',
-        // Use new when throwing error
-        // 抛出错误时使用 new
-        'unicorn/throw-new-error': 'error',
-        // Prefer using the node: protocol
         // 更好的使用 node: protocol
         'unicorn/prefer-node-protocol': 'error',
-        // Prefer using number properties like `Number.isNaN` rather than `isNaN`
+        // textContent instead of innerText
         // 更喜欢使用“Number.isNaN”等数字属性而不是“isNaN”
         'unicorn/prefer-number-properties': 'error',
+        // Enforce throwing type error when throwing error while checking typeof
+        // 字符串方法 startsWith/endsWith 而不是更复杂的东西
+        'unicorn/prefer-starts-ends-with': 'error',
+        // Use new when throwing error
+        // 使用 textContent 而不是 innerText
+        'unicorn/prefer-text-content': 'error',
+        // Prefer using the node: protocol
+        // 在检查 typeof 时抛出错误时强制抛出类型错误
+        'unicorn/prefer-type-error': 'error',
+        // Prefer using number properties like `Number.isNaN` rather than `isNaN`
+        // 抛出错误时使用 new
+        'unicorn/throw-new-error': 'error',
       },
     },
   ]

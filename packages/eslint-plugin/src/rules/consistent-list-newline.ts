@@ -1,6 +1,6 @@
-import { createEslintRule } from '../utils'
 import type { RuleFixer, RuleListener } from '@typescript-eslint/utils/ts-eslint'
 import type { TSESTree } from '@typescript-eslint/utils'
+import { createEslintRule } from '../utils'
 
 export const RULE_NAME = 'consistent-list-newline'
 export type MessageIds = 'shouldWrap' | 'shouldNotWrap'
@@ -204,12 +204,12 @@ export default createEslintRule<Options, MessageIds>({
     exportType<KeysListener, KeysOptions>()
     exportType<KeysOptions, KeysListener>()
 
-      ; (Object.keys(options) as KeysOptions[])
-        .forEach((key) => {
-          if (options[key] === false)
+    ; (Object.keys(options) as KeysOptions[])
+      .forEach((key) => {
+        if (options[key] === false)
 
-            delete listenser[key]
-        })
+          delete listenser[key]
+      })
 
     return listenser
   },

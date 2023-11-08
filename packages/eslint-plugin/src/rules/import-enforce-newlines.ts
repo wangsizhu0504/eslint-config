@@ -1,6 +1,6 @@
-import { createEslintRule } from '../utils'
 import type { RuleFixer, RuleListener } from '@typescript-eslint/utils/ts-eslint'
 import type { TSESTree } from '@typescript-eslint/utils'
+import { createEslintRule } from '../utils'
 
 const SPEC_IMPORT = 'ImportSpecifier'
 const SPEC_DEFAULT_IMPORT = 'ImportDefaultSpecifier'
@@ -130,65 +130,65 @@ function findCommentBeforeLastLine(node: TSESTree.ImportDeclaration, comments: T
 
 function fixer(node: TSESTree.ImportDeclaration, semi: boolean, spacer = '\n') {
   return (eslintFixer: RuleFixer) => {
-  const comments = getCommentsInsideImport(node)
-  const trailingComment = findTrailingCommentInImport(node, comments)
-  const lastLineComment = findCommentBeforeLastLine(node, comments)
-  let defaultImport = ''
-  let namespaceImport = ''
-  const objectImports: string[] = []
-  const { specifiers, importKind } = node
-  specifiers.forEach((currentNode) => {
-    switch (currentNode.type) {
-      case SPEC_DEFAULT_IMPORT:
-        defaultImport = applyAliasAndType(currentNode as any)
-        break
-      case SPEC_NAMESPACE_IMPORT:
-        namespaceImport = `* as ${currentNode.local.name}`
-        break
-      case SPEC_IMPORT:
-        objectImports.push(applyAliasAndType(currentNode))
-        break
-      default:
-        break
-    }
-  })
-  const hasObjectImports = objectImports.length > 0
-  const namespaceImportValue = namespaceImport.length > 0
-    ? hasObjectImports ? `${namespaceImport}, ` : namespaceImport
-    : namespaceImport
-  const defaultImportValue = defaultImport.length > 0
-    ? hasObjectImports || namespaceImportValue.length > 0 ? `${defaultImport}, ` : defaultImport
-    : defaultImport
-  const objectImportsValue = hasObjectImports
-    ? `{${spacer}${objectImports.join(`,${spacer}`)}${spacer}}`
-    : ''
+    const comments = getCommentsInsideImport(node)
+    const trailingComment = findTrailingCommentInImport(node, comments)
+    const lastLineComment = findCommentBeforeLastLine(node, comments)
+    let defaultImport = ''
+    let namespaceImport = ''
+    const objectImports: string[] = []
+    const { specifiers, importKind } = node
+    specifiers.forEach((currentNode) => {
+      switch (currentNode.type) {
+        case SPEC_DEFAULT_IMPORT:
+          defaultImport = applyAliasAndType(currentNode as any)
+          break
+        case SPEC_NAMESPACE_IMPORT:
+          namespaceImport = `* as ${currentNode.local.name}`
+          break
+        case SPEC_IMPORT:
+          objectImports.push(applyAliasAndType(currentNode))
+          break
+        default:
+          break
+      }
+    })
+    const hasObjectImports = objectImports.length > 0
+    const namespaceImportValue = namespaceImport.length > 0
+      ? hasObjectImports ? `${namespaceImport}, ` : namespaceImport
+      : namespaceImport
+    const defaultImportValue = defaultImport.length > 0
+      ? hasObjectImports || namespaceImportValue.length > 0 ? `${defaultImport}, ` : defaultImport
+      : defaultImport
+    const objectImportsValue = hasObjectImports
+      ? `{${spacer}${objectImports.join(`,${spacer}`)}${spacer}}`
+      : ''
 
-  let lastLineCommentForSingleLineImport = ''
-  if (lastLineComment) {
-    if (hasObjectImports && spacer === '\n') {
+    let lastLineCommentForSingleLineImport = ''
+    if (lastLineComment) {
+      if (hasObjectImports && spacer === '\n') {
       // If there is a last line comment, add it to the object imports
-      objectImports.push(outputComment(lastLineComment).trim())
-    } else {
+        objectImports.push(outputComment(lastLineComment).trim())
+      } else {
       // or if there are no object imports, as a prefix for the whole import
-      lastLineCommentForSingleLineImport = outputComment(lastLineComment).trimStart()
+        lastLineCommentForSingleLineImport = outputComment(lastLineComment).trimStart()
+      }
     }
-  }
 
-  const importKeyword = importKind === 'type' ? 'import type' : 'import'
-  const newValue = [
-    lastLineCommentForSingleLineImport,
-    importKeyword,
-    ' ',
-    defaultImportValue,
-    namespaceImportValue,
-    objectImportsValue,
-    ' from ',
-    node.source.raw,
-    outputComment(trailingComment),
-    semi || trailingComment ? ';' : '',
-  ].join('')
-  return eslintFixer.replaceText(node, newValue)
-}
+    const importKeyword = importKind === 'type' ? 'import type' : 'import'
+    const newValue = [
+      lastLineCommentForSingleLineImport,
+      importKeyword,
+      ' ',
+      defaultImportValue,
+      namespaceImportValue,
+      objectImportsValue,
+      ' from ',
+      node.source.raw,
+      outputComment(trailingComment),
+      semi || trailingComment ? ';' : '',
+    ].join('')
+    return eslintFixer.replaceText(node, newValue)
+  }
 }
 
 const DEFAULT_ITEMS = 4
