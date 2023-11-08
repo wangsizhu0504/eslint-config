@@ -75,7 +75,7 @@ export function kriszu(options: OptionsConfig & ConfigItem = {}, ...userConfigs:
 
   // Base configs
   configs.push(
-    ignores(),
+    ignores({}),
     javascript({
       isInEditor,
       overrides: overrides.javascript,

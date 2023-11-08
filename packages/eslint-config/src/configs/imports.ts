@@ -17,38 +17,20 @@ export function imports(options: OptionsStylistic = {}): ConfigItem[] {
         'kriszu/import-dedupe': 'error',
         'kriszu/no-import-node-modules-by-path': 'error',
 
-        'import/order': [
-          'error',
-          {
-            groups: [
-              'builtin',
-              'external',
-              'internal',
-              'parent',
-              'sibling',
-              'index',
-              'type',
-            ],
-            pathGroups: [
-              {
-                pattern: '@/**',
-                group: 'external',
-                position: 'after',
-              },
-              {
-                pattern: '~/**',
-                group: 'external',
-                position: 'after',
-              },
-            ],
-            pathGroupsExcludedImportTypes: ['type'],
-          },
-        ],
         'import/first': 'error',
+        // off: controlled by import/order
+        'import/order': 'error',
+        // 禁止已解析路径被导入多次。
+        'import/no-duplicates': 'error',
+        // 禁止使用 var 或 let 来导出可变内容。
         'import/no-mutable-exports': 'error',
+        'import/no-named-default': 'error',
+        // 禁止导入自身
+        'import/no-self-import': 'error',
+        // 禁止在导入中使用 Webpack 加载器语法。
+        'import/no-webpack-loader-syntax': 'error',
         'import/no-unresolved': 'off',
         'import/no-absolute-path': 'off',
-        'import/no-self-import': 'error',
 
         'import/no-named-as-default-member': 'off',
         'import/no-named-as-default': 'off',
@@ -63,9 +45,6 @@ export function imports(options: OptionsStylistic = {}): ConfigItem[] {
             allowSeparatedGroups: false,
           },
         ],
-        'import/no-duplicates': 'error',
-        'import/no-named-default': 'error',
-        'import/no-webpack-loader-syntax': 'error',
 
         ...stylistic
           ? {

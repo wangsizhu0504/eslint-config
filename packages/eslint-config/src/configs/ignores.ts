@@ -1,10 +1,16 @@
 import { GLOB_EXCLUDE } from '../globs'
-import type { ConfigItem } from '../types'
+import type { ConfigItem, OptionsIgnores } from '../types'
 
-export function ignores(): ConfigItem[] {
+export function ignores(options: OptionsIgnores = {}): ConfigItem[] {
+  const {
+    ignores = [],
+  } = options
   return [
     {
-      ignores: GLOB_EXCLUDE,
+      ignores: [
+        ...GLOB_EXCLUDE,
+        ...ignores,
+      ],
     },
   ]
 }

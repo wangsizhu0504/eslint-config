@@ -104,7 +104,9 @@ export interface StylisticConfig {
 export interface OptionsOverrides {
   overrides?: ConfigItem['rules']
 }
-
+export interface OptionsIgnores {
+  ignores?: string[]
+}
 export interface OptionsIsInEditor {
   isInEditor?: boolean
 }

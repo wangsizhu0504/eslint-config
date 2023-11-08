@@ -8,6 +8,7 @@ import noTsExportEqual from './rules/no-ts-export-equal'
 import noCjsExports from './rules/no-cjs-exports'
 import namedTupleSpacing from './rules/named-tuple-spacing'
 import consistentListNewline from './rules/consistent-list-newline'
+import importEnforceNewlines from './rules/import-enforce-newlines'
 import type { ESLint, Linter } from 'eslint'
 
 const plugin = {
@@ -25,15 +26,16 @@ const plugin = {
     'no-ts-export-equal': noTsExportEqual,
     'prefer-inline-type-import': preferInlineTypeImport,
     'top-level-function': topLevelFunction,
+    'import-enforce-newlines': importEnforceNewlines,
   },
 } satisfies ESLint.Plugin
 
 export default plugin
 
-type RuleDefinitations = typeof plugin['rules']
+type RuleDefinitions = typeof plugin['rules']
 
 export type RuleOptions = {
-  [K in keyof RuleDefinitations]: RuleDefinitations[K]['defaultOptions']
+  [K in keyof RuleDefinitions]: RuleDefinitions[K]['defaultOptions']
 }
 
 export type Rules = {
