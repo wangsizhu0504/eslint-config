@@ -34,6 +34,7 @@ export function markdown(options: OptionsComponentExts & OptionsOverrides = {}):
       },
       name: 'kriszu:markdown:rules',
       rules: {
+        'import/newline-after-import': 'off',
         'no-alert': 'off',
         'no-console': 'off',
         'no-undef': 'off',
