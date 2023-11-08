@@ -1,8 +1,14 @@
 import process from 'node:process'
 import { GLOB_SRC } from '../globs'
 import { parserTs, pluginImport, pluginKriszu, pluginTs } from '../plugins'
-import { renameRules } from '../utils'
-import type { ConfigItem, OptionsComponentExts, OptionsOverrides, OptionsTypeScriptParserOptions, OptionsTypeScriptWithTypes } from '../types'
+import { renameRules, toArray } from '../utils'
+import type {
+  ConfigItem,
+  OptionsComponentExts,
+  OptionsOverrides,
+  OptionsTypeScriptParserOptions,
+  OptionsTypeScriptWithTypes,
+} from '../types'
 
 export function typescript(
   options?: OptionsComponentExts & OptionsOverrides & OptionsTypeScriptWithTypes & OptionsTypeScriptParserOptions,
@@ -11,8 +17,11 @@ export function typescript(
     componentExts = [],
     overrides = {},
     parserOptions = {},
-    tsconfigPath,
   } = options ?? {}
+
+  const tsconfigPath = options?.tsconfigPath
+    ? toArray(options.tsconfigPath)
+    : undefined
 
   const typeAwareRules: ConfigItem['rules'] = {
     'dot-notation': 'off',
@@ -56,12 +65,12 @@ export function typescript(
         parserOptions: {
           extraFileExtensions: componentExts.map(ext => `.${ext}`),
           sourceType: 'module',
-          ...tsconfigPath
+          ...(tsconfigPath
             ? {
-              project: [tsconfigPath],
-              tsconfigRootDir: process.cwd(),
-            }
-            : {},
+                project: tsconfigPath,
+                tsconfigRootDir: process.cwd(),
+              }
+            : {}),
           ...parserOptions as any,
         },
       },
@@ -88,6 +97,7 @@ export function typescript(
         'no-redeclare': 'off',
         'no-use-before-define': 'off',
         'no-useless-constructor': 'off',
+
         'ts/ban-ts-comment': ['error', {
           'ts-expect-error': false,
           'ts-ignore': 'allow-with-description',
