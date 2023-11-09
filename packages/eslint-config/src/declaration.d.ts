@@ -1,3 +1,4 @@
+declare module '@kriszu/eslint-plugin';
 declare module 'eslint-plugin-eslint-comments';
 declare module 'eslint-plugin-i';
 declare module 'eslint-plugin-jsdoc';
