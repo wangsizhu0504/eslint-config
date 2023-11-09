@@ -1,11 +1,10 @@
 import globals from 'globals'
-import { pluginKriszu, pluginUnusedImports } from '../plugins'
+import { pluginKriszu } from '../plugins'
 import { GLOB_SRC, GLOB_SRC_EXT } from '../globs'
-import type { ConfigItem, OptionsIsInEditor, OptionsOverrides } from '../types'
+import type { ConfigItem, OptionsOverrides } from '../types'
 
-export function javascript(options: OptionsIsInEditor & OptionsOverrides = {}): ConfigItem[] {
+export function javascript(options: OptionsOverrides = {}): ConfigItem[] {
   const {
-    isInEditor = false,
     overrides = {},
   } = options
 
@@ -35,8 +34,7 @@ export function javascript(options: OptionsIsInEditor & OptionsOverrides = {}): 
       },
       name: 'kriszu:javascript',
       plugins: {
-        'kriszu': pluginKriszu,
-        'unused-imports': pluginUnusedImports,
+        kriszu: pluginKriszu,
       },
       rules: {
         'accessor-pairs': ['error', { enforceForClassMembers: true, setWithoutGet: true }],
@@ -200,12 +198,7 @@ export function javascript(options: OptionsIsInEditor & OptionsOverrides = {}): 
 
         'symbol-description': 'error',
         'unicode-bom': ['error', 'never'],
-        'unused-imports/no-unused-imports': isInEditor ? 'off' : 'error',
 
-        'unused-imports/no-unused-vars': [
-          'error',
-          { args: 'after-used', argsIgnorePattern: '^_', vars: 'all', varsIgnorePattern: '^_' },
-        ],
         'use-isnan': ['error', { enforceForIndexOf: true, enforceForSwitchCase: true }],
         'valid-typeof': ['error', { requireStringLiterals: true }],
         'vars-on-top': 'error',

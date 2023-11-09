@@ -1,5 +1,5 @@
 import process from 'node:process'
-import { GLOB_SRC } from '../globs'
+import { GLOB_DTS, GLOB_SRC } from '../globs'
 import { parserTs, pluginImport, pluginKriszu, pluginTs } from '../plugins'
 import { renameRules, toArray } from '../utils'
 import type {
@@ -128,7 +128,7 @@ export function typescript(
       },
     },
     {
-      files: ['**/*.d.ts'],
+      files: [GLOB_DTS],
       name: 'kriszu:typescript:dts-overrides',
       rules: {
         'eslint-comments/no-unlimited-disable': 'off',

@@ -6,11 +6,6 @@ export default kriszu(
     ignores: [
       'packages/eslint-plugin/vendor',
     ],
-    rules: {
-      'kriszu/import-enforce-newlines': ['error', {
-        items: 4,
-      }],
-    },
   },
   {
     files: ['packages/eslint-config/**/*.ts'],

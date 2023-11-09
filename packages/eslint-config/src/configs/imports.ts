@@ -1,4 +1,4 @@
-import { pluginImport, pluginKriszu } from '../plugins'
+import { pluginImport, pluginKriszu, pluginUnusedImports } from '../plugins'
 import type { ConfigItem, OptionsStylistic } from '../types'
 
 export function imports(options: OptionsStylistic = {}): ConfigItem[] {
@@ -10,8 +10,9 @@ export function imports(options: OptionsStylistic = {}): ConfigItem[] {
     {
       name: 'kriszu:imports',
       plugins: {
-        import: pluginImport,
-        kriszu: pluginKriszu,
+        'import': pluginImport,
+        'kriszu': pluginKriszu,
+        'unused-imports': pluginUnusedImports,
       },
       rules: {
         'import/first': 'error',
@@ -34,6 +35,15 @@ export function imports(options: OptionsStylistic = {}): ConfigItem[] {
         // off: controlled by import/order
         'import/order': 'error',
         'kriszu/import-dedupe': 'error',
+        // Enforce newlines inside named import
+        'kriszu/import-enforce-newlines': [
+          'error',
+          {
+            'items': 5,
+            'max-len': 120,
+            'semi': false,
+          },
+        ],
         'kriszu/no-import-node-modules-by-path': 'error',
         'sort-imports': [
           'error',
@@ -45,7 +55,11 @@ export function imports(options: OptionsStylistic = {}): ConfigItem[] {
             memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
           },
         ],
-
+        'unused-imports/no-unused-imports': 'error',
+        'unused-imports/no-unused-vars': [
+          'warn',
+          { args: 'after-used', argsIgnorePattern: '^_', vars: 'all', varsIgnorePattern: '^_' },
+        ],
         ...stylistic
           ? {
               'import/newline-after-import': ['error', { considerComments: true, count: 1 }],
