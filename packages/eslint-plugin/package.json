@@ -35,7 +35,7 @@
     "prepare": "simple-git-hooks"
   },
   "peerDependencies": {
-    "eslint": "*"
+    "eslint": ">=8.0.0"
   },
   "dependencies": {
     "@typescript-eslint/utils": "^6.10.0"

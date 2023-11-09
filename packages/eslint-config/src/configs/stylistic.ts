@@ -1,3 +1,4 @@
+import { GLOB_REACT, GLOB_TS, GLOB_TSX } from '../globs'
 import { pluginKriszu, pluginStylistic } from '../plugins'
 import type { ConfigItem, StylisticConfig } from '../types'
 
@@ -124,8 +125,12 @@ export function stylistic(options: StylisticConfig = {}): ConfigItem[] {
         'style/type-annotation-spacing': ['error', {}],
         'style/wrap-iife': ['error', 'any', { functionPrototypeMethods: true }],
         'style/yield-star-spacing': ['error', 'both'],
-
-        ...jsx
+      },
+    },
+    {
+      files: [GLOB_REACT],
+      rules: {
+        ...(jsx
           ? {
               'style/jsx-closing-bracket-location': 'error',
               'style/jsx-closing-tag-location': 'error',
@@ -162,7 +167,14 @@ export function stylistic(options: StylisticConfig = {}): ConfigItem[] {
                 },
               ],
             }
-          : {},
+          : {}),
+      },
+    },
+    {
+      files: [GLOB_TS, GLOB_TSX],
+      rules: {
+        // overwritten by typescript-eslint
+        'style/padding-line-between-statements': 'off',
       },
     },
   ]

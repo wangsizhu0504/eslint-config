@@ -1,6 +1,5 @@
 import process from 'node:process'
 import fs from 'node:fs'
-import { isPackageExists } from 'local-pkg'
 import { gitignore } from './gitignore'
 import {
   comments,
@@ -12,6 +11,7 @@ import {
   markdown,
   node,
   perfectionist,
+  react,
   sortPackageJson,
   sortTsconfig,
   stylistic,
@@ -22,6 +22,7 @@ import {
 } from './configs'
 import { combine } from './utils'
 import type { ConfigItem, OptionsConfig } from './types'
+import { hasReact, hasTypeScript, hasVue } from './env'
 
 const flatConfigProps: (keyof ConfigItem)[] = [
   'files',
@@ -34,13 +35,6 @@ const flatConfigProps: (keyof ConfigItem)[] = [
   'settings',
 ]
 
-const VuePackages = [
-  'vue',
-  'nuxt',
-  'vitepress',
-  '@slidev/cli',
-]
-
 /**
  * Construct an array of ESLint flat config items.
  */
@@ -50,8 +44,9 @@ export function kriszu(options: OptionsConfig & ConfigItem = {}, ...userConfigs:
     gitignore: enableGitignore = true,
     isInEditor = !!((process.env.VSCODE_PID || process.env.JETBRAINS_IDE) && !process.env.CI),
     overrides = {},
-    typescript: enableTypeScript = isPackageExists('typescript'),
-    vue: enableVue = VuePackages.some(i => isPackageExists(i)),
+    react: enableReact = hasReact,
+    typescript: enableTypeScript = hasTypeScript,
+    vue: enableVue = hasVue,
   } = options
 
   const stylisticOptions = options.stylistic === false
@@ -77,7 +72,6 @@ export function kriszu(options: OptionsConfig & ConfigItem = {}, ...userConfigs:
   configs.push(
     ignores({}),
     javascript({
-      isInEditor,
       overrides: overrides.javascript,
     }),
     comments(),
@@ -121,6 +115,11 @@ export function kriszu(options: OptionsConfig & ConfigItem = {}, ...userConfigs:
       overrides: overrides.vue,
       stylistic: stylisticOptions,
       typescript: !!enableTypeScript,
+    }))
+  }
+  if (enableReact) {
+    configs.push(react({
+      overrides: overrides.react,
     }))
   }
 

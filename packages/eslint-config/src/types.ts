@@ -29,7 +29,6 @@ export interface FlatConfigItem {
 export type Rules = MergeIntersection<
   RenamePrefix<TypeScriptRules, '@typescript-eslint/', 'ts/'> &
   RenamePrefix<VitestRules, 'vitest/', 'test/'> &
-  RenamePrefix<YmlRules, 'yml/', 'yaml/'> &
   RenamePrefix<NRules, 'n/', 'node/'> &
   Prefix<StylisticRules, 'style/'> &
   ImportRules &
@@ -153,6 +152,12 @@ export interface OptionsConfig extends OptionsComponentExts {
    * @default auto-detect based on the dependencies
    */
   vue?: boolean
+  /**
+   * Enable React support.
+   *
+   * @default auto-detect based on the dependencies
+   */
+  react?: boolean
 
   /**
    * Enable JSONC support.
@@ -160,13 +165,6 @@ export interface OptionsConfig extends OptionsComponentExts {
    * @default true
    */
   jsonc?: boolean
-
-  /**
-   * Enable YAML support.
-   *
-   * @default true
-   */
-  yaml?: boolean
 
   /**
    * Enable Markdown support.
@@ -196,8 +194,8 @@ export interface OptionsConfig extends OptionsComponentExts {
     typescript?: ConfigItem['rules']
     test?: ConfigItem['rules']
     vue?: ConfigItem['rules']
+    react?: ConfigItem['rules']
     jsonc?: ConfigItem['rules']
     markdown?: ConfigItem['rules']
-    yaml?: ConfigItem['rules']
   }
 }

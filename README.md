@@ -7,7 +7,7 @@ Flat ESLint config for JavaScript, TypeScript, Vue 2, Vue 3.
 ## Features
 
 - Support Vue 2 and 3 out-of-box.
-- Support JSON(5), YAML, Markdown...
+- Support JSON(5), Markdown...
 - Single quotes, no semi
 - Auto fix for formatting (aimed to be used standalone without Prettier)
 - Sorted imports, dangling commas
@@ -95,8 +95,7 @@ Add the following settings to your `.vscode/settings.json`:
     "html",
     "markdown",
     "json",
-    "jsonc",
-    "yaml"
+    "jsonc"
   ]
 }
 ```
@@ -132,7 +131,6 @@ export default kriszu({
 
   // Disable jsonc and yaml support
   jsonc: false,
-  yaml: false,
 
   // `.eslintignore` is no longer supported in Flat config, use `ignores` instead
   ignores: [
@@ -189,7 +187,6 @@ import {
   typescript,
   unicorn,
   vue,
-  yaml,
 } from '@kriszu/eslint-config'
 
 export default [
@@ -203,8 +200,8 @@ export default [
   ...typescript(/* Options */),
   ...stylistic(),
   ...vue(),
+  ...react(),
   ...jsonc(),
-  ...yaml(),
   ...markdown(),
 ]
 ```
@@ -216,8 +213,7 @@ export default [
 | New Prefix | Original Prefix | Source Plugin |
 | --- | --- | --- |
 | `import/*` | `i/*` | [eslint-plugin-i](https://github.com/un-es/eslint-plugin-i) |
-| `node/*` | `n/*` | [eslint-plugin-n](https://github.com/eslint-community/eslint-plugin-n) |
-| `yaml/*` | `yml/*` | [eslint-plugin-yml](https://github.com/ota-meshi/eslint-plugin-yml) |
+| `node/*` | `n/*` | [eslint-plugin-n](https://github.com/eslint-community/eslint-plugin-n) |s
 | `ts/*` | `@typescript-eslint/*` | [@typescript-eslint/eslint-plugin](https://github.com/typescript-eslint/typescript-eslint) |
 | `style/*` | `@stylistic/*` | [@stylistic/eslint-plugin](https://github.com/eslint-stylistic/eslint-stylistic) |
 | `test/*` | `vitest/*` | [eslint-plugin-vitest](https://github.com/veritem/eslint-plugin-vitest) |
@@ -271,7 +267,6 @@ export default kriszu({
     typescript: {
       'ts/consistent-type-definitions': ['error', 'interface'],
     },
-    yaml: {},
     // ...
   }
 })
