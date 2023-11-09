@@ -1,7 +1,7 @@
 {
   "name": "@kriszu/eslint-config",
   "type": "module",
-  "version": "3.0.4",
+  "version": "3.0.5",
   "packageManager": "pnpm@8.10.2",
   "description": "Kriszu ESLint config",
   "author": "Kriszu <wangsizhu0504@outlook.com>",
