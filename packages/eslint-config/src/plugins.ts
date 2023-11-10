@@ -18,8 +18,8 @@ import * as _pluginReact from 'eslint-plugin-react'
 import * as _pluginA11y from 'eslint-plugin-jsx-a11y'
 
 import * as _parserTs from '@typescript-eslint/parser'
-import * as _parserVue from 'jsonc-eslint-parser'
-import * as _parserJsonc from 'vue-eslint-parser'
+import * as _parserJsonc from 'jsonc-eslint-parser'
+import * as _parserVue from 'vue-eslint-parser'
 
 function interopDefault(mod: any): any {
   return mod.default || mod
