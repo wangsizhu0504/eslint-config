@@ -1,3 +1,4 @@
+import { paddingLines } from '../lib/paddingLines'
 import { GLOB_REACT, GLOB_TS, GLOB_TSX } from '../globs'
 import { pluginKriszu, pluginStylistic } from '../plugins'
 import type { ConfigItem, StylisticConfig } from '../types'
@@ -80,7 +81,13 @@ export function stylistic(options: StylisticConfig = {}): ConfigItem[] {
         'style/member-delimiter-style': ['error', { multiline: { delimiter: 'none' } }],
         'style/multiline-ternary': ['error', 'always-multiline'],
         'style/new-parens': 'error',
-        'style/no-extra-parens': ['error', 'functions'],
+        'style/no-extra-parens': ['error', 'all', {
+          conditionalAssign: true,
+          enforceForArrowConditionals: false,
+          ignoreJSX: 'all',
+          nestedBinaryExpressions: false,
+          returnAssign: false,
+        }],
         'style/no-floating-decimal': 'error',
         'style/no-mixed-operators': ['error', {
           allowSamePrecedence: true,
@@ -174,7 +181,10 @@ export function stylistic(options: StylisticConfig = {}): ConfigItem[] {
       files: [GLOB_TS, GLOB_TSX],
       rules: {
         // overwritten by typescript-eslint
-        'style/padding-line-between-statements': 'off',
+        'style/padding-line-between-statements': [
+          'error',
+          ...paddingLines,
+        ],
       },
     },
   ]

@@ -1,10 +1,4 @@
-import type {
-  EslintRules,
-  MergeIntersection,
-  ReactRules,
-  TypeScriptRules,
-  Unprefix,
-} from '@antfu/eslint-define-config'
+import type { EslintRules, MergeIntersection, ReactRules, TypeScriptRules, Unprefix } from '@antfu/eslint-define-config'
 
 type MergedRules = MergeIntersection<
   EslintRules &

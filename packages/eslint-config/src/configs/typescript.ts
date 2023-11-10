@@ -1,5 +1,4 @@
 import process from 'node:process'
-import { paddingLines } from 'src/lib/paddingLines'
 import { GLOB_DTS, GLOB_SRC } from '../globs'
 import { parserTs, pluginImport, pluginKriszu, pluginTs } from '../plugins'
 import { renameRules, toArray } from '../utils'
@@ -162,17 +161,7 @@ export function typescript(
             },
           },
         }],
-        'ts/brace-style': [
-          'off',
-          '1tbs',
-          { allowSingleLine: false },
-        ],
         'ts/class-literal-property-style': ['error', 'getters'],
-        'ts/comma-dangle': ['error', 'always-multiline'],
-        'ts/comma-spacing': [
-          'error',
-          { after: true, before: false },
-        ],
         'ts/consistent-generic-constructors': [
           'error',
           'constructor',
@@ -211,28 +200,6 @@ export function typescript(
             SwitchCase: 1,
           },
         ],
-        'ts/keyword-spacing': [
-          'off',
-          { after: true, before: true, overrides: {} },
-        ],
-        'ts/lines-between-class-members': [
-          'error',
-          'always',
-          { exceptAfterSingleLine: true },
-        ],
-        'ts/member-delimiter-style': [
-          'off',
-          {
-            multiline: {
-              delimiter: 'semi',
-              requireLast: true,
-            },
-            singleline: {
-              delimiter: 'semi',
-              requireLast: false,
-            },
-          },
-        ],
         'ts/member-ordering': ['error'],
         'ts/naming-convention': [
           'warn',
@@ -252,17 +219,6 @@ export function typescript(
         ],
         'ts/no-explicit-any': ['off'],
         'ts/no-extra-non-null-assertion': ['error'],
-        'ts/no-extra-parens': [
-          'off',
-          'all',
-          {
-            conditionalAssign: true,
-            enforceForArrowConditionals: false,
-            ignoreJSX: 'all',
-            nestedBinaryExpressions: false,
-            returnAssign: false,
-          },
-        ],
         'ts/no-extra-semi': ['off'],
         'ts/no-extraneous-class': 'off',
 
@@ -327,11 +283,6 @@ export function typescript(
         'ts/no-useless-constructor': 'off',
         'ts/no-useless-empty-export': ['error'],
         'ts/no-var-requires': ['error'],
-        'ts/object-curly-spacing': ['off', 'never'],
-        'ts/padding-line-between-statements': [
-          'error',
-          ...paddingLines,
-        ],
         'ts/parameter-properties': [
           'error',
           { prefer: 'parameter-property' },
@@ -342,18 +293,9 @@ export function typescript(
         'ts/prefer-literal-enum-member': ['error'],
         'ts/prefer-namespace-keyword': ['error'],
         'ts/prefer-ts-expect-error': 'error',
-        'ts/quotes': ['off', 'single'],
         'ts/require-await': ['off'],
-        'ts/semi': ['off', 'always'],
-        'ts/space-before-blocks': ['off', 'always'],
-        'ts/space-before-function-paren': [
-          'off',
-          { anonymous: 'always', asyncArrow: 'always', named: 'never' },
-        ],
-        'ts/space-infix-ops': ['off'],
         'ts/strict-boolean-expressions': ['off'],
         'ts/triple-slash-reference': 'off',
-        'ts/type-annotation-spacing': ['off'],
         'ts/typedef': ['off'],
         'ts/unified-signatures': [
           'error',
