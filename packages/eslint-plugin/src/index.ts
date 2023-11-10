@@ -1,3 +1,4 @@
+import type { ESLint, Linter } from 'eslint'
 import { version } from '../package.json'
 import genericSpacing from './rules/generic-spacing'
 import importDedupe from './rules/import-dedupe'
@@ -9,7 +10,6 @@ import noCjsExports from './rules/no-cjs-exports'
 import namedTupleSpacing from './rules/named-tuple-spacing'
 import consistentListNewline from './rules/consistent-list-newline'
 import importEnforceNewlines from './rules/import-enforce-newlines'
-import type { ESLint, Linter } from 'eslint'
 
 const plugin = {
   meta: {

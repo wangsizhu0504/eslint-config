@@ -65,12 +65,12 @@ export function typescript(
         parserOptions: {
           extraFileExtensions: componentExts.map(ext => `.${ext}`),
           sourceType: 'module',
-          ...(tsconfigPath
+          ...tsconfigPath
             ? {
                 project: tsconfigPath,
                 tsconfigRootDir: process.cwd(),
               }
-            : {}),
+            : {},
           ...parserOptions as any,
         },
       },
@@ -208,7 +208,7 @@ export function typescript(
         'ts/no-array-constructor': ['error'],
         'ts/no-dupe-class-members': ['error'],
         'ts/no-duplicate-enum-values': ['error'],
-        'ts/no-dynamic-delete': ['error'],
+        'ts/no-dynamic-delete': ['off'],
         'ts/no-empty-function': [
           'error',
           { allow: ['arrowFunctions', 'functions', 'methods'] },
@@ -278,7 +278,7 @@ export function typescript(
         ],
         'ts/no-use-before-define': [
           'error',
-          { classes: true, functions: true, variables: true },
+          { classes: false, functions: false, variables: true },
         ],
         'ts/no-useless-constructor': 'off',
         'ts/no-useless-empty-export': ['error'],

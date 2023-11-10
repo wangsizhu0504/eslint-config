@@ -1,12 +1,6 @@
 import { GLOB_VUE } from '../globs'
 import { parserTs, parserVue, pluginVue } from '../plugins'
-import type {
-  ConfigItem,
-  OptionsHasTypeScript,
-  OptionsOverrides,
-  OptionsStylistic,
-  OptionsVueVersion,
-} from '../types'
+import type { ConfigItem, OptionsHasTypeScript, OptionsOverrides, OptionsStylistic, OptionsVueVersion } from '../types'
 
 export function vue(
   options: OptionsHasTypeScript & OptionsOverrides & OptionsStylistic & OptionsVueVersion = {},
@@ -22,6 +16,7 @@ export function vue(
   } = typeof stylistic === 'boolean' ? {} : stylistic
 
   const isVue3 = version === 3
+
   return [
     {
       name: 'kriszu:vue:setup',
@@ -154,23 +149,22 @@ export function vue(
           : {},
 
         ...overrides,
-        ...(
-          isVue3
-            ? {
-                'vue/define-macros-order': ['error', {
-                  order: [
-                    'defineOptions',
-                    'defineProps',
-                    'defineEmits',
-                    'defineSlots',
-                  ],
-                }],
-                // reactivity transform
-                'vue/no-setup-props-reactivity-loss': 'off',
-                'vue/prefer-import-from-vue': 'off',
-                'vue/require-prop-types': 'off',
-              }
-            : {}),
+        ...isVue3
+          ? {
+              'vue/define-macros-order': ['error', {
+                order: [
+                  'defineOptions',
+                  'defineProps',
+                  'defineEmits',
+                  'defineSlots',
+                ],
+              }],
+              // reactivity transform
+              'vue/no-setup-props-reactivity-loss': 'off',
+              'vue/prefer-import-from-vue': 'off',
+              'vue/require-prop-types': 'off',
+            }
+          : {},
       },
     },
   ]

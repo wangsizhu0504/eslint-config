@@ -24,7 +24,7 @@ import { combine } from './utils'
 import type { ConfigItem, OptionsConfig } from './types'
 import { hasReact, hasTypeScript, hasVue } from './env'
 
-const flatConfigProps: (keyof ConfigItem)[] = [
+const flatConfigProps: Array<keyof ConfigItem> = [
   'files',
   'ignores',
   'languageOptions',
@@ -38,7 +38,7 @@ const flatConfigProps: (keyof ConfigItem)[] = [
 /**
  * Construct an array of ESLint flat config items.
  */
-export function kriszu(options: OptionsConfig & ConfigItem = {}, ...userConfigs: (ConfigItem | ConfigItem[])[]) {
+export function kriszu(options: OptionsConfig & ConfigItem = {}, ...userConfigs: Array<ConfigItem | ConfigItem[]>) {
   const {
     componentExts = [],
     gitignore: enableGitignore = true,
@@ -54,6 +54,7 @@ export function kriszu(options: OptionsConfig & ConfigItem = {}, ...userConfigs:
     : typeof options.stylistic === 'object'
       ? options.stylistic
       : {}
+
   if (stylisticOptions && !('jsx' in stylisticOptions))
     stylisticOptions.jsx = options.jsx ?? true
 
@@ -117,6 +118,7 @@ export function kriszu(options: OptionsConfig & ConfigItem = {}, ...userConfigs:
       typescript: !!enableTypeScript,
     }))
   }
+
   if (enableReact) {
     configs.push(react({
       overrides: overrides.react,
@@ -146,8 +148,10 @@ export function kriszu(options: OptionsConfig & ConfigItem = {}, ...userConfigs:
   const fusedConfig = flatConfigProps.reduce((acc, key) => {
     if (key in options)
       acc[key] = options[key] as any
+
     return acc
   }, {} as ConfigItem)
+
   if (Object.keys(fusedConfig).length)
     configs.push([fusedConfig])
 

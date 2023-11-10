@@ -16,6 +16,7 @@ export function gitignore(options: FlatGitignoreOptions = {}): FlatConfigItem {
     const content = fs.readFileSync(file, 'utf8')
     const parsed = parse(content)
     const globs = parsed.globs()
+
     for (const glob of globs) {
       if (glob.type === 'ignore')
         ignores.push(...glob.patterns)

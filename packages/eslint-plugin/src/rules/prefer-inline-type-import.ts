@@ -24,11 +24,13 @@ export default createEslintRule<Options, MessageIds>({
   defaultOptions: [],
   create: (context) => {
     const sourceCode = context.getSourceCode()
+
     return {
       ImportDeclaration: (node) => {
         // ignore bare type imports
         if (node.specifiers.length === 1 && ['ImportNamespaceSpecifier', 'ImportDefaultSpecifier'].includes(node.specifiers[0].type))
           return
+
         if (node.importKind === 'type' && node.specifiers.length > 0) {
           context.report({
             *fix(fixer) {
@@ -50,10 +52,12 @@ export default createEslintRule<Options, MessageIds>({
 
 function* removeTypeSpecifier(fixer: RuleFixer, sourceCode: Readonly<SourceCode>, node: TSESTree.ImportDeclaration) {
   const importKeyword = sourceCode.getFirstToken(node)
+
   if (!importKeyword)
     return
 
   const typeIdentifier = sourceCode.getTokenAfter(importKeyword)
+
   if (!typeIdentifier)
     return
 

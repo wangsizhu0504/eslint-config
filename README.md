@@ -136,7 +136,7 @@ export default kriszu({
   ignores: [
     './fixtures',
     // ...globs
-  ]
+  ],
 })
 ```
 
@@ -249,7 +249,7 @@ export default kriszu(
     rules: {
       'style/semi': ['error', 'never'],
     },
-  }
+  },
 )
 ```
 
@@ -268,7 +268,7 @@ export default kriszu({
       'ts/consistent-type-definitions': ['error', 'interface'],
     },
     // ...
-  }
+  },
 })
 ```
 

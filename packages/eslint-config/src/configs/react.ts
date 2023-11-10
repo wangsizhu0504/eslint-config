@@ -1,5 +1,4 @@
 import globals from 'globals'
-import type { FlatESLintConfigItem } from 'eslint-define-config'
 import { pluginA11y, pluginReact, pluginReactHooks } from '../plugins'
 import { GLOB_REACT } from '../globs'
 import type { ConfigItem, OptionsOverrides } from '../types'
@@ -10,6 +9,7 @@ export function react(
   const {
     overrides = {},
   } = options
+
   return [
     {
       plugins: {

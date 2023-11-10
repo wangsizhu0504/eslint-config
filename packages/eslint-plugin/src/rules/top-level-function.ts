@@ -27,8 +27,10 @@ export default createEslintRule<Options, MessageIds>({
 
         if (node.declarations.length !== 1)
           return
+
         if (node.kind !== 'const')
           return
+
         if (node.declare)
           return
 
@@ -36,10 +38,13 @@ export default createEslintRule<Options, MessageIds>({
 
         if (declaration.init?.type !== 'ArrowFunctionExpression')
           return
+
         if (declaration.id?.type !== 'Identifier')
           return
+
         if (declaration.id.typeAnnotation)
           return
+
         if (
           declaration.init.body.type !== 'BlockStatement'
           && declaration.id?.loc.start.line === declaration.init?.body.loc.end.line
@@ -75,6 +80,7 @@ export default createEslintRule<Options, MessageIds>({
             const textAsync = arrowFn.async ? 'async ' : ''
 
             const final = `${textAsync}function ${textName} ${textGeneric}(${textArgs})${textTypeReturn} ${textBody}`
+
             // console.log({
             //   input: code.slice(node.range[0], node.range[1]),
             //   output: final,

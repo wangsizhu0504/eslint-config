@@ -22,11 +22,13 @@ export default createEslintRule<Options, MessageIds>({
   defaultOptions: [],
   create: (context) => {
     const sourceCode = context.getSourceCode()
+
     return {
       TSTypeParameterDeclaration: (node) => {
         if (!PRESERVE_PREFIX_SPACE_BEFORE_GENERIC.has(node.parent.type)) {
           const pre = sourceCode.text.slice(0, node.range[0])
           const preSpace = pre.match(/(\s+)$/)?.[0]
+
           // strip space before <T>
           if (preSpace && preSpace.length) {
             context.report({
@@ -41,12 +43,14 @@ export default createEslintRule<Options, MessageIds>({
 
         // add space between <T,K>
         const params = node.params
+
         for (let i = 1; i < params.length; i++) {
           const prev = params[i - 1]
           const current = params[i]
           const from = prev.range[1]
           const to = current.range[0]
           const span = sourceCode.text.slice(from, to)
+
           if (span !== ', ' && !span.match(/,\s*\r?\n/)) {
             context.report({
               *fix(fixer) {
@@ -69,6 +73,7 @@ export default createEslintRule<Options, MessageIds>({
         const endNode = node.constraint || node.name
         const from = endNode.range[1]
         const to = node.default.range[0]
+
         if (sourceCode.text.slice(from, to) !== ' = ') {
           context.report({
             *fix(fixer) {

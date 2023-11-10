@@ -43,16 +43,18 @@ export default createEslintRule<Options, MessageIds>({
     function removeLines(fixer: RuleFixer, start: number, end: number) {
       const range = [start, end] as const
       const code = context.getSourceCode().text.slice(...range)
+
       return fixer.replaceTextRange(range, code.replace(/(\r\n|\n)/g, ''))
     }
 
     function check(
       node: TSESTree.Node,
-      children: (TSESTree.Node | null)[],
+      children: Array<TSESTree.Node | null>,
       prevNode?: TSESTree.Node,
       nextNode?: TSESTree.Node,
     ) {
       const items = children.filter(Boolean) as TSESTree.Node[]
+
       if (items.length === 0)
         return
 
@@ -66,6 +68,7 @@ export default createEslintRule<Options, MessageIds>({
         if (mode == null) {
           mode = item.loc.start.line === lastLine ? 'inline' : 'newline'
           lastLine = item.loc.end.line
+
           return
         }
 
@@ -81,6 +84,7 @@ export default createEslintRule<Options, MessageIds>({
           })
         } else if (mode === 'inline' && currentStart !== lastLine) {
           const lastItem = items[idx - 1]
+
           context.report({
             node: item,
             messageId: 'shouldNotWrap',
@@ -99,6 +103,7 @@ export default createEslintRule<Options, MessageIds>({
         : node.range[1]
 
       const lastItem = items[items.length - 1]!
+
       if (mode === 'newline' && endLoc.line === lastLine) {
         context.report({
           node: lastItem,
@@ -215,5 +220,5 @@ export default createEslintRule<Options, MessageIds>({
   },
 })
 
-// eslint-disable-next-line unused-imports/no-unused-vars
+// eslint-disable-next-line unused-imports/no-unused-vars, ts/no-unused-vars
 function exportType<A, B extends A>() { }

@@ -14,7 +14,6 @@ import type {
   UnicornRules,
   VitestRules,
   VueRules,
-  YmlRules,
 } from '@antfu/eslint-define-config'
 import type { StylisticRules } from './generated/stylistic'
 
@@ -54,7 +53,7 @@ export type ConfigItem = Omit<FlatESLintConfigItem<Rules, false>, 'plugins'> & {
    *
    * @see [Using plugins in your configuration](https://eslint.org/docs/latest/user-guide/configuring/configuration-files-new#using-plugins-in-your-configuration)
    */
-  plugins?: Record<string, any>
+  plugins?: { [key: string]: any }
 }
 
 export interface OptionsComponentExts {

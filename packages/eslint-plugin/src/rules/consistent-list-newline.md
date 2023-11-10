@@ -36,6 +36,6 @@ This rule might conflicts with the [object-curly-newline](https://eslint.org/doc
 export default {
   rules: {
     'object-curly-newline': 'off',
-  }
+  },
 }
 ```

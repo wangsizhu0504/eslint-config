@@ -3,13 +3,14 @@ import type { ConfigItem, OptionsIgnores } from '../types'
 
 export function ignores(options: OptionsIgnores = {}): ConfigItem[] {
   const {
-    ignores = [],
+    ignores: ignoresOption = [],
   } = options
+
   return [
     {
       ignores: [
         ...GLOB_EXCLUDE,
-        ...ignores,
+        ...ignoresOption,
       ],
     },
   ]

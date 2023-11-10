@@ -25,11 +25,13 @@ export default createEslintRule<Options, MessageIds>({
   defaultOptions: [],
   create: (context) => {
     const sourceCode = context.getSourceCode()
+
     return {
       TSNamedTupleMember: (node: any) => {
         const code = sourceCode.text.slice(node.range[0], node.range[1])
 
         const match = code.match(RE)
+
         if (!match)
           return
 
@@ -41,10 +43,12 @@ export default createEslintRule<Options, MessageIds>({
 
         function getReplaceValue() {
           let ret = labelName
+
           if (node.optional)
             ret += '?'
           ret += ': '
           ret += elementType
+
           return ret
         }
 

@@ -13,4 +13,9 @@ export default kriszu(
       'perfectionist/sort-objects': 'error',
     },
   },
+  {
+    rules: {
+      'ts/ban-types': 'off',
+    },
+  },
 )

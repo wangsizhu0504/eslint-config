@@ -1,4 +1,4 @@
-import type { RuleFixer, RuleListener } from '@typescript-eslint/utils/ts-eslint'
+import type { RuleFixer } from '@typescript-eslint/utils/ts-eslint'
 import type { TSESTree } from '@typescript-eslint/utils'
 import { createEslintRule } from '../utils'
 
@@ -25,6 +25,7 @@ export type Options = [ImportNewLinesOption]
 
 function applyAliasAndType(currentNode: TSESTree.ImportSpecifier) {
   const localName = currentNode.local.name
+
   if (!currentNode.imported)
     return localName
 
@@ -33,6 +34,7 @@ function applyAliasAndType(currentNode: TSESTree.ImportSpecifier) {
   const importedNameWithPrefix = currentNode.imported.parent.importKind === 'type'
     ? `type ${importedName}`
     : importedName
+
   return importedName !== localName
     ? `${importedNameWithPrefix} as ${localName}`
     : importedNameWithPrefix
@@ -40,6 +42,7 @@ function applyAliasAndType(currentNode: TSESTree.ImportSpecifier) {
 
 function outputComment(commentNode: CommentNode | null) {
   const commentNodeType = commentNode && commentNode.type
+
   switch (commentNodeType) {
     case 'Block':
       return `\n\n/*${commentNode?.value}*/\n`
@@ -52,21 +55,27 @@ function outputComment(commentNode: CommentNode | null) {
 
 function getCommentLineCount(commentNode: CommentNode) {
   let newLineCount = 0
+
   if (commentNode) {
     const newLinesInComment = commentNode.value.match(/\n/g)
+
     if (Array.isArray(newLinesInComment))
       newLineCount = newLinesInComment.length
   }
+
   return 1 + newLineCount
 }
 
 function getCommentsInsideImport(node: TSESTree.ImportDeclaration) {
   const comments: TSESTree.Comment[] = []
   const parent = node.parent as TSESTree.Program
+
   if (parent?.comments) {
     const [nodeStartPos, nodeEndPos] = node.range
+
     parent.comments.some((comment) => {
       const [commentStartPos] = comment.range
+
       if (commentStartPos > nodeEndPos) {
         // Comments after the import are ignored
         return true
@@ -76,9 +85,11 @@ function getCommentsInsideImport(node: TSESTree.ImportDeclaration) {
         // The comment starts inside the import
         comments.push(comment)
       }
+
       return false
     })
   }
+
   return comments
 }
 
@@ -91,15 +102,20 @@ function getCommentsInsideImport(node: TSESTree.ImportDeclaration) {
 function findTrailingCommentInImport(node: TSESTree.ImportDeclaration, comments: TSESTree.Comment[]) {
   let trailingCommentBeforeEnd = null
   const [, nodeSourceEndPos] = node.source.range
+
   comments.some((comment) => {
     const [commentStartPos] = comment.range
+
     if (commentStartPos > nodeSourceEndPos) {
       // The comment starts after the import source token
       trailingCommentBeforeEnd = comment
+
       return true
     }
+
     return false
   })
+
   return trailingCommentBeforeEnd
 }
 
@@ -109,22 +125,29 @@ function findTrailingCommentInImport(node: TSESTree.ImportDeclaration, comments:
  */
 function findCommentBeforeLastLine(node: TSESTree.ImportDeclaration, comments: TSESTree.Comment[]) {
   let commentBeforeLastLine = null
+
   if (node.specifiers.length > 0) {
     const lastSpecifierEndLine = node.specifiers[node.specifiers.length - 1].loc.end.line
     const sourceLine = node.source.loc.start.line
+
     comments.some((comment) => {
       const commentStartLine = comment.loc.start.line
+
       if (commentStartLine > lastSpecifierEndLine) {
         const commentEndLine = comment.loc.end.line
+
         if (commentEndLine < sourceLine) {
           // The comment is between the last specifier and the source line
           commentBeforeLastLine = comment
+
           return true
         }
       }
+
       return false
     })
   }
+
   return commentBeforeLastLine
 }
 
@@ -137,16 +160,20 @@ function fixer(node: TSESTree.ImportDeclaration, semi: boolean, spacer = '\n') {
     let namespaceImport = ''
     const objectImports: string[] = []
     const { specifiers, importKind } = node
+
     specifiers.forEach((currentNode) => {
       switch (currentNode.type) {
         case SPEC_DEFAULT_IMPORT:
           defaultImport = applyAliasAndType(currentNode as any)
+
           break
         case SPEC_NAMESPACE_IMPORT:
           namespaceImport = `* as ${currentNode.local.name}`
+
           break
         case SPEC_IMPORT:
           objectImports.push(applyAliasAndType(currentNode))
+
           break
         default:
           break
@@ -164,6 +191,7 @@ function fixer(node: TSESTree.ImportDeclaration, semi: boolean, spacer = '\n') {
       : ''
 
     let lastLineCommentForSingleLineImport = ''
+
     if (lastLineComment) {
       if (hasObjectImports && spacer === '\n') {
       // If there is a last line comment, add it to the object imports
@@ -187,6 +215,7 @@ function fixer(node: TSESTree.ImportDeclaration, semi: boolean, spacer = '\n') {
       outputComment(trailingComment),
       semi || trailingComment ? ';' : '',
     ].join('')
+
     return eslintFixer.replaceText(node, newValue)
   }
 }
@@ -282,6 +311,7 @@ export default createEslintRule<Options, MessageIds>({
           const previousEndLine = previousItem.loc.end.line
           const currentStartLine = currentItem.loc.start.line
           const lineDifference = currentStartLine - previousEndLine
+
           if (!blankLinesReported && lineDifference > 1) {
             context.report({
               node,
@@ -294,11 +324,14 @@ export default createEslintRule<Options, MessageIds>({
 
         if (!blankLinesReported) {
           const singleLine = importLineCount === 1
+
           if (singleLine) {
             const line = context.getSourceCode().getText(node)
+
             if (line.length > maxLineLength) {
               const canBeSplit = specifiers.length > 2
                 || specifiers.some(specifier => !nonSplittableImportTypes.has(specifier.type))
+
               // There's nothing we can really do about a very long line
               // that has only default and namespace imports (barring a
               // refactor of the import statement itself) so we'll just
@@ -311,8 +344,10 @@ export default createEslintRule<Options, MessageIds>({
                   fix: fixer(node, includeSemi),
                 })
               }
+
               return
             }
+
             if (importedItems > maxItems) {
               context.report({
                 node,
@@ -321,11 +356,13 @@ export default createEslintRule<Options, MessageIds>({
                 fix: fixer(node, includeSemi),
               })
             }
+
             return
           }
 
           // One item per line + line with import + line with from
           const expectedLineCount = importedItems + 2
+
           if (importLineCount !== expectedLineCount) {
             context.report({
               node,
@@ -333,18 +370,21 @@ export default createEslintRule<Options, MessageIds>({
               data: { expectedLineCount, importLineCount },
               fix: fixer(node, includeSemi),
             })
+
             return
           }
 
           if (forceSingleLine && importedItems <= maxItems) {
             let fixedValue = ''
             const fix = fixer(node, includeSemi, ' ')
+
             fix({
               // @ts-expect-error
               replaceText: (_node: any, value: string) => {
                 fixedValue = value
               },
             })
+
             // Only enforce this rule if fixing it would not cause going over the line length limit
             if (fixedValue.length + startColumn <= maxLineLength) {
               context.report({

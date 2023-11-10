@@ -137,7 +137,7 @@ export function stylistic(options: StylisticConfig = {}): ConfigItem[] {
     {
       files: [GLOB_REACT],
       rules: {
-        ...(jsx
+        ...jsx
           ? {
               'style/jsx-closing-bracket-location': 'error',
               'style/jsx-closing-tag-location': 'error',
@@ -174,7 +174,7 @@ export function stylistic(options: StylisticConfig = {}): ConfigItem[] {
                 },
               ],
             }
-          : {}),
+          : {},
       },
     },
     {

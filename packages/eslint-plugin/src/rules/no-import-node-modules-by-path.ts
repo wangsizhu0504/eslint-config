@@ -30,6 +30,7 @@ export default createEslintRule<Options, MessageIds>({
       },
       'CallExpression[callee.name="require"]': (node: any) => {
         const value = node.arguments[0]?.value
+
         if (typeof value === 'string' && value.includes('/node_modules/')) {
           context.report({
             node,
