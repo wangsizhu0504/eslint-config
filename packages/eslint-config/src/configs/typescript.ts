@@ -283,10 +283,7 @@ export function typescript(
         'ts/no-useless-constructor': 'off',
         'ts/no-useless-empty-export': ['error'],
         'ts/no-var-requires': ['error'],
-        'ts/parameter-properties': [
-          'error',
-          { prefer: 'parameter-property' },
-        ],
+        'ts/parameter-properties': 'off',
         'ts/prefer-as-const': ['error'],
         'ts/prefer-for-of': ['error'],
         'ts/prefer-function-type': ['error'],
