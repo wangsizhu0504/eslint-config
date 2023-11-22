@@ -1,7 +1,7 @@
 import { GLOB_EXCLUDE } from '../globs'
-import type { ConfigItem, OptionsIgnores } from '../types'
+import type { FlatConfigItem, OptionsIgnores } from '../types'
 
-export function ignores(options: OptionsIgnores = {}): ConfigItem[] {
+export async function ignores(options: OptionsIgnores = {}): Promise<FlatConfigItem[]> {
   const {
     ignores: ignoresOption = [],
   } = options

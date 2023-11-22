@@ -1,7 +1,7 @@
 import { pluginImport, pluginKriszu, pluginUnusedImports } from '../plugins'
-import type { ConfigItem, OptionsStylistic } from '../types'
+import type { FlatConfigItem, OptionsStylistic } from '../types'
 
-export function imports(options: OptionsStylistic = {}): ConfigItem[] {
+export async function imports(options: OptionsStylistic = {}): Promise<FlatConfigItem[]> {
   const {
     stylistic = true,
   } = options

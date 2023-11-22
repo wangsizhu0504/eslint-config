@@ -1,8 +1,9 @@
 import { GLOB_MARKDOWN, GLOB_MARKDOWN_CODE } from '../globs'
-import { pluginMarkdown } from '../plugins'
-import type { ConfigItem, OptionsComponentExts, OptionsOverrides } from '../types'
+import type { FlatConfigItem, OptionsComponentExts, OptionsOverrides } from '../types'
 
-export function markdown(options: OptionsComponentExts & OptionsOverrides = {}): ConfigItem[] {
+import { interopDefault } from '../utils'
+
+export async function markdown(options: OptionsComponentExts & OptionsOverrides = {}): Promise<FlatConfigItem[]> {
   const {
     componentExts = [],
     overrides = {},
@@ -12,7 +13,7 @@ export function markdown(options: OptionsComponentExts & OptionsOverrides = {}):
     {
       name: 'kriszu:markdown:setup',
       plugins: {
-        markdown: pluginMarkdown,
+        markdown: await interopDefault(import('eslint-plugin-markdown')),
       },
     },
     {

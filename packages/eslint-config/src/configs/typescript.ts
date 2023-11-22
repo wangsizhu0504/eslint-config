@@ -3,16 +3,16 @@ import { GLOB_DTS, GLOB_SRC } from '../globs'
 import { parserTs, pluginImport, pluginKriszu, pluginTs } from '../plugins'
 import { renameRules, toArray } from '../utils'
 import type {
-  ConfigItem,
+  FlatConfigItem,
   OptionsComponentExts,
   OptionsOverrides,
   OptionsTypeScriptParserOptions,
   OptionsTypeScriptWithTypes,
 } from '../types'
 
-export function typescript(
+export async function typescript(
   options?: OptionsComponentExts & OptionsOverrides & OptionsTypeScriptWithTypes & OptionsTypeScriptParserOptions,
-): ConfigItem[] {
+): Promise<FlatConfigItem[]> {
   const {
     componentExts = [],
     overrides = {},
@@ -23,7 +23,7 @@ export function typescript(
     ? toArray(options.tsconfigPath)
     : undefined
 
-  const typeAwareRules: ConfigItem['rules'] = {
+  const typeAwareRules: FlatConfigItem['rules'] = {
     'dot-notation': 'off',
     'no-implied-eval': 'off',
     'no-throw-literal': 'off',

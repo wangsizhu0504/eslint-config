@@ -1,10 +1,16 @@
 import { GLOB_VUE } from '../globs'
 import { parserTs, parserVue, pluginVue } from '../plugins'
-import type { ConfigItem, OptionsHasTypeScript, OptionsOverrides, OptionsStylistic, OptionsVueVersion } from '../types'
+import type {
+  FlatConfigItem,
+  OptionsHasTypeScript,
+  OptionsOverrides,
+  OptionsStylistic,
+  OptionsVueVersion,
+} from '../types'
 
-export function vue(
+export async function vue(
   options: OptionsHasTypeScript & OptionsOverrides & OptionsStylistic & OptionsVueVersion = {},
-): ConfigItem[] {
+): Promise<FlatConfigItem[]> {
   const {
     overrides = {},
     stylistic = true,

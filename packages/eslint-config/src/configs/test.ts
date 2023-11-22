@@ -1,8 +1,8 @@
 import { pluginNoOnlyTests, pluginVitest } from '../plugins'
 import { GLOB_TESTS } from '../globs'
-import type { ConfigItem, OptionsIsInEditor, OptionsOverrides } from '../types'
+import type { FlatConfigItem, OptionsIsInEditor, OptionsOverrides } from '../types'
 
-export function test(options: OptionsIsInEditor & OptionsOverrides = {}): ConfigItem[] {
+export async function test(options: OptionsIsInEditor & OptionsOverrides = {}): Promise<FlatConfigItem[]> {
   const {
     isInEditor = false,
     overrides = {},
@@ -27,7 +27,7 @@ export function test(options: OptionsIsInEditor & OptionsOverrides = {}): Config
       name: 'kriszu:test:rules',
       rules: {
         'node/prefer-global/process': 'off',
-        
+
         'test/consistent-test-it': ['error', { fn: 'it', withinDescribe: 'it' }],
         'test/no-identical-title': 'error',
         'test/no-only-tests': isInEditor ? 'off' : 'error',

@@ -1,7 +1,7 @@
-import { pluginJsdoc } from '../plugins'
-import type { ConfigItem, OptionsStylistic } from '../types'
+import { interopDefault } from 'src'
+import type { FlatConfigItem, OptionsStylistic } from '../types'
 
-export function jsdoc(options: OptionsStylistic = {}): ConfigItem[] {
+export async function jsdoc(options: OptionsStylistic = {}): Promise<FlatConfigItem[]> {
   const {
     stylistic = true,
   } = options
@@ -10,7 +10,7 @@ export function jsdoc(options: OptionsStylistic = {}): ConfigItem[] {
     {
       name: 'kriszu:jsdoc',
       plugins: {
-        jsdoc: pluginJsdoc,
+        jsdoc: await interopDefault(import('eslint-plugin-jsdoc')),
       },
       rules: {
         'jsdoc/check-access': 'warn',

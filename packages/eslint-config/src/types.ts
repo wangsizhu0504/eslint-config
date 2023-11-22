@@ -15,15 +15,14 @@ import type {
   VitestRules,
   VueRules,
 } from '@antfu/eslint-define-config'
+import type { Linter } from 'eslint'
 import type { StylisticRules } from './generated/stylistic'
 
 export interface FlatGitignoreOptions {
   files?: string | string[]
 }
 
-export interface FlatConfigItem {
-  ignores: string[]
-}
+export type Awaitable<T> = T | Promise<T>
 
 export type Rules = MergeIntersection<
   RenamePrefix<TypeScriptRules, '@typescript-eslint/', 'ts/'> &
@@ -41,7 +40,7 @@ export type Rules = MergeIntersection<
   }
 >
 
-export type ConfigItem = Omit<FlatESLintConfigItem<Rules, false>, 'plugins'> & {
+export type FlatConfigItem = Omit<FlatESLintConfigItem<Rules, false>, 'plugins'> & {
   /**
    * Custom name of each config item
    */
@@ -54,8 +53,9 @@ export type ConfigItem = Omit<FlatESLintConfigItem<Rules, false>, 'plugins'> & {
    * @see [Using plugins in your configuration](https://eslint.org/docs/latest/user-guide/configuring/configuration-files-new#using-plugins-in-your-configuration)
    */
   plugins?: { [key: string]: any }
+  ignores?: string[]
 }
-
+export type UserConfigItem = FlatConfigItem | Linter.FlatConfig
 export interface OptionsComponentExts {
   /**
    * Additional extensions for components.
@@ -100,7 +100,7 @@ export interface StylisticConfig {
 }
 
 export interface OptionsOverrides {
-  overrides?: ConfigItem['rules']
+  overrides?: FlatConfigItem['rules']
 }
 export interface OptionsIgnores {
   ignores?: string[]
@@ -189,12 +189,12 @@ export interface OptionsConfig extends OptionsComponentExts {
    * Provide overrides for rules for each integration.
    */
   overrides?: {
-    javascript?: ConfigItem['rules']
-    typescript?: ConfigItem['rules']
-    test?: ConfigItem['rules']
-    vue?: ConfigItem['rules']
-    react?: ConfigItem['rules']
-    jsonc?: ConfigItem['rules']
-    markdown?: ConfigItem['rules']
+    javascript?: FlatConfigItem['rules']
+    typescript?: FlatConfigItem['rules']
+    test?: FlatConfigItem['rules']
+    vue?: FlatConfigItem['rules']
+    react?: FlatConfigItem['rules']
+    jsonc?: FlatConfigItem['rules']
+    markdown?: FlatConfigItem['rules']
   }
 }

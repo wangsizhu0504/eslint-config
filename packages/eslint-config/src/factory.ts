@@ -21,10 +21,10 @@ import {
   vue,
 } from './configs'
 import { combine } from './utils'
-import type { ConfigItem, OptionsConfig } from './types'
+import type { Awaitable, FlatConfigItem, OptionsConfig, UserConfigItem } from './types'
 import { hasReact, hasTypeScript, hasVue } from './env'
 
-const flatConfigProps: Array<keyof ConfigItem> = [
+const flatConfigProps: Array<keyof FlatConfigItem> = [
   'files',
   'ignores',
   'languageOptions',
@@ -38,7 +38,7 @@ const flatConfigProps: Array<keyof ConfigItem> = [
 /**
  * Construct an array of ESLint flat config items.
  */
-export function kriszu(options: OptionsConfig & ConfigItem = {}, ...userConfigs: Array<ConfigItem | ConfigItem[]>) {
+export function kriszu(options: OptionsConfig & FlatConfigItem = {}, ...userConfigs: Array<Awaitable<UserConfigItem | UserConfigItem[]>>): Promise<UserConfigItem[]> {
   const {
     componentExts = [],
     gitignore: enableGitignore = true,
@@ -58,7 +58,7 @@ export function kriszu(options: OptionsConfig & ConfigItem = {}, ...userConfigs:
   if (stylisticOptions && !('jsx' in stylisticOptions))
     stylisticOptions.jsx = options.jsx ?? true
 
-  const configs: ConfigItem[][] = []
+  const configs: Array<Awaitable<FlatConfigItem[]>> = []
 
   if (enableGitignore) {
     if (typeof enableGitignore !== 'boolean') {
@@ -150,7 +150,7 @@ export function kriszu(options: OptionsConfig & ConfigItem = {}, ...userConfigs:
       acc[key] = options[key] as any
 
     return acc
-  }, {} as ConfigItem)
+  }, {} as FlatConfigItem)
 
   if (Object.keys(fusedConfig).length)
     configs.push([fusedConfig])

@@ -1,14 +1,17 @@
+import { interopDefault } from 'src'
 import { paddingLines } from '../lib/paddingLines'
 import { GLOB_REACT, GLOB_TS, GLOB_TSX } from '../globs'
-import { pluginKriszu, pluginStylistic } from '../plugins'
-import type { ConfigItem, StylisticConfig } from '../types'
+import { pluginKriszu } from '../plugins'
+import type { FlatConfigItem, StylisticConfig } from '../types'
 
-export function stylistic(options: StylisticConfig = {}): ConfigItem[] {
+export async function stylistic(options: StylisticConfig = {}): Promise<FlatConfigItem[]> {
   const {
     indent = 2,
     jsx = true,
     quotes = 'single',
   } = options
+
+  const pluginStylistic = await interopDefault(import('@stylistic/eslint-plugin'))
 
   return [
     {
@@ -58,6 +61,8 @@ export function stylistic(options: StylisticConfig = {}): ConfigItem[] {
             'JSXClosingFragment',
             'JSXText',
             'JSXEmptyExpression',
+            'TSUnionType',
+            'TSIntersectionType',
             'JSXSpreadChild',
             'TSTypeParameterInstantiation',
             'FunctionExpression > .params[decorators.length > 0]',

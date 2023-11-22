@@ -1,11 +1,11 @@
 import globals from 'globals'
 import { pluginA11y, pluginReact, pluginReactHooks } from '../plugins'
 import { GLOB_REACT } from '../globs'
-import type { ConfigItem, OptionsOverrides } from '../types'
+import type { FlatConfigItem, OptionsOverrides } from '../types'
 
-export function react(
+export async function react(
   options: OptionsOverrides = {},
-): ConfigItem[] {
+): Promise<FlatConfigItem[]> {
   const {
     overrides = {},
   } = options

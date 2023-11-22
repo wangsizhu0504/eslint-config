@@ -1,7 +1,7 @@
 import { pluginNode } from '../plugins'
-import type { ConfigItem } from '../types'
+import type { FlatConfigItem } from '../types'
 
-export function node(): ConfigItem[] {
+export async function node(): Promise<FlatConfigItem[]> {
   return [
     {
       name: 'kriszu:node',
