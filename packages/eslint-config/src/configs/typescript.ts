@@ -294,10 +294,7 @@ export function typescript(
         'ts/strict-boolean-expressions': ['off'],
         'ts/triple-slash-reference': 'off',
         'ts/typedef': ['off'],
-        'ts/unified-signatures': [
-          'error',
-          { ignoreDifferentlyNamedParameters: true },
-        ],
+        'ts/unified-signatures': 'off',
 
         ...tsconfigPath ? typeAwareRules : {},
         ...overrides,

@@ -37,8 +37,12 @@ export function markdown(options: OptionsComponentExts & OptionsOverrides = {}):
         'import/newline-after-import': 'off',
         'no-alert': 'off',
         'no-console': 'off',
+        'no-labels': 'off',
+        'no-lone-blocks': 'off',
+        'no-restricted-syntax': 'off',
         'no-undef': 'off',
         'no-unused-expressions': 'off',
+        'no-unused-labels': 'off',
         'no-unused-vars': 'off',
 
         'node/prefer-global/process': 'off',
