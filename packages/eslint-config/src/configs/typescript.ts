@@ -166,10 +166,7 @@ export async function typescript(
           'error',
           'constructor',
         ],
-        'ts/consistent-indexed-object-style': [
-          'error',
-          'index-signature',
-        ],
+        'ts/consistent-indexed-object-style': 'off',
         'ts/consistent-type-assertions': [
           'error',
           {
