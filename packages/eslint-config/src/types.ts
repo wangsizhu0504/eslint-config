@@ -8,39 +8,56 @@ import type {
   MergeIntersection,
   NRules,
   Prefix,
+  ReactHooksRules,
+  ReactRules,
   RenamePrefix,
   RuleConfig,
-  TypeScriptRules,
-  UnicornRules,
   VitestRules,
   VueRules,
 } from '@antfu/eslint-define-config'
+import type { Options as VueBlocksOptions } from 'eslint-processor-vue-blocks'
 import type { Linter } from 'eslint'
-import type { StylisticRules } from './generated/stylistic'
+import type { RuleOptions as JSDocRules } from '@eslint-types/jsdoc/types'
+import type { RuleOptions as TypeScriptRules } from '@eslint-types/typescript-eslint/types'
+import type { RuleOptions as UnicornRules } from '@eslint-types/unicorn/types'
+import type { Rules as KriszuPluginRules } from '@kriszu/eslint-plugin'
+import type { StylisticCustomizeOptions, UnprefixedRuleOptions as StylisticRules } from '@stylistic/eslint-plugin'
+import type { VendoredPrettierOptions } from './vender/prettier-types'
 
 export interface FlatGitignoreOptions {
   files?: string | string[]
 }
 
-export type Awaitable<T> = T | Promise<T>
+export type WrapRuleConfig<T extends { [key: string]: any }> = {
+  [K in keyof T]: T[K] extends RuleConfig ? T[K] : RuleConfig<T[K]>;
+}
 
-export type Rules = MergeIntersection<
-  RenamePrefix<TypeScriptRules, '@typescript-eslint/', 'ts/'> &
-  RenamePrefix<VitestRules, 'vitest/', 'test/'> &
-  RenamePrefix<NRules, 'n/', 'node/'> &
-  Prefix<StylisticRules, 'style/'> &
-  ImportRules &
-  EslintRules &
-  JsoncRules &
-  VueRules &
-  UnicornRules &
-  EslintCommentsRules &
-  {
-    'test/no-only-tests': RuleConfig<[]>
-  }
+export type Awaitable<T> = T | Promise<T>
+export type Rules = WrapRuleConfig<
+  MergeIntersection<
+    RenamePrefix<TypeScriptRules, '@typescript-eslint/', 'ts/'> &
+    RenamePrefix<VitestRules, 'vitest/', 'test/'> &
+    RenamePrefix<NRules, 'n/', 'node/'> &
+    Prefix<StylisticRules, 'style/'> &
+    Prefix<KriszuPluginRules, 'kriszu/'> &
+    ReactHooksRules &
+    ReactRules &
+    JSDocRules &
+    ImportRules &
+    EslintRules &
+    JsoncRules &
+    VueRules &
+    UnicornRules &
+    EslintCommentsRules & {
+      'test/no-only-tests': RuleConfig<[]>
+    }
+  >
 >
 
-export type FlatConfigItem = Omit<FlatESLintConfigItem<Rules, false>, 'plugins'> & {
+export type FlatConfigItem = Omit<
+  FlatESLintConfigItem<Rules, false>,
+  'plugins'
+> & {
   /**
    * Custom name of each config item
    */
@@ -52,10 +69,78 @@ export type FlatConfigItem = Omit<FlatESLintConfigItem<Rules, false>, 'plugins'>
    *
    * @see [Using plugins in your configuration](https://eslint.org/docs/latest/user-guide/configuring/configuration-files-new#using-plugins-in-your-configuration)
    */
-  plugins?: { [key: string]: any }
+  plugins?: Record<string, any>
   ignores?: string[]
 }
 export type UserConfigItem = FlatConfigItem | Linter.FlatConfig
+export interface OptionsFiles {
+  /**
+   * Override the `files` option to provide custom globs.
+   */
+  files?: string[]
+}
+
+export interface OptionsVue {
+  /**
+   * Create virtual files for Vue SFC blocks to enable linting.
+   *
+   * @see https://github.com/antfu/eslint-processor-vue-blocks
+   * @default true
+   */
+  sfcBlocks?: boolean | VueBlocksOptions
+
+  /**
+   * Vue version. Apply different rules set from `eslint-plugin-vue`.
+   *
+   * @default 3
+   */
+  vueVersion?: 2 | 3
+}
+
+export interface OptionsFormatters {
+  /**
+   * Enable formatting support for CSS, Less, Sass, and SCSS.
+   *
+   * Currently only support Prettier.
+   */
+  css?: 'prettier' | boolean
+
+  /**
+   * Enable formatting support for HTML.
+   *
+   * Currently only support Prettier.
+   */
+  html?: 'prettier' | boolean
+
+  /**
+   * Enable formatting support for Markdown.
+   *
+   * Support both Prettier and dprint.
+   *
+   * When set to `true`, it will use Prettier.
+   */
+  markdown?: 'prettier' | 'dprint' | boolean
+
+  /**
+   * Enable formatting support for GraphQL.
+   */
+  graphql?: 'prettier' | boolean
+
+  /**
+   * Custom options for Prettier.
+   *
+   * By default it's controlled by our own config.
+   */
+  prettierOptions?: VendoredPrettierOptions
+
+  /**
+   * Custom options for dprint.
+   *
+   * By default it's controlled by our own config.
+   */
+  dprintOptions?: boolean
+}
+
 export interface OptionsComponentExts {
   /**
    * Additional extensions for components.
@@ -85,19 +170,15 @@ export interface OptionsHasTypeScript {
   typescript?: boolean
 }
 
-export interface OptionsVueVersion {
-  version?: number
-}
-
 export interface OptionsStylistic {
   stylistic?: boolean | StylisticConfig
 }
 
-export interface StylisticConfig {
-  indent?: number | 'tab'
-  quotes?: 'single' | 'double'
-  jsx?: boolean
-}
+export interface StylisticConfig
+  extends Pick<
+    StylisticCustomizeOptions,
+    'indent' | 'quotes' | 'jsx' | 'semi'
+  > {}
 
 export interface OptionsOverrides {
   overrides?: FlatConfigItem['rules']
@@ -107,6 +188,18 @@ export interface OptionsIgnores {
 }
 export interface OptionsIsInEditor {
   isInEditor?: boolean
+}
+export interface OptionsUnoCSS {
+  /**
+   * Enable attributify support.
+   * @default true
+   */
+  attributify?: boolean
+  /**
+   * Enable strict mode by throwing errors about blocklisted classes.
+   * @default false
+   */
+  strict?: boolean
 }
 
 export interface OptionsConfig extends OptionsComponentExts {
@@ -127,7 +220,10 @@ export interface OptionsConfig extends OptionsComponentExts {
    *
    * @default auto-detect based on the dependencies
    */
-  typescript?: boolean | OptionsTypeScriptWithTypes | OptionsTypeScriptParserOptions
+  typescript?:
+    | boolean
+    | OptionsTypeScriptWithTypes
+    | OptionsTypeScriptParserOptions
 
   /**
    * Enable JSX related rules.
@@ -179,6 +275,27 @@ export interface OptionsConfig extends OptionsComponentExts {
    */
   stylistic?: boolean | StylisticConfig
 
+  /**
+   * Enable unocss rules.
+   *
+   * Requires installing:
+   * - `@unocss/eslint-plugin`
+   *
+   * @default false
+   */
+  unocss?: boolean | OptionsUnoCSS
+
+  /**
+   * Use external formatters to format files.
+   *
+   * Requires installing:
+   * - `eslint-plugin-format`
+   *
+   * When set to `true`, it will enable all formatters.
+   *
+   * @default false
+   */
+  formatters?: boolean | OptionsFormatters
   /**
    * Control to disable some rules in editors.
    * @default auto-detect based on the process.env

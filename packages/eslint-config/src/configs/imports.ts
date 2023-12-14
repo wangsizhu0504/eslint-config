@@ -45,6 +45,7 @@ export async function imports(options: OptionsStylistic = {}): Promise<FlatConfi
           },
         ],
         'kriszu/no-import-node-modules-by-path': 'error',
+
         'sort-imports': [
           'error',
           {

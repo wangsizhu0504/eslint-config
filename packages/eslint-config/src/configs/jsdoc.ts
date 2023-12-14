@@ -1,20 +1,21 @@
-import { interopDefault } from 'src'
+import { interopDefault } from '../utils'
 import type { FlatConfigItem, OptionsStylistic } from '../types'
 
-export async function jsdoc(options: OptionsStylistic = {}): Promise<FlatConfigItem[]> {
-  const {
-    stylistic = true,
-  } = options
+export async function jsdoc(
+  options: OptionsStylistic = {},
+): Promise<FlatConfigItem[]> {
+  const { stylistic = true } = options
 
   return [
     {
       name: 'kriszu:jsdoc',
       plugins: {
+        // @ts-expect-error missing types
         jsdoc: await interopDefault(import('eslint-plugin-jsdoc')),
       },
       rules: {
         'jsdoc/check-access': 'warn',
-        'jsdoc/check-param-names': 1,
+        'jsdoc/check-param-names': 'warn',
         'jsdoc/check-property-names': 'warn',
         'jsdoc/check-types': 'warn',
         'jsdoc/empty-tags': 'warn',
@@ -29,12 +30,12 @@ export async function jsdoc(options: OptionsStylistic = {}): Promise<FlatConfigI
         'jsdoc/require-returns-description': 'warn',
         'jsdoc/require-yields-check': 'warn',
 
-        ...stylistic
+        ...(stylistic
           ? {
               'jsdoc/check-alignment': 'warn',
               'jsdoc/multiline-blocks': 'warn',
             }
-          : {},
+          : {}),
       },
     },
   ]

@@ -2,21 +2,37 @@ import fs from 'node:fs'
 
 // @ts-expect-error missing types
 import parse from 'parse-gitignore'
-import type { FlatConfigItem, FlatGitignoreOptions } from './types'
+
+export interface FlatGitignoreOptions {
+  files?: string | string[]
+  strict?: boolean
+}
+
+export interface FlatConfigItem {
+  ignores: string[]
+}
 
 export function gitignore(options: FlatGitignoreOptions = {}): FlatConfigItem {
   const ignores: string[] = []
 
   const {
     files: _files = '.gitignore',
+    strict = true,
   } = options
   const files = Array.isArray(_files) ? _files : [_files]
 
   for (const file of files) {
-    const content = fs.readFileSync(file, 'utf8')
-    const parsed = parse(content)
+    let content: string
+    try {
+      content = fs.readFileSync(file, 'utf8')
+    }
+    catch (error) {
+      if (strict)
+        throw error
+      continue
+    }
+    const parsed = parse(`${content}\n`)
     const globs = parsed.globs()
-
     for (const glob of globs) {
       if (glob.type === 'ignore')
         ignores.push(...glob.patterns)

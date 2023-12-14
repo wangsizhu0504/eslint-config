@@ -1,4 +1,4 @@
-import { pluginNoOnlyTests, pluginVitest } from '../plugins'
+import { interopDefault } from '../utils'
 import { GLOB_TESTS } from '../globs'
 import type { FlatConfigItem, OptionsIsInEditor, OptionsOverrides } from '../types'
 
@@ -7,6 +7,14 @@ export async function test(options: OptionsIsInEditor & OptionsOverrides = {}): 
     isInEditor = false,
     overrides = {},
   } = options
+
+  const [
+    pluginVitest,
+    pluginNoOnlyTests,
+  ] = await Promise.all([
+    interopDefault(import('eslint-plugin-vitest')),
+    interopDefault(import('eslint-plugin-no-only-tests')),
+  ] as const)
 
   return [
     {

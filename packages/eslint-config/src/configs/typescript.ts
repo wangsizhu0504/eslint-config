@@ -1,17 +1,22 @@
 import process from 'node:process'
 import { GLOB_DTS, GLOB_SRC } from '../globs'
-import { parserTs, pluginImport, pluginKriszu, pluginTs } from '../plugins'
-import { renameRules, toArray } from '../utils'
+import { pluginKriszu } from '../plugins'
+import { interopDefault, renameRules, toArray } from '../utils'
 import type {
   FlatConfigItem,
   OptionsComponentExts,
+  OptionsFiles,
   OptionsOverrides,
   OptionsTypeScriptParserOptions,
   OptionsTypeScriptWithTypes,
 } from '../types'
 
 export async function typescript(
-  options?: OptionsComponentExts & OptionsOverrides & OptionsTypeScriptWithTypes & OptionsTypeScriptParserOptions,
+  options: OptionsFiles &
+  OptionsComponentExts &
+  OptionsOverrides &
+  OptionsTypeScriptWithTypes &
+  OptionsTypeScriptParserOptions = {},
 ): Promise<FlatConfigItem[]> {
   const {
     componentExts = [],
@@ -29,7 +34,10 @@ export async function typescript(
     'no-throw-literal': 'off',
     'ts/await-thenable': 'error',
     'ts/dot-notation': ['error', { allowKeywords: true }],
-    'ts/no-floating-promises': ['error', { ignoreIIFE: true, ignoreVoid: true }],
+    'ts/no-floating-promises': [
+      'error',
+      { ignoreIIFE: true, ignoreVoid: true },
+    ],
     'ts/no-for-in-array': 'error',
     'ts/no-implied-eval': 'error',
     'ts/no-misused-promises': 'error',
@@ -44,34 +52,34 @@ export async function typescript(
     'ts/restrict-template-expressions': 'error',
     'ts/unbound-method': 'error',
   }
+  const [pluginTs, parserTs] = await Promise.all([
+    interopDefault(import('@typescript-eslint/eslint-plugin')),
+    interopDefault(import('@typescript-eslint/parser')),
+  ] as const)
 
   return [
     {
       // Install the plugins without globs, so they can be configured separately.
       name: 'kriszu:typescript:setup',
       plugins: {
-        import: pluginImport,
         kriszu: pluginKriszu,
         ts: pluginTs as any,
       },
     },
     {
-      files: [
-        GLOB_SRC,
-        ...componentExts.map(ext => `**/*.${ext}`),
-      ],
+      files: [GLOB_SRC, ...componentExts.map(ext => `**/*.${ext}`)],
       languageOptions: {
         parser: parserTs,
         parserOptions: {
           extraFileExtensions: componentExts.map(ext => `.${ext}`),
           sourceType: 'module',
-          ...tsconfigPath
+          ...(tsconfigPath
             ? {
                 project: tsconfigPath,
                 tsconfigRootDir: process.cwd(),
               }
-            : {},
-          ...parserOptions as any,
+            : {}),
+          ...(parserOptions as any),
         },
       },
       name: 'kriszu:typescript:rules',
@@ -88,10 +96,7 @@ export async function typescript(
         ),
 
         'default-param-last': 'off',
-        'kriszu/generic-spacing': 'error',
-        'kriszu/named-tuple-spacing': 'error',
 
-        'kriszu/no-cjs-exports': 'error',
         'no-array-constructor': 'off',
         'no-dupe-class-members': 'off',
 
@@ -113,54 +118,65 @@ export async function typescript(
         'ts/adjacent-overload-signatures': ['error'],
         'ts/array-type': ['error', { default: 'array-simple' }],
 
-        'ts/ban-ts-comment': ['error', {
-          'ts-expect-error': false,
-          'ts-ignore': 'allow-with-description',
-        }],
+        'ts/ban-ts-comment': [
+          'error',
+          {
+            'ts-expect-error': false,
+            'ts-ignore': 'allow-with-description',
+          },
+        ],
         'ts/ban-tslint-comment': ['error'],
-        'ts/ban-types': ['error', {
-          extendDefaults: false,
-          types: {
-            '[[[[[]]]]]': '🦄💥',
-            '[[[[]]]]': 'ur drunk 🤡',
-            '[[[]]]': 'Don\'t use `[[[]]]`. Use `SomeType[][][]` instead.',
-            '[[]]': 'Don\'t use `[[]]`. It only allows an array with a single element which is an empty array. Use `SomeType[][]` instead.',
-            '[]': 'Don\'t use the empty array type `[]`. It only allows empty arrays. Use `SomeType[]` instead.',
-            '{}': {
-              fixWith: 'Record<string, unknown>',
-              message: 'The `{}` type is mostly the same as `unknown`. You probably want `Record<string, unknown>` instead.',
-            },
-            'BigInt': {
-              fixWith: 'bigint',
-              message: 'Use `bigint` instead.',
-            },
-            'Boolean': {
-              fixWith: 'boolean',
-              message: 'Use `boolean` instead.',
-            },
-            'Function': 'Use a specific function type instead, like `() => void`.',
-            'Number': {
-              fixWith: 'number',
-              message: 'Use `number` instead.',
-            },
-            'object': {
-              fixWith: 'Record<string, unknown>',
-              message: 'The `object` type is hard to use. Use `Record<string, unknown>` instead. See: https://github.com/typescript-eslint/typescript-eslint/pull/848',
-            },
-            'Object': {
-              fixWith: 'Record<string, unknown>',
-              message: 'The `Object` type is mostly the same as `unknown`. You probably want `Record<string, unknown>` instead. See https://github.com/typescript-eslint/typescript-eslint/pull/848',
-            },
-            'String': {
-              fixWith: 'string',
-              message: 'Use `string` instead.',
-            },
-            'Symbol': {
-              fixWith: 'symbol',
-              message: 'Use `symbol` instead.',
+        'ts/ban-types': [
+          'error',
+          {
+            extendDefaults: false,
+            types: {
+              '[[[[[]]]]]': '🦄💥',
+              '[[[[]]]]': 'ur drunk 🤡',
+              '[[[]]]': 'Don\'t use `[[[]]]`. Use `SomeType[][][]` instead.',
+              '[[]]':
+                'Don\'t use `[[]]`. It only allows an array with a single element which is an empty array. Use `SomeType[][]` instead.',
+              '[]': 'Don\'t use the empty array type `[]`. It only allows empty arrays. Use `SomeType[]` instead.',
+              '{}': {
+                fixWith: 'Record<string, unknown>',
+                message:
+                  'The `{}` type is mostly the same as `unknown`. You probably want `Record<string, unknown>` instead.',
+              },
+              'BigInt': {
+                fixWith: 'bigint',
+                message: 'Use `bigint` instead.',
+              },
+              'Boolean': {
+                fixWith: 'boolean',
+                message: 'Use `boolean` instead.',
+              },
+              'Function':
+                'Use a specific function type instead, like `() => void`.',
+              'Number': {
+                fixWith: 'number',
+                message: 'Use `number` instead.',
+              },
+              'object': {
+                fixWith: 'Record<string, unknown>',
+                message:
+                  'The `object` type is hard to use. Use `Record<string, unknown>` instead. See: https://github.com/typescript-eslint/typescript-eslint/pull/848',
+              },
+              'Object': {
+                fixWith: 'Record<string, unknown>',
+                message:
+                  'The `Object` type is mostly the same as `unknown`. You probably want `Record<string, unknown>` instead. See https://github.com/typescript-eslint/typescript-eslint/pull/848',
+              },
+              'String': {
+                fixWith: 'string',
+                message: 'Use `string` instead.',
+              },
+              'Symbol': {
+                fixWith: 'symbol',
+                message: 'Use `symbol` instead.',
+              },
             },
           },
-        }],
+        ],
         'ts/class-literal-property-style': ['error', 'getters'],
         'ts/consistent-generic-constructors': [
           'error',
@@ -210,10 +226,7 @@ export async function typescript(
           'error',
           { allow: ['arrowFunctions', 'functions', 'methods'] },
         ],
-        'ts/no-empty-interface': [
-          'error',
-          { allowSingleExtends: true },
-        ],
+        'ts/no-empty-interface': ['error', { allowSingleExtends: true }],
         'ts/no-explicit-any': ['off'],
         'ts/no-extra-non-null-assertion': ['error'],
         'ts/no-extra-semi': ['off'],
@@ -293,7 +306,7 @@ export async function typescript(
         'ts/typedef': ['off'],
         'ts/unified-signatures': 'off',
 
-        ...tsconfigPath ? typeAwareRules : {},
+        ...(tsconfigPath ? typeAwareRules : {}),
         ...overrides,
       },
     },

@@ -1,25 +1,46 @@
-import { GLOB_MARKDOWN, GLOB_MARKDOWN_CODE } from '../globs'
-import type { FlatConfigItem, OptionsComponentExts, OptionsOverrides } from '../types'
-
+import * as parserPlain from 'eslint-parser-plain'
+import { mergeProcessors, processorPassThrough } from 'eslint-merge-processors'
+import type { FlatConfigItem, OptionsComponentExts, OptionsFiles, OptionsOverrides } from '../types'
+import { GLOB_MARKDOWN, GLOB_MARKDOWN_CODE, GLOB_MARKDOWN_IN_MARKDOWN } from '../globs'
 import { interopDefault } from '../utils'
 
-export async function markdown(options: OptionsComponentExts & OptionsOverrides = {}): Promise<FlatConfigItem[]> {
+export async function markdown(
+  options: OptionsFiles & OptionsComponentExts & OptionsOverrides = {},
+): Promise<FlatConfigItem[]> {
   const {
     componentExts = [],
+    files = [GLOB_MARKDOWN],
     overrides = {},
   } = options
+
+  // @ts-expect-error missing types
+  const markdownPlugin = await interopDefault(import('eslint-plugin-markdown'))
 
   return [
     {
       name: 'kriszu:markdown:setup',
       plugins: {
-        markdown: await interopDefault(import('eslint-plugin-markdown')),
+        markdown: markdownPlugin,
       },
     },
     {
-      files: [GLOB_MARKDOWN],
+      files,
+      ignores: [GLOB_MARKDOWN_IN_MARKDOWN],
       name: 'kriszu:markdown:processor',
-      processor: 'markdown/markdown',
+      // `eslint-plugin-markdown` only creates virtual files for code blocks,
+      // but not the markdown file itself. We use `eslint-merge-processors` to
+      // add a pass-through processor for the markdown file itself.
+      processor: mergeProcessors([
+        markdownPlugin.processors.markdown,
+        processorPassThrough,
+      ]),
+    },
+    {
+      files,
+      languageOptions: {
+        parser: parserPlain,
+      },
+      name: 'kriszu:markdown:parser',
     },
     {
       files: [
@@ -33,9 +54,10 @@ export async function markdown(options: OptionsComponentExts & OptionsOverrides 
           },
         },
       },
-      name: 'kriszu:markdown:rules',
+      name: 'kriszu:markdown:disables',
       rules: {
         'import/newline-after-import': 'off',
+
         'no-alert': 'off',
         'no-console': 'off',
         'no-labels': 'off',
@@ -47,10 +69,9 @@ export async function markdown(options: OptionsComponentExts & OptionsOverrides 
         'no-unused-vars': 'off',
 
         'node/prefer-global/process': 'off',
-
         'style/comma-dangle': 'off',
-        'style/eol-last': 'off',
 
+        'style/eol-last': 'off',
         'ts/consistent-type-imports': 'off',
         'ts/no-namespace': 'off',
         'ts/no-redeclare': 'off',

@@ -3,10 +3,10 @@ import { pluginKriszu } from '../plugins'
 import { GLOB_SRC, GLOB_SRC_EXT } from '../globs'
 import type { FlatConfigItem, OptionsOverrides } from '../types'
 
-export async function javascript(options: OptionsOverrides = {}): Promise<FlatConfigItem[]> {
-  const {
-    overrides = {},
-  } = options
+export async function javascript(
+  options: OptionsOverrides = {},
+): Promise<FlatConfigItem[]> {
+  const { overrides = {} } = options
 
   return [
     {
@@ -37,7 +37,10 @@ export async function javascript(options: OptionsOverrides = {}): Promise<FlatCo
         kriszu: pluginKriszu,
       },
       rules: {
-        'accessor-pairs': ['error', { enforceForClassMembers: true, setWithoutGet: true }],
+        'accessor-pairs': [
+          'error',
+          { enforceForClassMembers: true, setWithoutGet: true },
+        ],
 
         'array-callback-return': 'error',
         'block-scoped-var': 'error',
@@ -45,7 +48,10 @@ export async function javascript(options: OptionsOverrides = {}): Promise<FlatCo
         'default-case-last': 'error',
         'dot-notation': ['error', { allowKeywords: true }],
         'eqeqeq': ['error', 'smart'],
-        'new-cap': ['error', { capIsNew: false, newIsCap: true, properties: true }],
+        'new-cap': [
+          'error',
+          { capIsNew: false, newIsCap: true, properties: true },
+        ],
         'no-alert': 'error',
         'no-array-constructor': 'error',
         'no-async-promise-executor': 'error',
@@ -54,7 +60,7 @@ export async function javascript(options: OptionsOverrides = {}): Promise<FlatCo
         'no-class-assign': 'error',
         'no-compare-neg-zero': 'error',
         'no-cond-assign': ['error', 'always'],
-        'no-console': ['error', { allow: ['warn', 'error'] }],
+        'no-console': 'off',
         'no-const-assign': 'error',
         'no-control-regex': 'error',
         'no-debugger': 'error',
@@ -104,11 +110,27 @@ export async function javascript(options: OptionsOverrides = {}): Promise<FlatCo
         ],
         'no-restricted-properties': [
           'error',
-          { message: 'Use `Object.getPrototypeOf` or `Object.setPrototypeOf` instead.', property: '__proto__' },
-          { message: 'Use `Object.defineProperty` instead.', property: '__defineGetter__' },
-          { message: 'Use `Object.defineProperty` instead.', property: '__defineSetter__' },
-          { message: 'Use `Object.getOwnPropertyDescriptor` instead.', property: '__lookupGetter__' },
-          { message: 'Use `Object.getOwnPropertyDescriptor` instead.', property: '__lookupSetter__' },
+          {
+            message:
+              'Use `Object.getPrototypeOf` or `Object.setPrototypeOf` instead.',
+            property: '__proto__',
+          },
+          {
+            message: 'Use `Object.defineProperty` instead.',
+            property: '__defineGetter__',
+          },
+          {
+            message: 'Use `Object.defineProperty` instead.',
+            property: '__defineSetter__',
+          },
+          {
+            message: 'Use `Object.getOwnPropertyDescriptor` instead.',
+            property: '__lookupGetter__',
+          },
+          {
+            message: 'Use `Object.getOwnPropertyDescriptor` instead.',
+            property: '__lookupSetter__',
+          },
         ],
         'no-restricted-syntax': [
           'error',
@@ -135,18 +157,27 @@ export async function javascript(options: OptionsOverrides = {}): Promise<FlatCo
         'no-unreachable-loop': 'error',
         'no-unsafe-finally': 'error',
         'no-unsafe-negation': 'error',
-        'no-unused-expressions': ['error', {
-          allowShortCircuit: true,
-          allowTaggedTemplates: true,
-          allowTernary: true,
-        }],
-        'no-unused-vars': ['error', {
-          args: 'none',
-          caughtErrors: 'none',
-          ignoreRestSiblings: true,
-          vars: 'all',
-        }],
-        'no-use-before-define': ['error', { classes: false, functions: false, variables: true }],
+        'no-unused-expressions': [
+          'error',
+          {
+            allowShortCircuit: true,
+            allowTaggedTemplates: true,
+            allowTernary: true,
+          },
+        ],
+        'no-unused-vars': [
+          'error',
+          {
+            args: 'none',
+            caughtErrors: 'none',
+            ignoreRestSiblings: true,
+            vars: 'all',
+          },
+        ],
+        'no-use-before-define': [
+          'error',
+          { classes: false, functions: false, variables: true },
+        ],
         'no-useless-backreference': 'error',
         'no-useless-call': 'error',
         'no-useless-catch': 'error',
@@ -199,7 +230,10 @@ export async function javascript(options: OptionsOverrides = {}): Promise<FlatCo
         'symbol-description': 'error',
         'unicode-bom': ['error', 'never'],
 
-        'use-isnan': ['error', { enforceForIndexOf: true, enforceForSwitchCase: true }],
+        'use-isnan': [
+          'error',
+          { enforceForIndexOf: true, enforceForSwitchCase: true },
+        ],
         'valid-typeof': ['error', { requireStringLiterals: true }],
         'vars-on-top': 'error',
         'yoda': ['error', 'never'],
