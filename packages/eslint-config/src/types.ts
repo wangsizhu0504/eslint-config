@@ -221,7 +221,7 @@ export interface OptionsConfig extends OptionsComponentExts {
    * @default auto-detect based on the dependencies
    */
   typescript?:
-    | boolean
+    boolean
     | OptionsTypeScriptWithTypes
     | OptionsTypeScriptParserOptions
 
@@ -246,7 +246,7 @@ export interface OptionsConfig extends OptionsComponentExts {
    *
    * @default auto-detect based on the dependencies
    */
-  vue?: boolean
+  vue?: boolean | OptionsVue
   /**
    * Enable React support.
    *
