@@ -1,6 +1,6 @@
 {
   "name": "@kriszu/eslint-plugin",
-  "version": "3.0.7",
+  "version": "3.1.1",
   "description": "Kriszu extended ESLint rules",
   "author": "Kriszu <wangsizhu0504@outlook.com>",
   "license": "MIT",
@@ -37,18 +37,15 @@
   "peerDependencies": {
     "eslint": ">=8.0.0"
   },
-  "dependencies": {
-    "@typescript-eslint/utils": "^6.10.0"
-  },
   "devDependencies": {
     "@types/lodash.merge": "^4.6.9",
-    "@types/semver": "^7.5.5",
-    "@typescript-eslint/rule-tester": "^6.10.0",
-    "@typescript-eslint/typescript-estree": "^6.10.0",
-    "@typescript-eslint/utils": "^6.10.0",
+    "@types/semver": "^7.5.6",
+    "@typescript-eslint/rule-tester": "^6.14.0",
+    "@typescript-eslint/typescript-estree": "^6.14.0",
+    "@typescript-eslint/utils": "^6.14.0",
     "ajv": "^8.12.0",
-    "eslint-define-config": "^1.24.1",
-    "lint-staged": "^15.0.2",
+    "eslint-define-config": "^2.0.0",
+    "lint-staged": "^15.2.0",
     "lodash.merge": "4.6.2",
     "semver": "^7.5.4"
   }
