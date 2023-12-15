@@ -13,6 +13,10 @@ Flat ESLint config for JavaScript, TypeScript, Vue 2, Vue 3.
 - Sorted imports, dangling commas
 - Designed to work with TypeScript, Vue out-of-box
 - [ESLint Flat config](https://eslint.org/docs/latest/use/configure/configuration-files-new), compose easily!
+- Using [ESLint Stylistic](https://github.com/eslint-stylistic/eslint-stylistic)
+- Respects `.gitignore` by default
+- Optional [formatters](#formatters) support for CSS, HTML, etc.
+- **Style principle**: Minimal for reading, stable for diff, consistent
 
 ## Install
 
@@ -39,6 +43,8 @@ const kriszu = require('@kriszu/eslint-config').default
 
 module.exports = kriszu()
 ```
+> [!TIP]
+> ESLint only detects `eslint.config.js` as the flat config entry, meaning you need to put `type: module` in your `package.json` or you have to use CJS in `eslint.config.js`. If you want explicit extension like `.mjs` or `.cjs`, or even `eslint.config.ts`, you can install [`eslint-ts-patch`](https://github.com/antfu/eslint-ts-patch) to fix it.
 
 ### Add script for package.json
 
@@ -271,6 +277,86 @@ export default kriszu({
   },
 })
 ```
+### Optional Configs
+
+We provide some optional configs for specific use cases, that we don't include their dependencies by default.
+
+#### Formatters
+
+> [!WARNING]
+> Experimental feature, changes might not follow semver.
+
+Use external formatters to format files that ESLint cannot handle yet (`.css`, `.html`, etc). Powered by [`eslint-plugin-format`](https://github.com/antfu/eslint-plugin-format).
+
+```js
+// eslint.config.js
+import kriszu from '@kriszu/eslint-config'
+
+export default kriszu({
+  formatters: {
+    /**
+     * Format CSS, LESS, SCSS files, also the `<style>` blocks in Vue
+     * By default uses Prettier
+     */
+    css: true,
+    /**
+     * Format HTML files
+     * By default uses Prettier
+     */
+    html: true,
+    /**
+     * Format Markdown files
+     * Supports Prettier and dprint
+     * By default uses Prettier
+     */
+    markdown: 'prettier'
+  }
+})
+```
+
+Running `npx eslint` should prompt you to install the required dependencies, otherwise, you can install them manually:
+
+```bash
+npm i -D eslint-plugin-format
+```
+
+#### React
+
+To enable React support, you need to explicitly turn it on:
+
+```js
+// eslint.config.js
+import kriszu from '@kriszu/eslint-config'
+
+export default kriszu({
+  react: true,
+})
+```
+
+Running `npx eslint` should prompt you to install the required dependencies, otherwise, you can install them manually:
+
+```bash
+npm i -D eslint-plugin-react eslint-plugin-react-hooks eslint-plugin-react-refresh
+```
+
+#### UnoCSS
+
+To enable UnoCSS support, you need to explicitly turn it on:
+
+```js
+// eslint.config.js
+import kriszu from '@kriszu/eslint-config'
+
+export default kriszu({
+  unocss: true,
+})
+```
+
+Running `npx eslint` should prompt you to install the required dependencies, otherwise, you can install them manually:
+
+```bash
+npm i -D @unocss/eslint-plugin
+```
 
 ### Optional Rules
 
@@ -285,11 +371,13 @@ The plugin is installed but no rules are enabled by default.
 It's recommended to opt-in on each file individually using [configuration comments](https://eslint.org/docs/latest/use/configure/rules#using-configuration-comments-1).
 
 ```js
+/* eslint perfectionist/sort-objects: "error" */
 const objectWantedToSort = {
   a: 2,
   b: 1,
   c: 3,
 }
+/* eslint perfectionist/sort-objects: "off" */
 ```
 
 ### Type Aware Rules
@@ -307,23 +395,27 @@ export default kriszu({
 })
 ```
 
-## Versioning Policy
+### Lint Staged
 
-This project follows [Semantic Versioning](https://semver.org/) for releases. However, since this is just a config and involved with opinions and many moving parts, we don't treat rules changes as breaking changes.
+If you want to apply lint and auto-fix before every commit, you can add the following to your `package.json`:
 
-### Changes Considered as Breaking Changes
+```json
+{
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged"
+  },
+  "lint-staged": {
+    "*": "eslint --fix"
+  }
+}
+```
 
-- Node.js version requirement changes
-- Huge refactors that might break the config
-- Plugins made major changes that might break the config
-- Changes that might affect most of the codebases
+and then
 
-### Changes Considered as Non-breaking Changes
+```bash
+npm i -D lint-staged simple-git-hooks
+```
 
-- Enable/disable rules and plugins (that might become stricter)
-- Rules options changes
-- Version bumps of dependencies
-s
 ###  Reference project
 
 [antfu/eslint-config](https://github.com/antfu/eslint-config)
