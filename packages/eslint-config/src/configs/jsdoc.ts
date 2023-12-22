@@ -21,7 +21,7 @@ export async function jsdoc(
         'jsdoc/empty-tags': 'warn',
         'jsdoc/implements-on-classes': 'warn',
         'jsdoc/no-defaults': 'warn',
-        'jsdoc/no-multi-asterisks': 'warn',
+        'jsdoc/no-multi-asterisks': 'off',
         'jsdoc/require-param-name': 'warn',
         'jsdoc/require-property': 'warn',
         'jsdoc/require-property-description': 'warn',
