@@ -42,7 +42,7 @@ export function kriszu(options: OptionsConfig & FlatConfigItem = {}, ...userConf
   const {
     componentExts = [],
     gitignore: enableGitignore = true,
-    isInEditor = !!((process.env.VSCODE_PID || process.env.JETBRAINS_IDE) && !process.env.CI),
+    isInEditor = !!((process.env.VSCODE_PID || process.env.JETBRAINS_IDE || process.env.VIM) && !process.env.CI),
     overrides = {},
     react: enableReact = hasReact,
     typescript: enableTypeScript = hasTypeScript,
