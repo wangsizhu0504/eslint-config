@@ -6,6 +6,7 @@ import noImportNodeModulesByPath from './rules/no-import-node-modules-by-path'
 import noTsExportEqual from './rules/no-ts-export-equal'
 import consistentListNewline from './rules/consistent-list-newline'
 import importEnforceNewlines from './rules/import-enforce-newlines'
+import noImportDist from './rules/no-import-dist'
 
 const plugin = {
   meta: {
@@ -17,6 +18,7 @@ const plugin = {
     'import-dedupe': importDedupe,
     'no-import-node-modules-by-path': noImportNodeModulesByPath,
     'no-ts-export-equal': noTsExportEqual,
+    'no-import-dist': noImportDist,
     'top-level-function': topLevelFunction,
     'import-enforce-newlines': importEnforceNewlines,
   },
