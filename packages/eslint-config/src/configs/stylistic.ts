@@ -1,6 +1,6 @@
 import { interopDefault } from 'src'
 import { pluginKriszu } from '../plugins'
-import type { FlatConfigItem, StylisticConfig } from '../types'
+import type { FlatConfigItem, OptionsOverrides, StylisticConfig } from '../types'
 
 export const StylisticConfigDefaults: StylisticConfig = {
   indent: 2,
@@ -9,10 +9,13 @@ export const StylisticConfigDefaults: StylisticConfig = {
   semi: false,
 }
 
-export async function stylistic(options: StylisticConfig = {}): Promise<FlatConfigItem[]> {
+export async function stylistic(
+  options: StylisticConfig & OptionsOverrides = {},
+): Promise<FlatConfigItem[]> {
   const {
     indent,
     jsx,
+    overrides = {},
     quotes,
     semi,
   } = {
@@ -49,6 +52,7 @@ export async function stylistic(options: StylisticConfig = {}): Promise<FlatConf
         'style/brace-style': 'off',
         'style/indent-binary-ops': 'off',
         'style/member-delimiter-style': 'off',
+        ...overrides,
       },
     },
   ]

@@ -101,8 +101,12 @@ export function kriszu(options: OptionsConfig & FlatConfigItem = {}, ...userConf
     }))
   }
 
-  if (stylisticOptions)
-    configs.push(stylistic(stylisticOptions))
+  if (stylisticOptions) {
+    configs.push(stylistic({
+      ...stylisticOptions,
+      overrides: overrides.stylistic,
+    }))
+  }
 
   if (options.test ?? true) {
     configs.push(test({
