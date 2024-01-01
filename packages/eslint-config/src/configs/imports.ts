@@ -17,8 +17,8 @@ export async function imports(options: OptionsStylistic = {}): Promise<FlatConfi
       rules: {
         'import/first': 'error',
         'import/namespace': 'off',
-
         'import/no-absolute-path': 'off',
+
         // 禁止已解析路径被导入多次。
         'import/no-duplicates': 'error',
         // 禁止使用 var 或 let 来导出可变内容。
@@ -31,9 +31,9 @@ export async function imports(options: OptionsStylistic = {}): Promise<FlatConfi
         'import/no-unresolved': 'off',
         // 禁止在导入中使用 Webpack 加载器语法。
         'import/no-webpack-loader-syntax': 'error',
-
         // off: controlled by import/order
         'import/order': 'error',
+
         'kriszu/import-dedupe': 'error',
         // Enforce newlines inside named import
         'kriszu/import-enforce-newlines': [
@@ -44,6 +44,7 @@ export async function imports(options: OptionsStylistic = {}): Promise<FlatConfi
             'semi': false,
           },
         ],
+        'kriszu/no-import-dist': 'error',
         'kriszu/no-import-node-modules-by-path': 'error',
 
         'sort-imports': [
