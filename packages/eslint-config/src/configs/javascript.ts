@@ -1,10 +1,10 @@
 import globals from 'globals'
 import { pluginKriszu } from '../plugins'
 import { GLOB_SRC, GLOB_SRC_EXT } from '../globs'
-import type { FlatConfigItem, OptionsOverrides } from '../types'
+import type { FlatConfigItem, OptionsIsInEditor, OptionsOverrides } from '../types'
 
 export async function javascript(
-  options: OptionsOverrides = {},
+  options: OptionsIsInEditor & OptionsOverrides = {},
 ): Promise<FlatConfigItem[]> {
   const { overrides = {} } = options
 

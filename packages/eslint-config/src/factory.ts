@@ -18,6 +18,7 @@ import {
   test,
   typescript,
   unicorn,
+  unocss,
   vue,
 } from './configs'
 import { combine } from './utils'
@@ -43,9 +44,9 @@ export function kriszu(options: OptionsConfig & FlatConfigItem = {}, ...userConf
     componentExts = [],
     gitignore: enableGitignore = true,
     isInEditor = !!((process.env.VSCODE_PID || process.env.JETBRAINS_IDE || process.env.VIM) && !process.env.CI),
-    overrides = {},
     react: enableReact = hasReact,
     typescript: enableTypeScript = hasTypeScript,
+    unocss: enableUnoCSS = false,
     vue: enableVue = hasVue,
   } = options
 
@@ -73,7 +74,8 @@ export function kriszu(options: OptionsConfig & FlatConfigItem = {}, ...userConf
   configs.push(
     ignores({}),
     javascript({
-      overrides: overrides.javascript,
+      isInEditor,
+      overrides: getOverrides(options, 'javascript'),
     }),
     comments(),
     node(),
@@ -93,31 +95,31 @@ export function kriszu(options: OptionsConfig & FlatConfigItem = {}, ...userConf
 
   if (enableTypeScript) {
     configs.push(typescript({
+      ...resolveSubOptions(options, 'typescript'),
       ...typeof enableTypeScript !== 'boolean'
         ? enableTypeScript
         : {},
       componentExts,
-      overrides: overrides.typescript,
     }))
   }
 
   if (stylisticOptions) {
     configs.push(stylistic({
       ...stylisticOptions,
-      overrides: overrides.stylistic,
+      overrides: getOverrides(options, 'stylistic'),
     }))
   }
 
   if (options.test ?? true) {
     configs.push(test({
       isInEditor,
-      overrides: overrides.test,
+      overrides: getOverrides(options, 'test'),
     }))
   }
 
   if (enableVue) {
     configs.push(vue({
-      overrides: overrides.vue,
+      ...resolveSubOptions(options, 'vue'),
       stylistic: stylisticOptions,
       typescript: !!enableTypeScript,
     }))
@@ -125,14 +127,21 @@ export function kriszu(options: OptionsConfig & FlatConfigItem = {}, ...userConf
 
   if (enableReact) {
     configs.push(react({
-      overrides: overrides.react,
+      overrides: getOverrides(options, 'react'),
+      typescript: !!enableTypeScript,
+    }))
+  }
+  if (enableUnoCSS) {
+    configs.push(unocss({
+      ...resolveSubOptions(options, 'unocss'),
+      overrides: getOverrides(options, 'unocss'),
     }))
   }
 
   if (options.jsonc ?? true) {
     configs.push(
       jsonc({
-        overrides: overrides.jsonc,
+        overrides: getOverrides(options, 'jsonc'),
         stylistic: stylisticOptions,
       }),
       sortPackageJson(),
@@ -143,7 +152,7 @@ export function kriszu(options: OptionsConfig & FlatConfigItem = {}, ...userConf
   if (options.markdown ?? true) {
     configs.push(markdown({
       componentExts,
-      overrides: overrides.markdown,
+      overrides: getOverrides(options, 'markdown'),
     }))
   }
 
@@ -165,4 +174,29 @@ export function kriszu(options: OptionsConfig & FlatConfigItem = {}, ...userConf
   )
 
   return merged
+}
+export type ResolvedOptions<T> = T extends boolean
+  ? never
+  : NonNullable<T>
+
+export function resolveSubOptions<K extends keyof OptionsConfig>(
+  options: OptionsConfig,
+  key: K,
+): ResolvedOptions<OptionsConfig[K]> {
+  return typeof options[key] === 'boolean'
+    ? {} as any
+    : options[key] || {}
+}
+
+export function getOverrides<K extends keyof OptionsConfig>(
+  options: OptionsConfig,
+  key: K,
+) {
+  const sub = resolveSubOptions(options, key)
+  return {
+    ...(options.overrides as any)?.[key],
+    ...'overrides' in sub
+      ? sub.overrides
+      : {},
+  }
 }
