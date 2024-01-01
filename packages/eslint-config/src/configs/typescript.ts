@@ -1,5 +1,5 @@
 import process from 'node:process'
-import { GLOB_DTS, GLOB_SRC } from '../globs'
+import { GLOB_DTS, GLOB_SRC, GLOB_TS, GLOB_TSX } from '../globs'
 import { pluginKriszu } from '../plugins'
 import { interopDefault, renameRules, toArray } from '../utils'
 import type {
@@ -27,7 +27,7 @@ export async function typescript(
   const tsconfigPath = options?.tsconfigPath
     ? toArray(options.tsconfigPath)
     : undefined
-
+  const filesTypeAware = options.filesTypeAware ?? [GLOB_TS, GLOB_TSX]
   const typeAwareRules: FlatConfigItem['rules'] = {
     'dot-notation': 'off',
     'no-implied-eval': 'off',
@@ -305,7 +305,13 @@ export async function typescript(
         'ts/triple-slash-reference': 'off',
         'ts/typedef': ['off'],
         'ts/unified-signatures': 'off',
-
+        ...overrides,
+      },
+    },
+    {
+      files: filesTypeAware,
+      name: 'kriszu:typescript:rules-type-aware',
+      rules: {
         ...(tsconfigPath ? typeAwareRules : {}),
         ...overrides,
       },
