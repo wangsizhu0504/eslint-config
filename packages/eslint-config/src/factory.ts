@@ -100,6 +100,7 @@ export function kriszu(options: OptionsConfig & FlatConfigItem = {}, ...userConf
         ? enableTypeScript
         : {},
       componentExts,
+      overrides: getOverrides(options, 'typescript'),
     }))
   }
 
@@ -120,6 +121,7 @@ export function kriszu(options: OptionsConfig & FlatConfigItem = {}, ...userConf
   if (enableVue) {
     configs.push(vue({
       ...resolveSubOptions(options, 'vue'),
+      overrides: getOverrides(options, 'vue'),
       stylistic: stylisticOptions,
       typescript: !!enableTypeScript,
     }))
