@@ -24,10 +24,17 @@ export async function typescript(
     parserOptions = {},
   } = options ?? {}
 
+  const files = options.files ?? [
+    GLOB_SRC,
+    ...componentExts.map(ext => `**/*.${ext}`),
+  ]
+
+  const filesTypeAware = options.filesTypeAware ?? [GLOB_TS, GLOB_TSX]
   const tsconfigPath = options?.tsconfigPath
     ? toArray(options.tsconfigPath)
     : undefined
-  const filesTypeAware = options.filesTypeAware ?? [GLOB_TS, GLOB_TSX]
+  const isTypeAware = !!tsconfigPath
+
   const typeAwareRules: FlatConfigItem['rules'] = {
     'dot-notation': 'off',
     'no-implied-eval': 'off',
@@ -57,6 +64,27 @@ export async function typescript(
     interopDefault(import('@typescript-eslint/parser')),
   ] as const)
 
+  function makeParser(typeAware: boolean, fileLists: string[], ignores?: string[]): FlatConfigItem {
+    return {
+      files: fileLists,
+      ...ignores ? { ignores } : {},
+      languageOptions: {
+        parser: parserTs,
+        parserOptions: {
+          extraFileExtensions: componentExts.map(ext => `.${ext}`),
+          sourceType: 'module',
+          ...typeAware
+            ? {
+                project: tsconfigPath,
+                tsconfigRootDir: process.cwd(),
+                ...parserOptions as any,
+              }
+            : {},
+        },
+      },
+      name: `kriszu:typescript:${typeAware ? 'type-aware-parser' : 'parser'}`,
+    }
+  }
   return [
     {
       // Install the plugins without globs, so they can be configured separately.
@@ -66,6 +94,13 @@ export async function typescript(
         ts: pluginTs as any,
       },
     },
+    // assign type-aware parser for type-aware files and type-unaware parser for the rest
+    ...isTypeAware
+      ? [
+          makeParser(true, filesTypeAware),
+          makeParser(false, files, filesTypeAware),
+        ]
+      : [makeParser(false, files)],
     {
       files: [GLOB_SRC, ...componentExts.map(ext => `**/*.${ext}`)],
       languageOptions: {
@@ -190,7 +225,6 @@ export async function typescript(
             objectLiteralTypeAssertions: 'allow-as-parameter',
           },
         ],
-        'ts/consistent-type-definitions': ['error', 'interface'],
         'ts/consistent-type-imports': [
           'error',
           {

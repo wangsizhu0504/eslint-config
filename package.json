@@ -17,12 +17,12 @@
     "@kriszu/eslint-config": "workspace:*",
     "@types/eslint": "^8.56.2",
     "@types/fs-extra": "^11.0.4",
-    "@types/node": "^20.11.0",
+    "@types/node": "^20.11.5",
     "@types/prompts": "^2.4.9",
     "@types/yargs": "^17.0.32",
-    "bumpp": "^9.2.1",
+    "bumpp": "^9.3.0",
     "eslint": "^8.56.0",
-    "eslint-flat-config-viewer": "^0.1.8",
+    "eslint-flat-config-viewer": "^0.1.11",
     "esno": "^4.0.0",
     "fast-glob": "^3.3.2",
     "fs-extra": "^11.2.0",
@@ -32,6 +32,6 @@
     "tsup": "^8.0.1",
     "typescript": "^5.3.3",
     "unbuild": "^2.0.0",
-    "vitest": "^1.2.0"
+    "vitest": "^1.2.1"
   }
 }

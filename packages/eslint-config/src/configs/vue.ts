@@ -12,10 +12,10 @@ import type {
 
 export async function vue(
   options: OptionsVue &
-  OptionsHasTypeScript &
-  OptionsOverrides &
-  OptionsStylistic &
-  OptionsFiles = {},
+    OptionsHasTypeScript &
+    OptionsOverrides &
+    OptionsStylistic &
+    OptionsFiles = {},
 ): Promise<FlatConfigItem[]> {
   const {
     files = [GLOB_VUE],
@@ -114,6 +114,8 @@ export async function vue(
           },
         ],
         'vue/component-options-name-casing': ['error', 'PascalCase'],
+        // this is deprecated
+        'vue/component-tags-order': 'off',
         'vue/custom-event-name-casing': ['error', 'camelCase'],
         'vue/define-macros-order': [
           'error',

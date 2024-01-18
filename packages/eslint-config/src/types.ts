@@ -188,7 +188,7 @@ export interface StylisticConfig
   extends Pick<
     StylisticCustomizeOptions,
     'indent' | 'quotes' | 'jsx' | 'semi'
-  > {}
+  > { }
 
 export interface OptionsOverrides {
   overrides?: FlatConfigItem['rules']
@@ -281,7 +281,7 @@ export interface OptionsConfig extends OptionsComponentExts {
    *
    * @default true
    */
-  stylistic?: boolean | StylisticConfig
+  stylistic?: boolean | (StylisticConfig & OptionsOverrides)
 
   /**
    * Enable react rules.
