@@ -218,13 +218,7 @@ export async function typescript(
           'constructor',
         ],
         'ts/consistent-indexed-object-style': 'off',
-        'ts/consistent-type-assertions': [
-          'error',
-          {
-            assertionStyle: 'as',
-            objectLiteralTypeAssertions: 'allow-as-parameter',
-          },
-        ],
+        'ts/consistent-type-assertions': 'off',
         'ts/consistent-type-imports': [
           'error',
           {
