@@ -131,7 +131,7 @@ export async function vue(
 
         'vue/dot-location': ['error', 'property'],
         'vue/dot-notation': ['error', { allowKeywords: true }],
-        'vue/eqeqeq': ['error', 'smart'],
+        'vue/eqeqeq': ['warn', 'smart'],
         'vue/html-comment-content-spacing': [
           'error',
           'always',

@@ -47,7 +47,7 @@ export async function javascript(
         'constructor-super': 'error',
         'default-case-last': 'error',
         'dot-notation': ['error', { allowKeywords: true }],
-        'eqeqeq': ['error', 'smart'],
+        'eqeqeq': ['warn', 'smart'],
         'new-cap': [
           'error',
           { capIsNew: false, newIsCap: true, properties: true },
