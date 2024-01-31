@@ -26,6 +26,7 @@ import type { Awaitable, FlatConfigItem, OptionsConfig, UserConfigItem } from '.
 import { hasReact, hasTypeScript, hasVue } from './env'
 
 const flatConfigProps: Array<keyof FlatConfigItem> = [
+  'name',
   'files',
   'ignores',
   'languageOptions',
