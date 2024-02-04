@@ -1,6 +1,6 @@
 {
   "name": "@kriszu/eslint-plugin",
-  "version": "3.1.11",
+  "version": "3.1.12",
   "description": "Kriszu extended ESLint rules",
   "author": "Kriszu <wangsizhu0504@outlook.com>",
   "license": "MIT",
