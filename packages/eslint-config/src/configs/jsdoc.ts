@@ -1,5 +1,5 @@
-import { interopDefault } from '../utils'
 import type { FlatConfigItem, OptionsStylistic } from '../types'
+import { interopDefault } from '../utils'
 
 export async function jsdoc(
   options: OptionsStylistic = {},
@@ -10,7 +10,6 @@ export async function jsdoc(
     {
       name: 'kriszu:jsdoc',
       plugins: {
-        // @ts-expect-error missing types
         jsdoc: await interopDefault(import('eslint-plugin-jsdoc')),
       },
       rules: {

@@ -1,9 +1,10 @@
-import kriszu from './packages/eslint-config/dist/index.js'
+import defineEslintConfig from './packages/eslint-config/dist/index.js'
 
-export default kriszu(
+export default defineEslintConfig(
   {
     vue: true,
     react: true,
+    semi: true,
     typescript: true,
     ignores: [
       'packages/eslint-plugin/vendor',
@@ -18,6 +19,7 @@ export default kriszu(
   },
   {
     rules: {
+      'kriszu/no-import-dist': 'off',
       'ts/ban-types': 'off',
     },
   },

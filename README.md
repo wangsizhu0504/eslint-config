@@ -9,9 +9,9 @@ Flat ESLint config for JavaScript, TypeScript, Vue 2, Vue 3.
 - Support Vue 2 and 3 out-of-box.
 - Support JSON(5), Markdown...
 - Single quotes, no semi
-- Auto fix for formatting (aimed to be used standalone without Prettier)
+- Auto fix for formatting (aimed to be used standalone **without** Prettier)
 - Sorted imports, dangling commas
-- Designed to work with TypeScript, Vue out-of-box
+- Designed to work with TypeScript, JSX, Vue out-of-box
 - [ESLint Flat config](https://eslint.org/docs/latest/use/configure/configuration-files-new), compose easily!
 - Using [ESLint Stylistic](https://github.com/eslint-stylistic/eslint-stylistic)
 - Respects `.gitignore` by default
@@ -30,22 +30,48 @@ With [`"type": "module"`](https://nodejs.org/api/packages.html#type) in `package
 
 ```js
 // eslint.config.js
-import kriszu from '@kriszu/eslint-config'
+import defineEslintConfig from '@kriszu/eslint-config'
 
-export default kriszu()
+export default defineEslintConfig()
 ```
 
 With CJS:
 
 ```js
 // eslint.config.js
-const kriszu = require('@kriszu/eslint-config').default
+const defineEslintConfig = require('@kriszu/eslint-config').default
 
-module.exports = kriszu()
+module.exports = defineEslintConfig()
 ```
 > [!TIP]
 > ESLint only detects `eslint.config.js` as the flat config entry, meaning you need to put `type: module` in your `package.json` or you have to use CJS in `eslint.config.js`. If you want explicit extension like `.mjs` or `.cjs`, or even `eslint.config.ts`, you can install [`eslint-ts-patch`](https://github.com/antfu/eslint-ts-patch) to fix it.
 
+Combined with legacy config:
+
+```js
+// eslint.config.js
+const defineEslintConfig = require('@kriszu/eslint-config').default
+const { FlatCompat } = require('@eslint/eslintrc')
+
+const compat = new FlatCompat()
+
+module.exports = defineEslintConfig(
+  {
+    ignores: [],
+  },
+
+  // Legacy config
+  ...compat.config({
+    extends: [
+      'eslint:recommended',
+      // Other extends...
+    ],
+  })
+
+  // Other flat configs...
+)
+```
+> Note that `.eslintignore` no longer works in Flat config, see [customization](#customization) for more details.
 ### Add script for package.json
 
 ```json
@@ -56,6 +82,16 @@ module.exports = kriszu()
   }
 }
 ```
+
+### Migration
+
+We provided an experimental CLI tool to help you migrate from the legacy config to the new flat config.
+
+```bash
+npx @kriszu/eslint-config@latest
+```
+
+Before running the migration, make sure to commit your unsaved changes first.
 
 ## VS Code support (auto fix)
 
@@ -110,18 +146,18 @@ Add the following settings to your `.vscode/settings.json`:
 
 ```js
 // eslint.config.js
-import kriszu from '@kriszu/eslint-config'
+import defineEslintConfig from '@kriszu/eslint-config'
 
-export default kriszu()
+export default defineEslintConfig()
 ```
 
 And that's it! Or you can configure each integration individually, for example:
 
 ```js
 // eslint.config.js
-import kriszu from '@kriszu/eslint-config'
+import defineEslintConfig from '@kriszu/eslint-config'
 
-export default kriszu({
+export default defineEslintConfig({
   // Enable stylistic formatting rules
   // stylistic: true,
 
@@ -135,14 +171,14 @@ export default kriszu({
   typescript: true,
   vue: true,
 
-  // Disable jsonc and yaml support
+  // Disable jsonc support
   jsonc: false,
 
   // `.eslintignore` is no longer supported in Flat config, use `ignores` instead
   ignores: [
-    './fixtures',
+    '**/fixtures',
     // ...globs
-  ],
+  ]
 })
 ```
 
@@ -174,11 +210,12 @@ Going more advanced, you can also import fine-grained configs and compose them a
 <details>
 <summary>Advanced Example</summary>
 
-We don't recommend using this style in general usages, as there are shared options between configs and might need extra care to make them consistent.
+We wouldn't recommend using this style in general unless you know exactly what they are doing, as there are shared options between configs and might need extra care to make them consistent.
 
 ```js
 // eslint.config.js
 import {
+  combine,
   comments,
   ignores,
   imports,
@@ -195,24 +232,27 @@ import {
   vue,
 } from '@kriszu/eslint-config'
 
-export default [
-  ...ignores(),
-  ...javascript(/* Options */),
-  ...comments(),
-  ...node(),
-  ...jsdoc(),
-  ...imports(),
-  ...unicorn(),
-  ...typescript(/* Options */),
-  ...stylistic(),
-  ...vue(),
-  ...react(),
-  ...jsonc(),
-  ...markdown(),
-]
+export default combine(
+  ignores(),
+  javascript(/* Options */),
+  comments(),
+  node(),
+  jsdoc(),
+  imports(),
+  unicorn(),
+  typescript(/* Options */),
+  stylistic(),
+  vue(),
+  jsonc(),
+  markdown(),
+)
 ```
 
 </details>
+
+Check out the [configs](https://github.com/wangsizhu0504/eslint-config/blob/main/packages/eslint-config/src/configs) and [factory](https://github.com/wangsizhu0504/eslint-config/blob/main/packages/eslint-config/src/factory.ts) for more details.
+
+> Thanks to [antfu/eslint-config](https://github.com/antfu/eslint-config) for the inspiration and reference.
 
 ### Plugins Renaming
 
@@ -239,9 +279,9 @@ Certain rules would only be enabled in specific files, for example, `ts/*` rules
 
 ```js
 // eslint.config.js
-import kriszu from '@kriszu/eslint-config'
+import defineEslintConfig from '@kriszu/eslint-config'
 
-export default kriszu(
+export default defineEslintConfig(
   { vue: true, typescript: true },
   {
     // Remember to specify the file glob here, otherwise it might cause the vue plugin to handle non-vue files
@@ -263,9 +303,9 @@ We also provided an `overrides` options to make it easier:
 
 ```js
 // eslint.config.js
-import kriszu from '@kriszu/eslint-config'
+import defineEslintConfig from '@kriszu/eslint-config'
 
-export default kriszu({
+export default defineEslintConfig({
   overrides: {
     vue: {
       'vue/operator-linebreak': ['error', 'before'],
@@ -290,9 +330,9 @@ Use external formatters to format files that ESLint cannot handle yet (`.css`, `
 
 ```js
 // eslint.config.js
-import kriszu from '@kriszu/eslint-config'
+import defineEslintConfig from '@kriszu/eslint-config'
 
-export default kriszu({
+export default defineEslintConfig({
   formatters: {
     /**
      * Format CSS, LESS, SCSS files, also the `<style>` blocks in Vue
@@ -326,9 +366,9 @@ To enable React support, you need to explicitly turn it on:
 
 ```js
 // eslint.config.js
-import kriszu from '@kriszu/eslint-config'
+import defineEslintConfig from '@kriszu/eslint-config'
 
-export default kriszu({
+export default defineEslintConfig({
   react: true,
 })
 ```
@@ -345,9 +385,9 @@ To enable UnoCSS support, you need to explicitly turn it on:
 
 ```js
 // eslint.config.js
-import kriszu from '@kriszu/eslint-config'
+import defineEslintConfig from '@kriszu/eslint-config'
 
-export default kriszu({
+export default defineEslintConfig({
   unocss: true,
 })
 ```
@@ -386,9 +426,9 @@ You can optionally enable the [type aware rules](https://typescript-eslint.io/li
 
 ```js
 // eslint.config.js
-import kriszu from '@kriszu/eslint-config'
+import defineEslintConfig from '@kriszu/eslint-config'
 
-export default kriszu({
+export default defineEslintConfig({
   typescript: {
     tsconfigPath: 'tsconfig.json',
   },
@@ -415,10 +455,6 @@ and then
 ```bash
 npm i -D lint-staged simple-git-hooks
 ```
-
-###  Reference project
-
-[antfu/eslint-config](https://github.com/antfu/eslint-config)
 
 ## License
 

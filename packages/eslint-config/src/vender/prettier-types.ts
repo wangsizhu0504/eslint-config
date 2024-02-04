@@ -33,7 +33,7 @@ export interface VendoredPrettierOptionsRequired {
   /**
    * Print trailing commas wherever possible.
    */
-  trailingComma: 'none' | 'es5' | 'all'
+  trailingComma: 'all' | 'es5' | 'none'
   /**
    * Print spaces between brackets in object literals.
    */
@@ -67,21 +67,21 @@ export interface VendoredPrettierOptionsRequired {
    * Include parentheses around a sole arrow function parameter.
    * @default "always"
    */
-  arrowParens: 'avoid' | 'always'
+  arrowParens: 'always' | 'avoid'
   /**
    * Provide ability to support new languages to prettier.
    */
-  plugins: Array<string | any>
+  plugins: Array<any | string>
   /**
    * How to handle whitespaces in HTML.
    * @default "css"
    */
-  htmlWhitespaceSensitivity: 'css' | 'strict' | 'ignore'
+  htmlWhitespaceSensitivity: 'css' | 'ignore' | 'strict'
   /**
    * Which end of line characters to apply.
    * @default "lf"
    */
-  endOfLine: 'auto' | 'lf' | 'crlf' | 'cr'
+  endOfLine: 'auto' | 'cr' | 'crlf' | 'lf'
   /**
    * Change when properties in objects are quoted.
    * @default "as-needed"
@@ -102,17 +102,17 @@ export interface VendoredPrettierOptionsRequired {
 export type BuiltInParserName =
   | 'acorn'
   | 'angular'
+  | 'babel'
   | 'babel-flow'
   | 'babel-ts'
-  | 'babel'
   | 'css'
   | 'espree'
   | 'flow'
   | 'glimmer'
   | 'graphql'
   | 'html'
-  | 'json-stringify'
   | 'json'
+  | 'json-stringify'
   | 'json5'
   | 'less'
   | 'lwc'
@@ -132,5 +132,5 @@ export type BuiltInParserName =
 // It comes from this issue: microsoft/TypeScript#29729:
 //   https://github.com/microsoft/TypeScript/issues/29729#issuecomment-700527227
 export type LiteralUnion<T extends U, U = string> =
-  | T
   | (Pick<U, never> & { _?: never | undefined })
+  | T

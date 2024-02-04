@@ -8,12 +8,12 @@ const SPEC_NAMESPACE_IMPORT = 'ImportNamespaceSpecifier'
 const nonSplittableImportTypes = new Set([SPEC_DEFAULT_IMPORT, SPEC_NAMESPACE_IMPORT])
 
 interface CommentNode {
-  type: 'Block' | 'Line' | ''
+  type: '' | 'Block' | 'Line'
   value: string
 }
 
 export const RULE_NAME = 'import-enforce-newlines'
-export type MessageIds = 'mustSplitMany' | 'mustSplitLong' | 'mustNotSplit' | 'noBlankBetween' | 'limitLineCount'
+export type MessageIds = 'limitLineCount' | 'mustNotSplit' | 'mustSplitLong' | 'mustSplitMany' | 'noBlankBetween'
 
 export interface ImportNewLinesOption {
   items?: number
@@ -44,12 +44,15 @@ function outputComment(commentNode: CommentNode | null) {
   const commentNodeType = commentNode && commentNode.type
 
   switch (commentNodeType) {
-    case 'Block':
+    case 'Block': {
       return `\n\n/*${commentNode?.value}*/\n`
-    case 'Line':
+    }
+    case 'Line': {
       return `\n\n//${commentNode?.value}\n`
-    default:
+    }
+    default: {
       return ''
+    }
   }
 }
 
@@ -70,12 +73,10 @@ function getCommentsInsideImport(node: TSESTree.ImportDeclaration) {
   const comments: TSESTree.Comment[] = []
   const parent = node.parent as TSESTree.Program
 
-  if (parent?.comments) {
+  if (parent.comments) {
     const [nodeStartPos, nodeEndPos] = node.range
-
     parent.comments.some((comment) => {
       const [commentStartPos] = comment.range
-
       if (commentStartPos > nodeEndPos) {
         // Comments after the import are ignored
         return true
@@ -85,7 +86,6 @@ function getCommentsInsideImport(node: TSESTree.ImportDeclaration) {
         // The comment starts inside the import
         comments.push(comment)
       }
-
       return false
     })
   }
@@ -125,29 +125,22 @@ function findTrailingCommentInImport(node: TSESTree.ImportDeclaration, comments:
  */
 function findCommentBeforeLastLine(node: TSESTree.ImportDeclaration, comments: TSESTree.Comment[]) {
   let commentBeforeLastLine = null
-
   if (node.specifiers.length > 0) {
     const lastSpecifierEndLine = node.specifiers[node.specifiers.length - 1].loc.end.line
     const sourceLine = node.source.loc.start.line
-
     comments.some((comment) => {
       const commentStartLine = comment.loc.start.line
-
       if (commentStartLine > lastSpecifierEndLine) {
         const commentEndLine = comment.loc.end.line
-
         if (commentEndLine < sourceLine) {
           // The comment is between the last specifier and the source line
           commentBeforeLastLine = comment
-
           return true
         }
       }
-
       return false
     })
   }
-
   return commentBeforeLastLine
 }
 
@@ -160,7 +153,6 @@ function fixer(node: TSESTree.ImportDeclaration, semi: boolean, spacer = '\n') {
     let namespaceImport = ''
     const objectImports: string[] = []
     const { specifiers, importKind } = node
-
     specifiers.forEach((currentNode) => {
       switch (currentNode.type) {
         case SPEC_DEFAULT_IMPORT:
@@ -169,11 +161,9 @@ function fixer(node: TSESTree.ImportDeclaration, semi: boolean, spacer = '\n') {
           break
         case SPEC_NAMESPACE_IMPORT:
           namespaceImport = `* as ${currentNode.local.name}`
-
           break
         case SPEC_IMPORT:
           objectImports.push(applyAliasAndType(currentNode))
-
           break
         default:
           break
@@ -191,7 +181,6 @@ function fixer(node: TSESTree.ImportDeclaration, semi: boolean, spacer = '\n') {
       : ''
 
     let lastLineCommentForSingleLineImport = ''
-
     if (lastLineComment) {
       if (hasObjectImports && spacer === '\n') {
       // If there is a last line comment, add it to the object imports
@@ -215,7 +204,6 @@ function fixer(node: TSESTree.ImportDeclaration, semi: boolean, spacer = '\n') {
       outputComment(trailingComment),
       semi || trailingComment ? ';' : '',
     ].join('')
-
     return eslintFixer.replaceText(node, newValue)
   }
 }

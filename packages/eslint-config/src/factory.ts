@@ -40,7 +40,7 @@ const flatConfigProps: Array<keyof FlatConfigItem> = [
 /**
  * Construct an array of ESLint flat config items.
  */
-export function kriszu(options: OptionsConfig & FlatConfigItem = {}, ...userConfigs: Array<Awaitable<UserConfigItem | UserConfigItem[]>>): Promise<UserConfigItem[]> {
+export function defineEslintConfig(options: OptionsConfig & FlatConfigItem = {}, ...userConfigs: Array<Awaitable<UserConfigItem | UserConfigItem[]>>): Promise<UserConfigItem[]> {
   const {
     componentExts = [],
     gitignore: enableGitignore = true,
@@ -53,9 +53,9 @@ export function kriszu(options: OptionsConfig & FlatConfigItem = {}, ...userConf
 
   const stylisticOptions = options.stylistic === false
     ? false
-    : typeof options.stylistic === 'object'
-      ? options.stylistic
-      : {}
+    : (typeof options.stylistic === 'object'
+        ? options.stylistic
+        : {})
 
   if (stylisticOptions && !('jsx' in stylisticOptions))
     stylisticOptions.jsx = options.jsx ?? true
@@ -63,11 +63,11 @@ export function kriszu(options: OptionsConfig & FlatConfigItem = {}, ...userConf
   const configs: Array<Awaitable<FlatConfigItem[]>> = []
 
   if (enableGitignore) {
-    if (typeof enableGitignore !== 'boolean') {
-      configs.push([gitignore(enableGitignore)])
-    } else {
+    if (typeof enableGitignore === 'boolean') {
       if (fs.existsSync('.gitignore'))
         configs.push([gitignore()])
+    } else {
+      configs.push([gitignore(enableGitignore)])
     }
   }
 
@@ -97,9 +97,9 @@ export function kriszu(options: OptionsConfig & FlatConfigItem = {}, ...userConf
   if (enableTypeScript) {
     configs.push(typescript({
       ...resolveSubOptions(options, 'typescript'),
-      ...typeof enableTypeScript !== 'boolean'
-        ? enableTypeScript
-        : {},
+      ...typeof enableTypeScript === 'boolean'
+        ? {}
+        : enableTypeScript,
       componentExts,
       overrides: getOverrides(options, 'typescript'),
     }))
@@ -168,7 +168,7 @@ export function kriszu(options: OptionsConfig & FlatConfigItem = {}, ...userConf
     return acc
   }, {} as FlatConfigItem)
 
-  if (Object.keys(fusedConfig).length)
+  if (Object.keys(fusedConfig).length > 0)
     configs.push([fusedConfig])
 
   const merged = combine(

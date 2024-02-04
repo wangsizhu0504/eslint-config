@@ -26,10 +26,8 @@ export default createEslintRule<Options, MessageIds>({
           return
 
         const names = new Set<string>()
-
         node.specifiers.forEach((n) => {
           const id = n.local.name
-
           if (names.has(id)) {
             context.report({
               node,
@@ -41,15 +39,12 @@ export default createEslintRule<Options, MessageIds>({
               fix(fixer) {
                 const s = n.range[0]
                 let e = n.range[1]
-
                 if (context.getSourceCode().text[e] === ',')
                   e += 1
-
                 return fixer.removeRange([s, e])
               },
             })
           }
-
           names.add(id)
         })
 

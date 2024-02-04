@@ -41,25 +41,45 @@ export async function javascript(
           'error',
           { enforceForClassMembers: true, setWithoutGet: true },
         ],
-
+        // Common
+        'array-bracket-newline': 'off',
+        // best-practice
         'array-callback-return': 'error',
+        'array-element-newline': 'off',
+        'arrow-body-style': 'off',
+        'arrow-parens': 'off',
         'block-scoped-var': 'error',
+        'complexity': ['off', 11],
+        'consistent-return': 'off',
         'constructor-super': 'error',
         'default-case-last': 'error',
         'dot-notation': ['error', { allowKeywords: true }],
         'eqeqeq': ['warn', 'smart'],
+        'function-call-argument-newline': 'off',
+        'function-paren-newline': 'off',
+        'generator-star': 'off',
+        'implicit-arrow-linebreak': 'off',
+        'indent': 'off',
+        'indent-legacy': 'off',
+        'jsx-quotes': 'off',
+        'linebreak-style': 'off',
         'new-cap': [
           'error',
           { capIsNew: false, newIsCap: true, properties: true },
         ],
+        'newline-per-chained-call': 'off',
+
         'no-alert': 'error',
         'no-array-constructor': 'error',
+        'no-arrow-condition': 'off',
         'no-async-promise-executor': 'error',
         'no-caller': 'error',
         'no-case-declarations': 'error',
         'no-class-assign': 'error',
+        'no-comma-dangle': 'off',
         'no-compare-neg-zero': 'error',
         'no-cond-assign': ['error', 'always'],
+        'no-confusing-arrow': 'off',
         'no-console': 'off',
         'no-const-assign': 'error',
         'no-control-regex': 'error',
@@ -77,6 +97,7 @@ export async function javascript(
         'no-extend-native': 'error',
         'no-extra-bind': 'error',
         'no-extra-boolean-cast': 'error',
+        'no-extra-semi': 'off',
         'no-fallthrough': 'error',
         'no-func-assign': 'error',
         'no-global-assign': 'error',
@@ -102,33 +123,57 @@ export async function javascript(
         'no-prototype-builtins': 'error',
         'no-redeclare': ['error', { builtinGlobals: false }],
         'no-regex-spaces': 'error',
+        'no-reserved-keys': 'off',
         'no-restricted-globals': [
           'error',
           { message: 'Use `globalThis` instead.', name: 'global' },
           { message: 'Use `globalThis` instead.', name: 'self' },
+          { message: 'Use `Number.isNaN` instead', name: 'isNaN' },
+          { message: 'Use `Number.isFinite` instead', name: 'isFinite' },
+          { message: 'Use `Number.parseFloat` instead', name: 'parseFloat' },
+          { message: 'Use `Number.parseInt` instead', name: 'parseInt' },
         ],
         'no-restricted-properties': [
           'error',
           {
-            message:
-              'Use `Object.getPrototypeOf` or `Object.setPrototypeOf` instead.',
-            property: '__proto__',
+            message: 'Use `Number.isNaN` instead',
+            object: 'globalThis',
+            property: 'isNaN',
           },
           {
-            message: 'Use `Object.defineProperty` instead.',
-            property: '__defineGetter__',
+            message: 'Use `Number.isFinite` instead',
+            object: 'globalThis',
+            property: 'isFinite',
           },
           {
-            message: 'Use `Object.defineProperty` instead.',
-            property: '__defineSetter__',
+            message: 'Use `Number.parseFloat` instead',
+            object: 'globalThis',
+            property: 'parseFloat',
           },
           {
-            message: 'Use `Object.getOwnPropertyDescriptor` instead.',
-            property: '__lookupGetter__',
+            message: 'Use `Number.parseInt` instead',
+            object: 'globalThis',
+            property: 'parseInt',
           },
           {
-            message: 'Use `Object.getOwnPropertyDescriptor` instead.',
-            property: '__lookupSetter__',
+            message: 'Use `Number.isNaN` instead',
+            object: 'window',
+            property: 'isNaN',
+          },
+          {
+            message: 'Use `Number.isFinite` instead',
+            object: 'window',
+            property: 'isFinite',
+          },
+          {
+            message: 'Use `Number.parseFloat` instead',
+            object: 'window',
+            property: 'parseFloat',
+          },
+          {
+            message: 'Use `Number.parseInt` instead',
+            object: 'window',
+            property: 'parseInt',
           },
         ],
         'no-restricted-syntax': [
@@ -139,10 +184,14 @@ export async function javascript(
           'TSEnumDeclaration[const=true]',
           'TSExportAssignment',
         ],
+
+        'no-return-await': 'off',
         'no-self-assign': ['error', { props: true }],
         'no-self-compare': 'error',
         'no-sequences': 'error',
         'no-shadow-restricted-names': 'error',
+        'no-space-before-semi': 'off',
+        'no-spaced-func': 'off',
         'no-sparse-arrays': 'error',
         'no-template-curly-in-string': 'error',
         'no-this-before-super': 'error',
@@ -186,6 +235,9 @@ export async function javascript(
         'no-useless-return': 'error',
         'no-var': 'error',
         'no-with': 'error',
+        'no-wrap-func': 'off',
+        'nonblock-statement-body-position': 'off',
+
         'object-shorthand': [
           'error',
           'always',
@@ -194,7 +246,9 @@ export async function javascript(
             ignoreConstructors: false,
           },
         ],
+
         'one-var': ['error', { initialized: 'never' }],
+        'one-var-declaration-per-line': 'off',
         'prefer-arrow-callback': [
           'error',
           {
@@ -214,7 +268,9 @@ export async function javascript(
         'prefer-regex-literals': ['error', { disallowRedundantWrapping: true }],
         'prefer-rest-params': 'error',
         'prefer-spread': 'error',
+
         'prefer-template': 'error',
+        'require-await': 'off',
         'sort-imports': [
           'error',
           {
@@ -225,16 +281,31 @@ export async function javascript(
             memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
           },
         ],
-
-        'symbol-description': 'error',
+        'spaced-comment': [
+          'error',
+          'always',
+          {
+            block: {
+              balanced: true,
+              exceptions: ['*'],
+              markers: ['!'],
+            },
+            line: {
+              exceptions: ['/', '#'],
+              markers: ['/'],
+            },
+          },
+        ],
+        'switch-colon-spacing': 'off',
+        'symbol-description': 'off',
         'unicode-bom': ['error', 'never'],
-
         'use-isnan': [
           'error',
           { enforceForIndexOf: true, enforceForSwitchCase: true },
         ],
         'valid-typeof': ['error', { requireStringLiterals: true }],
         'vars-on-top': 'error',
+        'wrap-regex': 'off',
         'yoda': ['error', 'never'],
 
         ...overrides,

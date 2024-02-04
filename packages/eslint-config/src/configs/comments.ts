@@ -9,6 +9,7 @@ export async function comments(): Promise<FlatConfigItem[]> {
         'eslint-comments': pluginComments,
       },
       rules: {
+        'eslint-comments/disable-enable-pair': 'error',
         // 不允许一个 eslint-enable 注释用于多个 eslint-disable 注释
         'eslint-comments/no-aggregating-enable': 'error',
         // 不允许重复的 eslint-disable 注释

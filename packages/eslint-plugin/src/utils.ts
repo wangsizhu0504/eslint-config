@@ -10,7 +10,9 @@ const hasDocs = [
 
 const blobUrl = 'https://github.com/wangsizhu0504/eslint-config/blob/main/packages/eslint-plugin/src/rules/'
 
-export interface RuleModule<T extends readonly unknown[]> extends Rule.RuleModule {
+export interface RuleModule<
+  T extends readonly unknown[],
+> extends Rule.RuleModule {
   defaultOptions: T
 }
 

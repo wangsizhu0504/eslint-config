@@ -1,10 +1,10 @@
 import process from 'node:process'
 import { GLOB_DTS, GLOB_SRC, GLOB_TS, GLOB_TSX } from '../globs'
-import { pluginKriszu } from '../plugins'
 import { interopDefault, renameRules, toArray } from '../utils'
+import { pluginKriszu } from '../plugins'
 import type {
   FlatConfigItem,
-  OptionsComponentExts,
+  OptionsComponentExts as OptionsComponentExtensions,
   OptionsFiles,
   OptionsOverrides,
   OptionsTypeScriptParserOptions,
@@ -13,20 +13,20 @@ import type {
 
 export async function typescript(
   options: OptionsFiles &
-  OptionsComponentExts &
+  OptionsComponentExtensions &
   OptionsOverrides &
   OptionsTypeScriptWithTypes &
   OptionsTypeScriptParserOptions = {},
 ): Promise<FlatConfigItem[]> {
   const {
-    componentExts = [],
+    componentExts: componentExtensions = [],
     overrides = {},
     parserOptions = {},
   } = options ?? {}
 
   const files = options.files ?? [
     GLOB_SRC,
-    ...componentExts.map(ext => `**/*.${ext}`),
+    ...componentExtensions.map(extension => `**/*.${extension}`),
   ]
 
   const filesTypeAware = options.filesTypeAware ?? [GLOB_TS, GLOB_TSX]
@@ -71,7 +71,7 @@ export async function typescript(
       languageOptions: {
         parser: parserTs,
         parserOptions: {
-          extraFileExtensions: componentExts.map(ext => `.${ext}`),
+          extraFileExtensions: componentExtensions.map(extension => `.${extension}`),
           sourceType: 'module',
           ...typeAware
             ? {
@@ -102,11 +102,11 @@ export async function typescript(
         ]
       : [makeParser(false, files)],
     {
-      files: [GLOB_SRC, ...componentExts.map(ext => `**/*.${ext}`)],
+      files: [GLOB_SRC, ...componentExtensions.map(extension => `**/*.${extension}`)],
       languageOptions: {
         parser: parserTs,
         parserOptions: {
-          extraFileExtensions: componentExts.map(ext => `.${ext}`),
+          extraFileExtensions: componentExtensions.map(extension => `.${extension}`),
           sourceType: 'module',
           ...(tsconfigPath
             ? {
@@ -242,6 +242,7 @@ export async function typescript(
           },
         ],
         'ts/member-ordering': ['error'],
+        'ts/method-signature-style': ['error', 'property'], // https://www.totaltypescript.com/method-shorthand-syntax-considered-harmful
         'ts/naming-convention': [
           'warn',
           { format: ['PascalCase', 'camelCase'], selector: 'function' },
@@ -295,15 +296,6 @@ export async function typescript(
         'ts/no-this-alias': ['error', { allowDestructuring: true }],
         'ts/no-unnecessary-condition': ['off'],
         'ts/no-unnecessary-type-constraint': ['error'],
-        'ts/no-unused-expressions': [
-          'error',
-          {
-            allowShortCircuit: false,
-            allowTaggedTemplates: false,
-            allowTernary: false,
-            enforceForJSX: false,
-          },
-        ],
         'ts/no-unused-vars': [
           'error',
           {

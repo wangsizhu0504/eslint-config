@@ -3,9 +3,10 @@ import type { TSESTree } from '@typescript-eslint/utils'
 import { createEslintRule } from '../utils'
 
 export const RULE_NAME = 'consistent-list-newline'
-export type MessageIds = 'shouldWrap' | 'shouldNotWrap'
+export type MessageIds = 'shouldNotWrap' | 'shouldWrap'
 export type Options = [{
   ArrayExpression?: boolean
+  ArrayPattern?: boolean
   ArrowFunctionExpression?: boolean
   CallExpression?: boolean
   ExportNamedDeclaration?: boolean
@@ -14,13 +15,12 @@ export type Options = [{
   ImportDeclaration?: boolean
   NewExpression?: boolean
   ObjectExpression?: boolean
+  ObjectPattern?: boolean
   TSInterfaceDeclaration?: boolean
   TSTupleType?: boolean
   TSTypeLiteral?: boolean
   TSTypeParameterDeclaration?: boolean
   TSTypeParameterInstantiation?: boolean
-  ObjectPattern?: boolean
-  ArrayPattern?: boolean
 }]
 
 export default createEslintRule<Options, MessageIds>({
@@ -32,35 +32,64 @@ export default createEslintRule<Options, MessageIds>({
       recommended: 'stylistic',
     },
     fixable: 'whitespace',
-    schema: [],
+    schema: [{
+      type: 'object',
+      properties: {
+        ArrayExpression: { type: 'boolean' },
+        ArrowFunctionExpression: { type: 'boolean' },
+        CallExpression: { type: 'boolean' },
+        ExportNamedDeclaration: { type: 'boolean' },
+        FunctionDeclaration: { type: 'boolean' },
+        FunctionExpression: { type: 'boolean' },
+        ImportDeclaration: { type: 'boolean' },
+        NewExpression: { type: 'boolean' },
+        ObjectExpression: { type: 'boolean' },
+        TSInterfaceDeclaration: { type: 'boolean' },
+        TSTupleType: { type: 'boolean' },
+        TSTypeLiteral: { type: 'boolean' },
+        TSTypeParameterDeclaration: { type: 'boolean' },
+        TSTypeParameterInstantiation: { type: 'boolean' },
+        ObjectPattern: { type: 'boolean' },
+        ArrayPattern: { type: 'boolean' },
+      } satisfies Record<keyof Options[0], { type: 'boolean' }>,
+      additionalProperties: false,
+    }],
     messages: {
-      shouldWrap: 'Should have line breaks between items',
-      shouldNotWrap: 'Should not have line breaks between items',
+      shouldWrap: 'Should have line breaks between items, in node {{name}}',
+      shouldNotWrap: 'Should not have line breaks between items, in node {{name}}',
     },
   },
   defaultOptions: [{}],
   create: (context, [options = {}] = [{}]) => {
     function removeLines(fixer: RuleFixer, start: number, end: number) {
       const range = [start, end] as const
-      const code = context.getSourceCode().text.slice(...range)
-
-      return fixer.replaceTextRange(range, code.replace(/(\r\n|\n)/g, ''))
+      const code = context.sourceCode.text.slice(...range)
+      return fixer.replaceTextRange(range, code.replaceAll(/(\r\n|\n)/g, ''))
     }
 
     function check(
       node: TSESTree.Node,
       children: Array<TSESTree.Node | null>,
-      prevNode?: TSESTree.Node,
       nextNode?: TSESTree.Node,
     ) {
       const items = children.filter(Boolean) as TSESTree.Node[]
-
       if (items.length === 0)
         return
 
-      const startLine = prevNode
-        ? prevNode.loc.end.line
-        : node.loc.start.line
+      // Look for the opening bracket, we first try to get the first token of the parent node
+      // and fallback to the token before the first item
+      let startToken = ['CallExpression', 'NewExpression'].includes(node.type)
+        ? undefined
+        : context.sourceCode.getFirstToken(node)
+      if (startToken?.type !== 'Punctuator')
+        startToken = context.sourceCode.getTokenBefore(items[0])
+      // @ts-expect-error
+      const endToken = context.sourceCode.getTokenAfter(items.at(-1))
+      const startLine = startToken!.loc.start.line
+
+      if (startToken!.loc.start.line === endToken!.loc.end.line)
+        return
+
       let mode: 'inline' | 'newline' | null = null
       let lastLine = startLine
 
@@ -68,7 +97,6 @@ export default createEslintRule<Options, MessageIds>({
         if (mode == null) {
           mode = item.loc.start.line === lastLine ? 'inline' : 'newline'
           lastLine = item.loc.end.line
-
           return
         }
 
@@ -78,16 +106,24 @@ export default createEslintRule<Options, MessageIds>({
           context.report({
             node: item,
             messageId: 'shouldWrap',
+            data: {
+              name: node.type,
+            },
             *fix(fixer) {
               yield fixer.insertTextBefore(item, '\n')
             },
           })
-        } else if (mode === 'inline' && currentStart !== lastLine) {
+        }
+        else if (mode === 'inline' && currentStart !== lastLine) {
           const lastItem = items[idx - 1]
-
+          if (context.sourceCode.getCommentsBefore(item).length > 0)
+            return
           context.report({
             node: item,
             messageId: 'shouldNotWrap',
+            data: {
+              name: node.type,
+            },
             *fix(fixer) {
               yield removeLines(fixer, lastItem!.range[1], item.range[0])
             },
@@ -97,32 +133,47 @@ export default createEslintRule<Options, MessageIds>({
         lastLine = item.loc.end.line
       })
 
-      const endLoc = nextNode?.loc.start ?? node.loc.end
-      const endRange = nextNode?.range[0]
-        ? nextNode?.range[0] - 1
+      const endRange = nextNode
+        ? Math.min(
+          context.sourceCode.getTokenBefore(nextNode)!.range[0],
+          node.range[1],
+        )
         : node.range[1]
+      const endLoc = context.sourceCode.getLocFromIndex(endRange)
 
-      const lastItem = items[items.length - 1]!
-
+      const lastItem = items.at(-1)!
       if (mode === 'newline' && endLoc.line === lastLine) {
         context.report({
           node: lastItem,
           messageId: 'shouldWrap',
+          data: {
+            name: node.type,
+          },
           *fix(fixer) {
             yield fixer.insertTextAfter(lastItem, '\n')
           },
         })
-      } else if (mode === 'inline' && endLoc.line !== lastLine) {
+      }
+      else if (mode === 'inline' && endLoc.line !== lastLine) {
         // If there is only one multiline item, we allow the closing bracket to be on the a different line
         if (items.length === 1 && items[0].loc.start.line !== items[1]?.loc.start.line)
           return
-        context.report({
-          node: lastItem,
-          messageId: 'shouldNotWrap',
-          *fix(fixer) {
-            yield removeLines(fixer, lastItem.range[1], endRange)
-          },
-        })
+        if (context.sourceCode.getCommentsAfter(lastItem).length > 0)
+          return
+
+        const content = context.sourceCode.text.slice(lastItem.range[1], endRange)
+        if (content.includes('\n')) {
+          context.report({
+            node: lastItem,
+            messageId: 'shouldNotWrap',
+            data: {
+              name: node.type,
+            },
+            *fix(fixer) {
+              yield removeLines(fixer, lastItem.range[1], endRange)
+            },
+          })
+        }
       }
     }
 
@@ -143,7 +194,6 @@ export default createEslintRule<Options, MessageIds>({
         check(
           node,
           node.params,
-          node.typeParameters || undefined,
           node.returnType || node.body,
         )
       },
@@ -151,30 +201,20 @@ export default createEslintRule<Options, MessageIds>({
         check(
           node,
           node.params,
-          node.typeParameters || undefined,
           node.returnType || node.body,
         )
       },
       ArrowFunctionExpression: (node) => {
+        if (node.params.length <= 1)
+          return
         check(
           node,
           node.params,
-          node.typeParameters || undefined,
           node.returnType || node.body,
         )
       },
       CallExpression: (node) => {
-        const startNode
-          // if has type generic, check the last type argument
-          = node.typeArguments?.params.length
-            ? node.typeArguments.params[node.typeArguments.params.length - 1]
-            // if the callee is a member expression, get the property
-            : node.callee.type === 'MemberExpression'
-              ? node.callee.property
-              // else get the callee
-              : node.callee
-
-        check(node, node.arguments, startNode)
+        check(node, node.arguments)
       },
       TSInterfaceDeclaration: (node) => {
         check(node, node.body.body)
@@ -186,7 +226,7 @@ export default createEslintRule<Options, MessageIds>({
         check(node, node.elementTypes)
       },
       NewExpression: (node) => {
-        check(node, node.arguments, node.callee)
+        check(node, node.arguments)
       },
       TSTypeParameterDeclaration(node) {
         check(node, node.params)
@@ -195,7 +235,7 @@ export default createEslintRule<Options, MessageIds>({
         check(node, node.params)
       },
       ObjectPattern(node) {
-        check(node, node.properties)
+        check(node, node.properties, node.typeAnnotation)
       },
       ArrayPattern(node) {
         check(node, node.elements)
@@ -209,16 +249,16 @@ export default createEslintRule<Options, MessageIds>({
     exportType<KeysListener, KeysOptions>()
     exportType<KeysOptions, KeysListener>()
 
-    ; (Object.keys(options) as KeysOptions[])
+    ;(Object.keys(options) as KeysOptions[])
       .forEach((key) => {
         if (options[key] === false)
-
           delete listenser[key]
-      })
+      },
+      )
 
     return listenser
   },
 })
 
-// eslint-disable-next-line unused-imports/no-unused-vars, ts/no-unused-vars
-function exportType<A, B extends A>() { }
+// eslint-disable-next-line ts/no-unused-vars
+function exportType<A, B extends A>() {}

@@ -5,7 +5,6 @@ export async function imports(options: OptionsStylistic = {}): Promise<FlatConfi
   const {
     stylistic = true,
   } = options
-
   return [
     {
       name: 'kriszu:imports',
@@ -15,24 +14,100 @@ export async function imports(options: OptionsStylistic = {}): Promise<FlatConfi
         'unused-imports': pluginUnusedImports,
       },
       rules: {
-        'import/first': 'error',
-        'import/namespace': 'off',
-        'import/no-absolute-path': 'off',
+        // import plugin recommended rules
+        // https://github.com/import-js/eslint-plugin-import/blob/main/config/recommended.js
+        ...pluginImport.configs.recommended.rules,
+        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/default.md#when-not-to-use-it
+        'import/default': 'off',
+        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/dynamic-import-chunkname.md
+        'import/dynamic-import-chunkname': ['off', {
+          importFunctions: [],
+          webpackChunknameFormat: '[0-9a-zA-Z-_/.]+',
+        }],
+        // dynamic imports require a leading comment with a webpackChunkName
+        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/export.md
+        'import/export': 'error',
+        // Helpful warnings:
 
-        // 禁止已解析路径被导入多次。
+        // disallow invalid exports, e.g. multiple defaults
+        // In TS, if a type needs to be exported inline, it's dependent types should be right above it
+        'import/exports-last': 'off',
+
+        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/exports-last.md
+        // Hard to expect this when the grouped exports can't be enabled.
+        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/first.md
+        'import/first': 'error',
+
+        // Re-exporting a type when the 'isolatedModules' flag is provided requires using 'export type'
+        'import/group-exports': 'off',
+
+        // https://githubis.com/benmosher/eslint-plugin-import/blob/main/docs/rules/group-exports.md
+        // Excessive. Also, not suppored in TS w/ isolatedModules:
+        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/named.md#when-not-to-use-it
+        'import/named': 'error',
+
+        // ensure named imports coupled with named exports
+        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/namespace.md
+        'import/namespace': 'off',
+
+        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/newline-after-import.md
+        'import/newline-after-import': 'error',
+        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-absolute-path.md
+        'import/no-absolute-path': 'error',
+
+        // Forbid import of modules using absolute paths
+        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-amd.md
+        'import/no-amd': 'error',
+
+        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-anonymous-default-export.md
+        'import/no-anonymous-default-export': ['off', {
+          allowAnonymousClass: false,
+          allowAnonymousFunction: false,
+          allowArray: false,
+          allowArrowFunction: false,
+          allowLiteral: false,
+          allowObject: false,
+        }],
+
+        // Reports if a module's default export is unnamed
+        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-commonjs.md
+        'import/no-commonjs': 'off',
+
+        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-cycle.md
+        'import/no-cycle': ['error', {
+          ignoreExternal: true,
+          maxDepth: '∞',
+        }],
+
+        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-duplicates.md
         'import/no-duplicates': 'error',
-        // 禁止使用 var 或 let 来导出可变内容。
+
+        // Forbid the use of extraneous packages
+        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-extraneous-dependencies.md
+        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-mutable-exports.md
         'import/no-mutable-exports': 'error',
+
+        // Forbid a module from importing itself
         'import/no-named-as-default': 'off',
         'import/no-named-as-default-member': 'off',
+        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-named-default.md
         'import/no-named-default': 'error',
-        // 禁止导入自身
+
+        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-self-import.md
         'import/no-self-import': 'error',
+        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-unresolved.md
         'import/no-unresolved': 'off',
-        // 禁止在导入中使用 Webpack 加载器语法。
+        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-useless-path-segments.md
+        'import/no-useless-path-segments': ['error', { commonjs: true }],
+        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-webpack-loader-syntax.md
         'import/no-webpack-loader-syntax': 'error',
-        // off: controlled by import/order
+
+        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/order.md
         'import/order': 'error',
+
+        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/prefer-default-export.md
+        // Excessive. Also, named exports help enforce readable imports.
+        'import/prefer-default-export': 'off',
 
         'kriszu/import-dedupe': 'error',
         // Enforce newlines inside named import
@@ -68,6 +143,12 @@ export async function imports(options: OptionsStylistic = {}): Promise<FlatConfi
             }
           : {},
 
+      },
+      settings: {
+        'import/ignore': [
+          'node_modules',
+          '\\.(css|svg|json)$',
+        ],
       },
     },
   ]
