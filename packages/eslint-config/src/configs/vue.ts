@@ -158,7 +158,7 @@ export async function vue(
 
         // this is deprecated
         'vue/component-tags-order': 'off',
-        'vue/custom-event-name-casing': ['error', 'camelCase'],
+        'vue/custom-event-name-casing': 'off',
         'vue/define-macros-order': [
           'error',
           {
