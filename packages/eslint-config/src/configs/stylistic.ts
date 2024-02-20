@@ -52,6 +52,8 @@ export async function stylistic(
         'style/brace-style': 'off',
         'style/indent-binary-ops': 'off',
         'style/member-delimiter-style': 'off',
+        'style/no-mixed-spaces-and-tabs': 'off',
+        'style/no-tabs': 'off',
         ...overrides,
       },
     },

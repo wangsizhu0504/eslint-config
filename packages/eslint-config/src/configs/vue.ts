@@ -94,7 +94,7 @@ export async function vue(
           'error',
           {
             script: {
-              lang: ['js', 'ts'],
+              lang: ['js', 'ts', 'tsx'],
             },
             style: {
               lang: ['css', 'sass', 'scss', 'less', 'stylus', 'postcss'],
@@ -112,7 +112,6 @@ export async function vue(
         ],
 
         'vue/camelcase': 'off',
-        'vue/component-api-style': ['error', ['script-setup', 'composition']],
         // Uncategorized rules
         'vue/component-name-in-template-casing': [
           'error',
@@ -153,7 +152,6 @@ export async function vue(
             exceptions: ['-'],
           },
         ],
-        'vue/html-comment-indent': ['error', 'tab'],
         'vue/html-indent': ['error', indent],
         'vue/html-quotes': ['error', 'double'],
 
@@ -188,7 +186,6 @@ export async function vue(
         'vue/no-multi-spaces': 'off',
         // off
         'vue/no-multiple-template-root': 'off',
-        'vue/no-ref-object-reactivity-loss': 'error',
         'vue/no-restricted-syntax': [
           'error',
           'DebuggerStatement',
@@ -228,7 +225,7 @@ export async function vue(
         'vue/prefer-define-options': 'error',
         'vue/prefer-separate-static-class': 'error',
         'vue/prefer-template': 'error',
-        'vue/prefer-true-attribute-shorthand': 'error',
+        'vue/prefer-true-attribute-shorthand': 'off',
         // Override custom JS rules
         'vue/quote-props': ['error', 'consistent-as-needed'],
         'vue/require-default-prop': 'off',
