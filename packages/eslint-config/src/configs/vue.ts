@@ -90,29 +90,6 @@ export async function vue(
         'node/prefer-global/process': 'off',
         'style/indent': 'off',
 
-        'vue/array-bracket-spacing': 'off',
-
-        'vue/arrow-spacing': 'off',
-
-        'vue/attributes-order': [
-          'error',
-          {
-            alphabetical: true,
-            order: [
-              'DEFINITION',
-              'LIST_RENDERING',
-              'CONDITIONALS',
-              'RENDER_MODIFIERS',
-              'TWO_WAY_BINDING',
-              'OTHER_DIRECTIVES',
-              ['UNIQUE', 'SLOT'],
-              'GLOBAL',
-              'OTHER_ATTR',
-              'EVENTS',
-              'CONTENT',
-            ],
-          },
-        ],
         'vue/block-lang': [
           'error',
           {
@@ -133,20 +110,8 @@ export async function vue(
             order: ['script:not([setup])', 'script[setup]', 'template', 'style'],
           },
         ],
-        'vue/block-spacing': 'off',
-        'vue/block-tag-newline': [
-          'error',
-          {
-            multiline: 'always',
-            singleline: 'always',
-          },
-        ],
-        'vue/brace-style': 'off',
 
         'vue/camelcase': 'off',
-        'vue/comma-dangle': 'off',
-        'vue/comma-spacing': 'off',
-        'vue/comma-style': 'off',
         'vue/component-api-style': ['error', ['script-setup', 'composition']],
         // Uncategorized rules
         'vue/component-name-in-template-casing': [
@@ -233,7 +198,7 @@ export async function vue(
         'vue/no-restricted-v-bind': ['error', '/^v-/'],
         'vue/no-setup-props-reactivity-loss': 'off',
         'vue/no-sparse-arrays': 'error',
-        'vue/no-static-inline-styles': ['error', { allowBinding: true }],
+        'vue/no-static-inline-styles': 'off',
         'vue/no-unused-refs': 'error',
         'vue/no-unused-vars': ['error', { ignorePattern: '^_' }],
         'vue/no-use-v-else-with-v-for': 'error',
