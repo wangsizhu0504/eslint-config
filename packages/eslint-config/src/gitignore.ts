@@ -29,7 +29,7 @@ export interface FlatConfigItem {
 
 const GITIGNORE = '.gitignore' as const
 
-export default function ignore(options: FlatGitignoreOptions = {}): FlatConfigItem {
+export function gitignore(options: FlatGitignoreOptions = {}): FlatConfigItem {
   const ignores: string[] = []
 
   const {
