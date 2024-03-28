@@ -3,12 +3,12 @@ import { GLOB_DTS, GLOB_SRC, GLOB_TS, GLOB_TSX } from '../globs'
 import { interopDefault, renameRules, toArray } from '../utils'
 import { pluginKriszu } from '../plugins'
 import type {
-  FlatConfigItem,
   OptionsComponentExts as OptionsComponentExtensions,
   OptionsFiles,
   OptionsOverrides,
   OptionsTypeScriptParserOptions,
   OptionsTypeScriptWithTypes,
+  TypedFlatConfigItem,
 } from '../types'
 
 export async function typescript(
@@ -17,7 +17,7 @@ export async function typescript(
   OptionsOverrides &
   OptionsTypeScriptWithTypes &
   OptionsTypeScriptParserOptions = {},
-): Promise<FlatConfigItem[]> {
+): Promise<TypedFlatConfigItem[]> {
   const {
     componentExts: componentExtensions = [],
     overrides = {},
@@ -35,7 +35,7 @@ export async function typescript(
     : undefined
   const isTypeAware = !!tsconfigPath
 
-  const typeAwareRules: FlatConfigItem['rules'] = {
+  const typeAwareRules: TypedFlatConfigItem['rules'] = {
     'dot-notation': 'off',
     'no-implied-eval': 'off',
     'no-throw-literal': 'off',
@@ -64,7 +64,7 @@ export async function typescript(
     interopDefault(import('@typescript-eslint/parser')),
   ] as const)
 
-  function makeParser(typeAware: boolean, fileLists: string[], ignores?: string[]): FlatConfigItem {
+  function makeParser(typeAware: boolean, fileLists: string[], ignores?: string[]): TypedFlatConfigItem {
     return {
       files: fileLists,
       ...ignores ? { ignores } : {},
@@ -121,13 +121,11 @@ export async function typescript(
       rules: {
         ...renameRules(
           pluginTs.configs['eslint-recommended'].overrides![0].rules!,
-          '@typescript-eslint/',
-          'ts/',
+          { '@typescript-eslint/': 'ts/' },
         ),
         ...renameRules(
           pluginTs.configs.strict.rules!,
-          '@typescript-eslint/',
-          'ts/',
+          { '@typescript-eslint/': 'ts/' },
         ),
 
         'default-param-last': 'off',

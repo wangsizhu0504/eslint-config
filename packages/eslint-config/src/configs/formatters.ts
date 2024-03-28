@@ -1,17 +1,13 @@
 import { GLOB_CSS, GLOB_LESS, GLOB_MARKDOWN, GLOB_POSTCSS, GLOB_SCSS } from '../globs'
 import type { VendoredPrettierOptions } from '../vender/prettier-types'
 import { ensurePackages, interopDefault, parserPlain } from '../utils'
-import type { FlatConfigItem, OptionsFormatters, StylisticConfig } from '../types'
+import type { OptionsFormatters, StylisticConfig, TypedFlatConfigItem } from '../types'
 import { StylisticConfigDefaults } from './stylistic'
 
 export async function formatters(
   options: OptionsFormatters | true = {},
   stylistic: StylisticConfig = {},
-): Promise<FlatConfigItem[]> {
-  await ensurePackages([
-    'eslint-plugin-format',
-  ])
-
+): Promise<TypedFlatConfigItem[]> {
   if (options === true) {
     options = {
       css: true,
@@ -20,6 +16,10 @@ export async function formatters(
       markdown: true,
     }
   }
+
+  await ensurePackages([
+    'eslint-plugin-format',
+  ])
 
   const {
     indent,
@@ -53,7 +53,7 @@ export async function formatters(
 
   const pluginFormat = await interopDefault(import('eslint-plugin-format'))
 
-  const configs: FlatConfigItem[] = [
+  const configs: TypedFlatConfigItem[] = [
     {
       name: 'kriszu:formatters:setup',
       plugins: {

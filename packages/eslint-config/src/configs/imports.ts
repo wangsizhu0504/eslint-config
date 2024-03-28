@@ -1,8 +1,11 @@
 import { pluginImport, pluginKriszu, pluginUnusedImports } from '../plugins'
-import type { FlatConfigItem, OptionsStylistic } from '../types'
+import type { OptionsIsInEditor, OptionsStylistic, TypedFlatConfigItem } from '../types'
 
-export async function imports(options: OptionsStylistic = {}): Promise<FlatConfigItem[]> {
+export async function imports(
+  options: OptionsIsInEditor & OptionsStylistic = {},
+): Promise<TypedFlatConfigItem[]> {
   const {
+    isInEditor = false,
     stylistic = true,
   } = options
   return [
@@ -132,7 +135,7 @@ export async function imports(options: OptionsStylistic = {}): Promise<FlatConfi
             memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
           },
         ],
-        'unused-imports/no-unused-imports': 'error',
+        'unused-imports/no-unused-imports': isInEditor ? 'off' : 'error',
         'unused-imports/no-unused-vars': [
           'warn',
           { args: 'after-used', argsIgnorePattern: '^_', vars: 'all', varsIgnorePattern: '^_' },

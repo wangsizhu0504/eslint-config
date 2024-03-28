@@ -1,7 +1,7 @@
-import type { FlatConfigItem } from 'src/types'
+import type { TypedFlatConfigItem } from 'src/types'
 import { pluginUnicorn } from '../plugins'
 
-export async function unicorn(): Promise<FlatConfigItem[]> {
+export async function unicorn(): Promise<TypedFlatConfigItem[]> {
   return [
     {
       ignores: ['**/*.{json,json5,jsonc,yml,yaml}'],

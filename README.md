@@ -1,22 +1,23 @@
 # @kriszu/eslint-config [![npm](https://img.shields.io/npm/v/@kriszu/eslint-config.svg)](https://npmjs.com/package/@kriszu/eslint-config)
 
-> kriszu eslint configuration  based on @antfu/eslint-config.
+> kriszu eslint configuration based on @antfu/eslint-config.
 
 Flat ESLint config for JavaScript, TypeScript, Vue 2, Vue 3.
 
 ## Features
 
-- Support Vue 2 and 3 out-of-box.
-- Support JSON(5), Markdown...
 - Single quotes, no semi
 - Auto fix for formatting (aimed to be used standalone **without** Prettier)
 - Sorted imports, dangling commas
+- Reasonable defaults, best practices, only one line of config
 - Designed to work with TypeScript, JSX, Vue out-of-box
+- Lints also for json, yaml, toml, markdown
+- Opinionated, but [very customizable](#customization)
 - [ESLint Flat config](https://eslint.org/docs/latest/use/configure/configuration-files-new), compose easily!
 - Using [ESLint Stylistic](https://github.com/eslint-stylistic/eslint-stylistic)
 - Respects `.gitignore` by default
+- Optional [React](#react), [Svelte](#svelte), [UnoCSS](#unocss), [Astro](#astro) support
 - Optional [formatters](#formatters) support for CSS, HTML, etc.
-- **Style principle**: Minimal for reading, stable for diff, consistent
 
 ## Install
 
@@ -43,6 +44,7 @@ const defineEslintConfig = require('@kriszu/eslint-config').default
 
 module.exports = defineEslintConfig()
 ```
+
 > [!TIP]
 > ESLint only detects `eslint.config.js` as the flat config entry, meaning you need to put `type: module` in your `package.json` or you have to use CJS in `eslint.config.js`. If you want explicit extension like `.mjs` or `.cjs`, or even `eslint.config.ts`, you can install [`eslint-ts-patch`](https://github.com/antfu/eslint-ts-patch) to fix it.
 
@@ -71,7 +73,9 @@ module.exports = defineEslintConfig(
   // Other flat configs...
 )
 ```
+
 > Note that `.eslintignore` no longer works in Flat config, see [customization](#customization) for more details.
+
 ### Add script for package.json
 
 ```json
@@ -256,14 +260,14 @@ Check out the [configs](https://github.com/wangsizhu0504/eslint-config/blob/main
 
 ### Plugins Renaming
 
-| New Prefix | Original Prefix | Source Plugin |
-| --- | --- | --- |
-| `import/*` | `i/*` | [eslint-plugin-i](https://github.com/un-es/eslint-plugin-i) |
-| `node/*` | `n/*` | [eslint-plugin-n](https://github.com/eslint-community/eslint-plugin-n) |s
-| `ts/*` | `@typescript-eslint/*` | [@typescript-eslint/eslint-plugin](https://github.com/typescript-eslint/typescript-eslint) |
-| `style/*` | `@stylistic/*` | [@stylistic/eslint-plugin](https://github.com/eslint-stylistic/eslint-stylistic) |
-| `test/*` | `vitest/*` | [eslint-plugin-vitest](https://github.com/veritem/eslint-plugin-vitest) |
-| `test/*` | `no-only-tests/*` | [eslint-plugin-no-only-tests](https://github.com/levibuzolic/eslint-plugin-no-only-tests) |
+| New Prefix | Original Prefix        | Source Plugin                                                                              |
+| ---------- | ---------------------- | ------------------------------------------------------------------------------------------ | --- |
+| `import/*` | `i/*`                  | [eslint-plugin-i](https://github.com/un-es/eslint-plugin-i)                                |
+| `node/*`   | `n/*`                  | [eslint-plugin-n](https://github.com/eslint-community/eslint-plugin-n)                     | s   |
+| `ts/*`     | `@typescript-eslint/*` | [@typescript-eslint/eslint-plugin](https://github.com/typescript-eslint/typescript-eslint) |
+| `style/*`  | `@stylistic/*`         | [@stylistic/eslint-plugin](https://github.com/eslint-stylistic/eslint-stylistic)           |
+| `test/*`   | `vitest/*`             | [eslint-plugin-vitest](https://github.com/veritem/eslint-plugin-vitest)                    |
+| `test/*`   | `no-only-tests/*`      | [eslint-plugin-no-only-tests](https://github.com/levibuzolic/eslint-plugin-no-only-tests)  |
 
 When you want to override rules, or disable them inline, you need to update to the new prefix:
 
@@ -317,6 +321,7 @@ export default defineEslintConfig({
   },
 })
 ```
+
 ### Optional Configs
 
 We provide some optional configs for specific use cases, that we don't include their dependencies by default.

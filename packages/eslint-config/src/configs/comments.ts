@@ -1,7 +1,7 @@
 import { pluginComments } from '../plugins'
-import type { FlatConfigItem } from '../types'
+import type { TypedFlatConfigItem } from '../types'
 
-export async function comments(): Promise<FlatConfigItem[]> {
+export async function comments(): Promise<TypedFlatConfigItem[]> {
   return [
     {
       name: 'kriszu:eslint-comments',

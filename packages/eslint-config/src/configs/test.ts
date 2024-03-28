@@ -1,8 +1,10 @@
 import { interopDefault } from '../utils'
 import { GLOB_TESTS } from '../globs'
-import type { FlatConfigItem, OptionsIsInEditor, OptionsOverrides } from '../types'
+import type { OptionsIsInEditor, OptionsOverrides, TypedFlatConfigItem } from '../types'
 
-export async function test(options: OptionsIsInEditor & OptionsOverrides = {}): Promise<FlatConfigItem[]> {
+export async function test(
+  options: OptionsIsInEditor & OptionsOverrides = {},
+): Promise<TypedFlatConfigItem[]> {
   const {
     isInEditor = false,
     overrides = {},

@@ -5,3 +5,4 @@ dist
 *.log
 pnpm-lock.yaml
 .history
+typegen.d.ts

@@ -16,10 +16,10 @@ export const RULE_NAME = 'import-enforce-newlines'
 export type MessageIds = 'limitLineCount' | 'mustNotSplit' | 'mustSplitLong' | 'mustSplitMany' | 'noBlankBetween'
 
 export interface ImportNewLinesOption {
-  items?: number
+  'items'?: number
   'max-len'?: number
-  semi?: boolean
-  forceSingleLine?: boolean
+  'semi'?: boolean
+  'forceSingleLine'?: boolean
 }
 export type Options = [ImportNewLinesOption]
 

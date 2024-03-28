@@ -1,5 +1,8 @@
 import process from 'node:process'
 import fs from 'node:fs'
+import { isPackageExists } from 'local-pkg'
+import { FlatConfigPipeline } from 'eslint-flat-config-utils'
+import type { Linter } from 'eslint'
 import { gitignore } from './gitignore'
 import {
   comments,
@@ -21,11 +24,11 @@ import {
   unocss,
   vue,
 } from './configs'
-import { combine } from './utils'
-import type { Awaitable, FlatConfigItem, OptionsConfig, UserConfigItem } from './types'
-import { hasReact, hasTypeScript, hasVue } from './env'
+import type { Awaitable, OptionsConfig, TypedFlatConfigItem } from './types'
+import { hasReact, hasTypeScript } from './env'
+import { formatters } from './configs/formatters'
 
-const flatConfigProps: Array<keyof FlatConfigItem> = [
+const flatConfigProps: Array<keyof TypedFlatConfigItem> = [
   'name',
   'files',
   'ignores',
@@ -36,19 +39,44 @@ const flatConfigProps: Array<keyof FlatConfigItem> = [
   'rules',
   'settings',
 ]
+const VuePackages = [
+  'vue',
+  'nuxt',
+  'vitepress',
+  '@slidev/cli',
+]
+
+export const defaultPluginRenaming = {
+  '@stylistic': 'style',
+  '@typescript-eslint': 'ts',
+  'import-x': 'import',
+  'n': 'node',
+  'vitest': 'test',
+  'yml': 'yaml',
+}
 
 /**
  * Construct an array of ESLint flat config items.
+ * @param {OptionsConfig & TypedFlatConfigItem} options
+ *  The options for generating the ESLint configurations.
+ * @param {Awaitable<TypedFlatConfigItem | TypedFlatConfigItem[]>[]} userConfigs
+ *  The user configurations to be merged with the generated configurations.
+ * @returns {Promise<TypedFlatConfigItem[]>}
+ *  The merged ESLint configurations.
  */
-export function defineEslintConfig(options: OptionsConfig & FlatConfigItem = {}, ...userConfigs: Array<Awaitable<UserConfigItem | UserConfigItem[]>>): Promise<UserConfigItem[]> {
+export function defineEslintConfig(
+  options: OptionsConfig & TypedFlatConfigItem = {},
+  ...userConfigs: Array<Awaitable<TypedFlatConfigItem | TypedFlatConfigItem[] | FlatConfigPipeline<any> | Linter.FlatConfig[]>>
+): FlatConfigPipeline<TypedFlatConfigItem> {
   const {
+    autoRenamePlugins = true,
     componentExts = [],
     gitignore: enableGitignore = true,
     isInEditor = !!((process.env.VSCODE_PID || process.env.JETBRAINS_IDE || process.env.VIM) && !process.env.CI),
     react: enableReact = hasReact,
     typescript: enableTypeScript = hasTypeScript,
     unocss: enableUnoCSS = false,
-    vue: enableVue = hasVue,
+    vue: enableVue = VuePackages.some(i => isPackageExists(i)),
   } = options
 
   const stylisticOptions = options.stylistic === false
@@ -60,7 +88,7 @@ export function defineEslintConfig(options: OptionsConfig & FlatConfigItem = {},
   if (stylisticOptions && !('jsx' in stylisticOptions))
     stylisticOptions.jsx = options.jsx ?? true
 
-  const configs: Array<Awaitable<FlatConfigItem[]>> = []
+  const configs: Array<Awaitable<TypedFlatConfigItem[]>> = []
 
   if (enableGitignore) {
     if (typeof enableGitignore === 'boolean') {
@@ -75,7 +103,6 @@ export function defineEslintConfig(options: OptionsConfig & FlatConfigItem = {},
   configs.push(
     ignores({}),
     javascript({
-      isInEditor,
       overrides: getOverrides(options, 'javascript'),
     }),
     comments(),
@@ -84,6 +111,7 @@ export function defineEslintConfig(options: OptionsConfig & FlatConfigItem = {},
       stylistic: stylisticOptions,
     }),
     imports({
+      isInEditor,
       stylistic: stylisticOptions,
     }),
     unicorn(),
@@ -97,9 +125,6 @@ export function defineEslintConfig(options: OptionsConfig & FlatConfigItem = {},
   if (enableTypeScript) {
     configs.push(typescript({
       ...resolveSubOptions(options, 'typescript'),
-      ...typeof enableTypeScript === 'boolean'
-        ? {}
-        : enableTypeScript,
       componentExts,
       overrides: getOverrides(options, 'typescript'),
     }))
@@ -159,6 +184,13 @@ export function defineEslintConfig(options: OptionsConfig & FlatConfigItem = {},
     }))
   }
 
+  if (options.formatters) {
+    configs.push(formatters(
+      options.formatters,
+      typeof stylisticOptions === 'boolean' ? {} : stylisticOptions,
+    ))
+  }
+
   // User can optionally pass a flat config item to the first argument
   // We pick the known keys as ESLint would do schema validation
   const fusedConfig = flatConfigProps.reduce((acc, key) => {
@@ -166,17 +198,25 @@ export function defineEslintConfig(options: OptionsConfig & FlatConfigItem = {},
       acc[key] = options[key] as any
 
     return acc
-  }, {} as FlatConfigItem)
+  }, {} as TypedFlatConfigItem)
 
   if (Object.keys(fusedConfig).length > 0)
     configs.push([fusedConfig])
 
-  const merged = combine(
-    ...configs,
-    ...userConfigs,
-  )
+  let pipeline = new FlatConfigPipeline<TypedFlatConfigItem>()
 
-  return merged
+  pipeline = pipeline
+    .append(
+      ...configs,
+      ...userConfigs as any,
+    )
+
+  if (autoRenamePlugins) {
+    pipeline = pipeline
+      .renamePlugins(defaultPluginRenaming)
+  }
+
+  return pipeline
 }
 export type ResolvedOptions<T> = T extends boolean
   ? never

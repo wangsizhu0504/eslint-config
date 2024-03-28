@@ -1,6 +1,6 @@
 import { interopDefault } from 'src'
 import { pluginKriszu } from '../plugins'
-import type { FlatConfigItem, OptionsOverrides, StylisticConfig } from '../types'
+import type { OptionsOverrides, StylisticConfig, TypedFlatConfigItem } from '../types'
 
 export const StylisticConfigDefaults: StylisticConfig = {
   indent: 2,
@@ -11,7 +11,7 @@ export const StylisticConfigDefaults: StylisticConfig = {
 
 export async function stylistic(
   options: StylisticConfig & OptionsOverrides = {},
-): Promise<FlatConfigItem[]> {
+): Promise<TypedFlatConfigItem[]> {
   const {
     indent,
     jsx,
