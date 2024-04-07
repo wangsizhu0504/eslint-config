@@ -16,7 +16,7 @@ Flat ESLint config for JavaScript, TypeScript, Vue 2, Vue 3.
 - [ESLint Flat config](https://eslint.org/docs/latest/use/configure/configuration-files-new), compose easily!
 - Using [ESLint Stylistic](https://github.com/eslint-stylistic/eslint-stylistic)
 - Respects `.gitignore` by default
-- Optional [React](#react), [Svelte](#svelte), [UnoCSS](#unocss), [Astro](#astro) support
+- Optional [React](#react), [UnoCSS](#unocss) support
 - Optional [formatters](#formatters) support for CSS, HTML, etc.
 
 ## Install

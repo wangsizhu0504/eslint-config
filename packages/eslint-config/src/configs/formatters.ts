@@ -55,7 +55,7 @@ export async function formatters(
 
   const configs: TypedFlatConfigItem[] = [
     {
-      name: 'kriszu:formatters:setup',
+      name: 'kriszu:formatter:setup',
       plugins: {
         format: pluginFormat,
       },

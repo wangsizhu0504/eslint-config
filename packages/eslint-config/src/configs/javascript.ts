@@ -315,7 +315,7 @@ export async function javascript(
     },
     {
       files: [`scripts/${GLOB_SRC}`, `cli.${GLOB_SRC_EXT}`],
-      name: 'kriszu:scripts-overrides',
+      name: 'kriszu:disables:cli',
       rules: {
         'no-console': 'off',
       },

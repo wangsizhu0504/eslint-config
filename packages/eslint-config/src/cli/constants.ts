@@ -45,7 +45,6 @@ export const vscodeSettingsString = `
     "jsonc",
     "yaml",
     "toml",
-    "astro",
   ]
 `
 
@@ -57,18 +56,6 @@ export const frameworkOptions: Array<PromItem<FrameworkOption>> = [
   {
     label: c.cyan('React'),
     value: 'react',
-  },
-  {
-    label: c.red('Svelte'),
-    value: 'svelte',
-  },
-  {
-    label: c.magenta('Astro'),
-    value: 'astro',
-  },
-  {
-    label: c.blue('Slidev'),
-    value: 'slidev',
   },
 ]
 
@@ -89,21 +76,10 @@ export const extraOptions: Array<PromItem<ExtraLibrariesOption>> = [
 export const extra: ExtraLibrariesOption[] = extraOptions.map(({ value }) => (value))
 
 export const dependenciesMap = {
-  astro: [
-    'eslint-plugin-astro',
-    'astro-eslint-parser',
-  ],
   react: [
     'eslint-plugin-react',
     'eslint-plugin-react-hooks',
     'eslint-plugin-react-refresh',
-  ],
-  slidev: [
-    'prettier-plugin-slidev',
-  ],
-  svelte: [
-    'eslint-plugin-svelte',
-    'svelte-eslint-parser',
   ],
   vue: [],
 } as const

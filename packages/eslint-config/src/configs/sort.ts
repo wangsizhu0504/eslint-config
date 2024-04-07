@@ -9,7 +9,7 @@ export async function sortPackageJson(): Promise<TypedFlatConfigItem[]> {
   return [
     {
       files: ['**/package.json'],
-      name: 'kriszu:sort-package-json',
+      name: 'kriszu:sort:package-json',
       rules: {
         'jsonc/sort-array-values': [
           'error',
@@ -104,7 +104,7 @@ export async function sortTsconfig(): Promise<TypedFlatConfigItem[]> {
   return [
     {
       files: ['**/tsconfig.json', '**/tsconfig.*.json'],
-      name: 'kriszu:sort-tsconfig',
+      name: 'kriszu:sort:tsconfig',
       rules: {
         'jsonc/sort-keys': [
           'error',
