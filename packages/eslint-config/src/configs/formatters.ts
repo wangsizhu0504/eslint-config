@@ -55,7 +55,7 @@ export async function formatters(
 
   const configs: TypedFlatConfigItem[] = [
     {
-      name: 'kriszu:formatter:setup',
+      name: 'kriszu/formatter/setup',
       plugins: {
         format: pluginFormat,
       },
@@ -69,7 +69,7 @@ export async function formatters(
         languageOptions: {
           parser: parserPlain,
         },
-        name: 'kriszu:formatter:css',
+        name: 'kriszu/formatter/css',
         rules: {
           'format/prettier': [
             'error',
@@ -85,7 +85,7 @@ export async function formatters(
         languageOptions: {
           parser: parserPlain,
         },
-        name: 'kriszu:formatter:scss',
+        name: 'kriszu/formatter/scss',
         rules: {
           'format/prettier': [
             'error',
@@ -101,7 +101,7 @@ export async function formatters(
         languageOptions: {
           parser: parserPlain,
         },
-        name: 'kriszu:formatter:less',
+        name: 'kriszu/formatter/less',
         rules: {
           'format/prettier': [
             'error',
@@ -121,7 +121,7 @@ export async function formatters(
       languageOptions: {
         parser: parserPlain,
       },
-      name: 'kriszu:formatter:html',
+      name: 'kriszu/formatter/html',
       rules: {
         'format/prettier': [
           'error',
@@ -144,7 +144,7 @@ export async function formatters(
       languageOptions: {
         parser: parserPlain,
       },
-      name: 'kriszu:formatter:markdown',
+      name: 'kriszu/formatter/markdown',
       rules: {
         [`format/${formater}`]: [
           'error',
@@ -170,7 +170,7 @@ export async function formatters(
       languageOptions: {
         parser: parserPlain,
       },
-      name: 'kriszu:formatter:graphql',
+      name: 'kriszu/formatter/graphql',
       rules: {
         'format/prettier': [
           'error',

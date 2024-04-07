@@ -35,7 +35,7 @@ export async function vue(
 
   return [
     {
-      name: 'kriszu:vue:setup',
+      name: 'kriszu/vue/setup',
       plugins: {
         vue: pluginVue,
       },
@@ -57,7 +57,7 @@ export async function vue(
           sourceType: 'module',
         },
       },
-      name: 'kriszu:vue:rules',
+      name: 'kriszu/vue/rules',
       processor:
         sfcBlocks === false
           ? pluginVue.processors['.vue']

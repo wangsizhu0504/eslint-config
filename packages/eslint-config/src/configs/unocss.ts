@@ -14,7 +14,7 @@ export async function unocss(
 
   return [
     {
-      name: 'kriszu:unocss',
+      name: 'kriszu/unocss/rules',
       plugins: {
         unocss: pluginUnoCSS,
       },

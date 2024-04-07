@@ -20,7 +20,7 @@ export async function test(
 
   return [
     {
-      name: 'kriszu:test:setup',
+      name: 'kriszu/test/setup',
       plugins: {
         test: {
           ...pluginVitest,
@@ -34,7 +34,7 @@ export async function test(
     },
     {
       files: GLOB_TESTS,
-      name: 'kriszu:test:rules',
+      name: 'kriszu/test/rules',
       rules: {
         'node/prefer-global/process': 'off',
 

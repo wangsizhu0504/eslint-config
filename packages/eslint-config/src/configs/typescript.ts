@@ -82,13 +82,13 @@ export async function typescript(
             : {},
         },
       },
-      name: `kriszu:typescript:${typeAware ? 'type-aware-parser' : 'parser'}`,
+      name: `kriszu/typescript/${typeAware ? 'type-aware-parser' : 'parser'}`,
     }
   }
   return [
     {
       // Install the plugins without globs, so they can be configured separately.
-      name: 'kriszu:typescript:setup',
+      name: 'kriszu/typescript/setup',
       plugins: {
         kriszu: pluginKriszu,
         ts: pluginTs as any,
@@ -117,7 +117,7 @@ export async function typescript(
           ...(parserOptions as any),
         },
       },
-      name: 'kriszu:typescript:rules',
+      name: 'kriszu/typescript/rules',
       rules: {
         ...renameRules(
           pluginTs.configs['eslint-recommended'].overrides![0].rules!,
@@ -328,7 +328,7 @@ export async function typescript(
     },
     {
       files: filesTypeAware,
-      name: 'kriszu:typescript:rules-type-aware',
+      name: 'kriszu/typescript/rules-type-aware',
       rules: {
         ...(tsconfigPath ? typeAwareRules : {}),
         ...overrides,
@@ -336,7 +336,7 @@ export async function typescript(
     },
     {
       files: [GLOB_DTS],
-      name: 'kriszu:typescript:dts-overrides',
+      name: 'kriszu/typescript/dts-overrides',
       rules: {
         'eslint-comments/no-unlimited-disable': 'off',
         'import/no-duplicates': 'off',
@@ -346,14 +346,14 @@ export async function typescript(
     },
     {
       files: ['**/*.{test,spec}.ts?(x)'],
-      name: 'kriszu:typescript:tests-overrides',
+      name: 'kriszu/typescript/tests-overrides',
       rules: {
         'no-unused-expressions': 'off',
       },
     },
     {
       files: ['**/*.js', '**/*.cjs'],
-      name: 'kriszu:typescript:javascript-overrides',
+      name: 'kriszu/typescript/javascript-overrides',
       rules: {
         'ts/no-require-imports': 'off',
         'ts/no-var-requires': 'off',

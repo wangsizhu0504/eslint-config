@@ -1,7 +1,7 @@
 import process from 'node:process'
 import fs from 'node:fs'
 import { isPackageExists } from 'local-pkg'
-import { FlatConfigPipeline } from 'eslint-flat-config-utils'
+import { FlatConfigComposer } from 'eslint-flat-config-utils'
 import type { Linter } from 'eslint'
 import { gitignore } from './gitignore'
 import {
@@ -66,8 +66,8 @@ export const defaultPluginRenaming = {
  */
 export function defineEslintConfig(
   options: OptionsConfig & TypedFlatConfigItem = {},
-  ...userConfigs: Array<Awaitable<TypedFlatConfigItem | TypedFlatConfigItem[] | FlatConfigPipeline<any> | Linter.FlatConfig[]>>
-): FlatConfigPipeline<TypedFlatConfigItem> {
+  ...userConfigs: Array<Awaitable<TypedFlatConfigItem | TypedFlatConfigItem[] | FlatConfigComposer<any> | Linter.FlatConfig[]>>
+): FlatConfigComposer<TypedFlatConfigItem> {
   const {
     autoRenamePlugins = true,
     componentExts = [],
@@ -203,7 +203,7 @@ export function defineEslintConfig(
   if (Object.keys(fusedConfig).length > 0)
     configs.push([fusedConfig])
 
-  let pipeline = new FlatConfigPipeline<TypedFlatConfigItem>()
+  let pipeline = new FlatConfigComposer<TypedFlatConfigItem>()
 
   pipeline = pipeline
     .append(

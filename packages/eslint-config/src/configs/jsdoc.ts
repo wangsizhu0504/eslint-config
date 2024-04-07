@@ -8,7 +8,7 @@ export async function jsdoc(
 
   return [
     {
-      name: 'kriszu:jsdoc',
+      name: 'kriszu/jsdoc/rules',
       plugins: {
         jsdoc: await interopDefault(import('eslint-plugin-jsdoc')),
       },

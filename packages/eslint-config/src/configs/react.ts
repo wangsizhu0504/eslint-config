@@ -54,7 +54,7 @@ export async function react(
           },
         },
       },
-      name: 'kriszu:react:rules',
+      name: 'kriszu/react/rules',
       rules: {
         // recommended rules react-hooks
         'react-hooks/exhaustive-deps': 'warn',

@@ -6,10 +6,13 @@ export default defineEslintConfig(
     react: true,
     semi: true,
     typescript: true,
+    formatters: true,
+  },
+  {
     ignores: [
       'packages/eslint-plugin/vendor',
     ],
-    formatters: true,
+
   },
   {
     files: ['packages/eslint-config/**/*.ts'],

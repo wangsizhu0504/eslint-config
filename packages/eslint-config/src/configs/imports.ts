@@ -10,7 +10,7 @@ export async function imports(
   } = options
   return [
     {
-      name: 'kriszu:imports',
+      name: 'kriszu/imports',
       plugins: {
         'import': pluginImport,
         'kriszu': pluginKriszu,

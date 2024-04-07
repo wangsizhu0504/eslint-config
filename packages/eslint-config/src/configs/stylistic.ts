@@ -36,7 +36,7 @@ export async function stylistic(
 
   return [
     {
-      name: 'kriszu:stylistic',
+      name: 'kriszu/stylistic/rules',
       plugins: {
         kriszu: pluginKriszu,
         style: pluginStylistic,
