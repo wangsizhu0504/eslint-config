@@ -137,8 +137,14 @@ export async function imports(
         ],
         'unused-imports/no-unused-imports': isInEditor ? 'off' : 'error',
         'unused-imports/no-unused-vars': [
-          'warn',
-          { args: 'after-used', argsIgnorePattern: '^_', vars: 'all', varsIgnorePattern: '^_' },
+          'error',
+          {
+            args: 'after-used',
+            argsIgnorePattern: '^_',
+            ignoreRestSiblings: true,
+            vars: 'all',
+            varsIgnorePattern: '^_',
+          },
         ],
         ...stylistic
           ? {
