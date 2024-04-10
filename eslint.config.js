@@ -1,29 +1,6 @@
-import defineEslintConfig from './packages/eslint-config/dist/index.js'
+// @ts-check
+import { bundleRequire } from 'bundle-require'
 
-export default defineEslintConfig(
-  {
-    vue: true,
-    react: true,
-    semi: true,
-    typescript: true,
-    formatters: true,
-  },
-  {
-    ignores: [
-      'packages/eslint-plugin/vendor',
-    ],
-
-  },
-  {
-    files: ['packages/eslint-config/**/*.ts'],
-    rules: {
-      'perfectionist/sort-objects': 'error',
-    },
-  },
-  {
-    rules: {
-      'kriszu/no-import-dist': 'off',
-      'ts/ban-types': 'off',
-    },
-  },
-)
+export default bundleRequire({
+  filepath: './eslint.config.ts',
+}).then(r => r.mod.default)

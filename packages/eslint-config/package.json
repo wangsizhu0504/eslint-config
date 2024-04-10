@@ -30,7 +30,6 @@
   "scripts": {
     "build": "npm run typegen && tsup --format esm,cjs --clean --dts",
     "stub": "tsup --format esm",
-    "dev": "tsup --format esm,cjs --watch & eslint-flat-config-viewer",
     "lint": "eslint .",
     "typegen": "esno scripts/typegen.ts",
     "prepack": "npm run build",
