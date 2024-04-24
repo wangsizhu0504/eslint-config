@@ -77,7 +77,7 @@ export const extra: ExtraLibrariesOption[] = extraOptions.map(({ value }) => (va
 
 export const dependenciesMap = {
   react: [
-    'eslint-plugin-react',
+    '@eslint-react/eslint-plugin',
     'eslint-plugin-react-hooks',
     'eslint-plugin-react-refresh',
   ],

@@ -47,12 +47,18 @@ const VuePackages = [
 ]
 
 export const defaultPluginRenaming = {
+  '@eslint-react': 'react',
+  '@eslint-react/dom': 'react-dom',
+  '@eslint-react/hooks-extra': 'react-hooks-extra',
+  '@eslint-react/naming-convention': 'react-naming-convention',
+
   '@stylistic': 'style',
   '@typescript-eslint': 'ts',
   'import-x': 'import',
   'n': 'node',
   'vitest': 'test',
   'yml': 'yaml',
+
 }
 
 /**
@@ -157,7 +163,7 @@ export function defineEslintConfig(
   if (enableReact) {
     configs.push(react({
       overrides: getOverrides(options, 'react'),
-      typescript: !!enableTypeScript,
+      tsconfigPath: getOverrides(options, 'typescript').tsconfigPath,
     }))
   }
   if (enableUnoCSS) {
