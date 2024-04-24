@@ -3,7 +3,7 @@ import type { Options as VueBlocksOptions } from 'eslint-processor-vue-blocks'
 import type { Linter } from 'eslint'
 import type { StylisticCustomizeOptions } from '@stylistic/eslint-plugin'
 import type { VendoredPrettierOptions } from './vender/prettier-types'
-import type { RuleOptions } from './typegen'
+import type { ConfigNames, RuleOptions } from './typegen'
 
 export interface FlatGitignoreOptions {
   files?: string | string[]
@@ -16,11 +16,9 @@ export type Awaitable<T> = T | Promise<T>
 
 export type Rules = RuleOptions
 
-export type TypedFlatConfigItem = Omit<Linter.FlatConfig, 'plugins'> & {
-  /**
-   * Custom name of each config item
-   */
-  name?: string
+export type { ConfigNames }
+
+export type TypedFlatConfigItem = Omit<Linter.FlatConfig<Linter.RulesRecord & Rules>, 'plugins'> & {
 
   // Relax plugins type limitation, as most of the plugins did not have correct type info yet.
   /**
@@ -29,11 +27,6 @@ export type TypedFlatConfigItem = Omit<Linter.FlatConfig, 'plugins'> & {
    * @see [Using plugins in your configuration](https://eslint.org/docs/latest/user-guide/configuring/configuration-files-new#using-plugins-in-your-configuration)
    */
   plugins?: Record<string, any>
-
-  /**
-   * An object containing a name-value mapping of rules to use.
-   */
-  rules?: Linter.RulesRecord & Rules
 }
 
 export interface OptionsFiles {

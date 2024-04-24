@@ -24,7 +24,7 @@ import {
   unocss,
   vue,
 } from './configs'
-import type { Awaitable, OptionsConfig, TypedFlatConfigItem } from './types'
+import type { Awaitable, ConfigNames, OptionsConfig, TypedFlatConfigItem } from './types'
 import { hasReact, hasTypeScript } from './env'
 import { formatters } from './configs/formatters'
 
@@ -66,8 +66,8 @@ export const defaultPluginRenaming = {
  */
 export function defineEslintConfig(
   options: OptionsConfig & TypedFlatConfigItem = {},
-  ...userConfigs: Array<Awaitable<TypedFlatConfigItem | TypedFlatConfigItem[] | FlatConfigComposer<any> | Linter.FlatConfig[]>>
-): FlatConfigComposer<TypedFlatConfigItem> {
+   ...userConfigs: Awaitable<TypedFlatConfigItem | TypedFlatConfigItem[] | FlatConfigComposer<any, any> | Linter.FlatConfig[]>[]
+): FlatConfigComposer<TypedFlatConfigItem, ConfigNames> {
   const {
     autoRenamePlugins = true,
     componentExts = [],
@@ -203,20 +203,20 @@ export function defineEslintConfig(
   if (Object.keys(fusedConfig).length > 0)
     configs.push([fusedConfig])
 
-  let pipeline = new FlatConfigComposer<TypedFlatConfigItem>()
+  let composer = new FlatConfigComposer<TypedFlatConfigItem, ConfigNames>()
 
-  pipeline = pipeline
+  composer = composer
     .append(
       ...configs,
       ...userConfigs as any,
     )
 
   if (autoRenamePlugins) {
-    pipeline = pipeline
+    composer = composer
       .renamePlugins(defaultPluginRenaming)
   }
 
-  return pipeline
+  return composer
 }
 export type ResolvedOptions<T> = T extends boolean
   ? never
