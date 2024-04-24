@@ -47,8 +47,9 @@ let dts = await flatConfigsToRulesDTS(configs, {
   includeAugmentation: false,
 })
 
-dts = `
-type ConfigNames = ${configNames.map(i => `'${i}'`).join(' | ')}
-${dts}`
+dts += `
+// Names of all the configs
+export type ConfigNames = ${configNames.map(i => `'${i}'`).join(' | ')}
+`
 
 await fs.writeFile('src/typegen.d.ts', dts)

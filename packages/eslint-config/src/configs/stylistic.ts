@@ -8,13 +8,17 @@ export const StylisticConfigDefaults: StylisticConfig = {
   quotes: 'single',
   semi: false,
 }
+export interface StylisticOptions extends StylisticConfig, OptionsOverrides {
+  lessOpinionated?: boolean
+}
 
 export async function stylistic(
-  options: StylisticConfig & OptionsOverrides = {},
+  options: StylisticOptions = {},
 ): Promise<TypedFlatConfigItem[]> {
   const {
     indent,
     jsx,
+    lessOpinionated = false,
     overrides = {},
     quotes,
     semi,
@@ -44,7 +48,15 @@ export async function stylistic(
       rules: {
         ...config.rules,
 
-        'curly': ['error', 'multi-or-nest', 'consistent'],
+        ...(lessOpinionated
+          ? {
+              curly: ['error', 'all'],
+            }
+          : {
+              'curly': ['error', 'multi-or-nest', 'consistent'],
+            }
+        ),
+
 
         'kriszu/consistent-list-newline': 'error',
         'kriszu/top-level-function': 'error',
