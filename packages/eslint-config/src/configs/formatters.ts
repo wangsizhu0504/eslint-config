@@ -1,4 +1,4 @@
-import { GLOB_CSS, GLOB_LESS, GLOB_MARKDOWN, GLOB_POSTCSS, GLOB_SCSS } from '../globs'
+import { GLOB_CSS, GLOB_HTML, GLOB_LESS, GLOB_MARKDOWN, GLOB_POSTCSS, GLOB_SCSS } from '../globs'
 import type { VendoredPrettierOptions } from '../vender/prettier-types'
 import { ensurePackages, interopDefault, parserPlain } from '../utils'
 import type { OptionsFormatters, StylisticConfig, TypedFlatConfigItem } from '../types'
@@ -117,7 +117,7 @@ export async function formatters(
 
   if (options.html) {
     configs.push({
-      files: ['**/*.html'],
+      files: [GLOB_HTML],
       languageOptions: {
         parser: parserPlain,
       },
