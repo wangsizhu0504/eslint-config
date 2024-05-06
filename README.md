@@ -261,9 +261,9 @@ Check out the [configs](https://github.com/wangsizhu0504/eslint-config/blob/main
 ### Plugins Renaming
 
 | New Prefix | Original Prefix        | Source Plugin                                                                              |
-| ---------- | ---------------------- | ------------------------------------------------------------------------------------------ | --- |
+| ---------- | ---------------------- | ------------------------------------------------------------------------------------------ |
 | `import/*` | `i/*`                  | [eslint-plugin-i](https://github.com/un-es/eslint-plugin-i)                                |
-| `node/*`   | `n/*`                  | [eslint-plugin-n](https://github.com/eslint-community/eslint-plugin-n)                     | s   |
+| `node/*`   | `n/*`                  | [eslint-plugin-n](https://github.com/eslint-community/eslint-plugin-n)                     |
 | `ts/*`     | `@typescript-eslint/*` | [@typescript-eslint/eslint-plugin](https://github.com/typescript-eslint/typescript-eslint) |
 | `style/*`  | `@stylistic/*`         | [@stylistic/eslint-plugin](https://github.com/eslint-stylistic/eslint-stylistic)           |
 | `test/*`   | `vitest/*`             | [eslint-plugin-vitest](https://github.com/veritem/eslint-plugin-vitest)                    |
