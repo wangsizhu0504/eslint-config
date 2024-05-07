@@ -1,7 +1,9 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "lib": ["esnext"],
+    "lib": [
+      "esnext"
+    ],
     "module": "esnext",
     "resolveJsonModule": true,
     "types": [
@@ -10,8 +12,5 @@
   },
   "include": [
     "src"
-  ],
-  "exclude": [
-    "vendor"
   ]
 }

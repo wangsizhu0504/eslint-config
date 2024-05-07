@@ -1,4 +1,5 @@
 import { mergeProcessors } from 'eslint-merge-processors'
+import { pluginKriszu } from 'src/plugins'
 import { interopDefault } from '../utils'
 import { GLOB_VUE } from '../globs'
 import type {
@@ -38,6 +39,7 @@ export async function vue(
       name: 'kriszu/vue/setup',
       plugins: {
         vue: pluginVue,
+        kriszu: pluginKriszu,
       },
     },
     {
@@ -89,6 +91,7 @@ export async function vue(
         'no-unused-vars': 'off',
         'node/prefer-global/process': 'off',
         'style/indent': 'off',
+        'kriszu/no-index-vue': 'error',
 
         'vue/block-lang': [
           'error',

@@ -7,6 +7,7 @@ import noTsExportEqual from './rules/no-ts-export-equal'
 import consistentListNewline from './rules/consistent-list-newline'
 import importEnforceNewlines from './rules/import-enforce-newlines'
 import noImportDist from './rules/no-import-dist'
+import noIndexVue from './rules/no-index-vue'
 
 const plugin = {
   meta: {
@@ -21,6 +22,7 @@ const plugin = {
     'no-import-dist': noImportDist,
     'top-level-function': topLevelFunction,
     'import-enforce-newlines': importEnforceNewlines,
+    'no-index-vue': noIndexVue
   },
 } satisfies ESLint.Plugin
 
