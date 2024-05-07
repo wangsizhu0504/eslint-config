@@ -3,10 +3,9 @@ import type { TSESTree } from '@typescript-eslint/utils'
 import { createEslintRule } from '../utils'
 
 export const RULE_NAME = 'consistent-list-newline'
-export type MessageIds = 'shouldNotWrap' | 'shouldWrap'
+export type MessageIds = 'shouldWrap' | 'shouldNotWrap'
 export type Options = [{
   ArrayExpression?: boolean
-  ArrayPattern?: boolean
   ArrowFunctionExpression?: boolean
   CallExpression?: boolean
   ExportNamedDeclaration?: boolean
@@ -15,12 +14,14 @@ export type Options = [{
   ImportDeclaration?: boolean
   NewExpression?: boolean
   ObjectExpression?: boolean
-  ObjectPattern?: boolean
   TSInterfaceDeclaration?: boolean
   TSTupleType?: boolean
   TSTypeLiteral?: boolean
   TSTypeParameterDeclaration?: boolean
   TSTypeParameterInstantiation?: boolean
+  ObjectPattern?: boolean
+  ArrayPattern?: boolean
+  JSXOpeningElement?: boolean
 }]
 
 export default createEslintRule<Options, MessageIds>({
@@ -51,6 +52,7 @@ export default createEslintRule<Options, MessageIds>({
         TSTypeParameterInstantiation: { type: 'boolean' },
         ObjectPattern: { type: 'boolean' },
         ArrayPattern: { type: 'boolean' },
+        JSXOpeningElement: { type: 'boolean' },
       } satisfies Record<keyof Options[0], { type: 'boolean' }>,
       additionalProperties: false,
     }],
@@ -64,7 +66,7 @@ export default createEslintRule<Options, MessageIds>({
     function removeLines(fixer: RuleFixer, start: number, end: number) {
       const range = [start, end] as const
       const code = context.sourceCode.text.slice(...range)
-      return fixer.replaceTextRange(range, code.replaceAll(/(\r\n|\n)/g, ''))
+      return fixer.replaceTextRange(range, code.replace(/(\r\n|\n)/g, ''))
     }
 
     function check(
@@ -83,8 +85,8 @@ export default createEslintRule<Options, MessageIds>({
         : context.sourceCode.getFirstToken(node)
       if (startToken?.type !== 'Punctuator')
         startToken = context.sourceCode.getTokenBefore(items[0])
-      // @ts-expect-error
-      const endToken = context.sourceCode.getTokenAfter(items.at(-1))
+
+      const endToken = context.sourceCode.getTokenAfter(items[items.length - 1])
       const startLine = startToken!.loc.start.line
 
       if (startToken!.loc.start.line === endToken!.loc.end.line)
@@ -118,16 +120,19 @@ export default createEslintRule<Options, MessageIds>({
           const lastItem = items[idx - 1]
           if (context.sourceCode.getCommentsBefore(item).length > 0)
             return
-          context.report({
-            node: item,
-            messageId: 'shouldNotWrap',
-            data: {
-              name: node.type,
-            },
-            *fix(fixer) {
-              yield removeLines(fixer, lastItem!.range[1], item.range[0])
-            },
-          })
+          const content = context.sourceCode.text.slice(lastItem!.range[1], item.range[0])
+          if (content.includes('\n')) {
+            context.report({
+              node: item,
+              messageId: 'shouldNotWrap',
+              data: {
+                name: node.type,
+              },
+              *fix(fixer) {
+                yield removeLines(fixer, lastItem!.range[1], item.range[0])
+              },
+            })
+          }
         }
 
         lastLine = item.loc.end.line
@@ -141,7 +146,7 @@ export default createEslintRule<Options, MessageIds>({
         : node.range[1]
       const endLoc = context.sourceCode.getLocFromIndex(endRange)
 
-      const lastItem = items.at(-1)!
+      const lastItem = items[items.length - 1]!
       if (mode === 'newline' && endLoc.line === lastLine) {
         context.report({
           node: lastItem,
@@ -240,6 +245,12 @@ export default createEslintRule<Options, MessageIds>({
       ArrayPattern(node) {
         check(node, node.elements)
       },
+      JSXOpeningElement(node) {
+        if (node.attributes.some(attr => attr.loc.start.line !== attr.loc.end.line))
+          return
+
+        check(node, node.attributes)
+      },
     } satisfies RuleListener
 
     type KeysListener = keyof typeof listenser
@@ -253,8 +264,7 @@ export default createEslintRule<Options, MessageIds>({
       .forEach((key) => {
         if (options[key] === false)
           delete listenser[key]
-      },
-      )
+      })
 
     return listenser
   },

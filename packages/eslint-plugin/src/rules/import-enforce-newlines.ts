@@ -20,6 +20,7 @@ export interface ImportNewLinesOption {
   'max-len'?: number
   'semi'?: boolean
   'forceSingleLine'?: boolean
+  'allowBlankLines'?: boolean
 }
 export type Options = [ImportNewLinesOption]
 
@@ -157,7 +158,6 @@ function fixer(node: TSESTree.ImportDeclaration, semi: boolean, spacer = '\n') {
       switch (currentNode.type) {
         case SPEC_DEFAULT_IMPORT:
           defaultImport = applyAliasAndType(currentNode as any)
-
           break
         case SPEC_NAMESPACE_IMPORT:
           namespaceImport = `* as ${currentNode.local.name}`
@@ -214,6 +214,7 @@ const DEFAULT_MAX_LENGTH = Number.POSITIVE_INFINITY
 const MIN_MAX_LENGTH = 17
 const DEFAULT_SEMICOLON = true
 const DEFAULT_FORCE_SINGLE_LINE = true
+const DEFAULT_ALLOW_BLANK_LINES = false
 
 export default createEslintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -246,7 +247,18 @@ export default createEslintRule<Options, MessageIds>({
               'forceSingleLine': {
                 type: 'boolean',
               },
+              'allowBlankLines': {
+                type: 'boolean',
+              },
             },
+          },
+        },
+        {
+          type: 'array',
+          minItems: 0,
+          maxItems: 2,
+          items: {
+            type: 'number',
           },
         },
       ],
@@ -255,7 +267,7 @@ export default createEslintRule<Options, MessageIds>({
       mustSplitMany: 'Imports must be broken into multiple lines if there are more than {{maxItems}} elements.',
       mustSplitLong: 'Imports must be broken into multiple lines if the line length exceeds {{maxLineLength}} characters, saw {{lineLength}}.',
       mustNotSplit: 'Imports must not be broken into multiple lines if there are {{maxItems}} or less elements.',
-      noBlankBetween: 'Import lines cannot have more than one blank line between them.',
+      noBlankBetween: 'Import lines cannot have blank lines between them.',
       limitLineCount: 'Import lines must have one element per line. (Expected import to span {{expectedLineCount}} lines, saw {{importLineCount}})',
     },
   },
@@ -270,7 +282,7 @@ export default createEslintRule<Options, MessageIds>({
     const maxLineLength = options?.['max-len'] ?? DEFAULT_MAX_LENGTH
     const includeSemi = options?.semi ?? false
     const forceSingleLine = options?.forceSingleLine ?? DEFAULT_FORCE_SINGLE_LINE
-
+    const allowBlankLines = options?.allowBlankLines ?? DEFAULT_ALLOW_BLANK_LINES
     if (maxItems < MIN_ITEMS)
       throw new Error(`Minimum items must not be less than ${MIN_MAX_LENGTH}`)
 
@@ -280,8 +292,8 @@ export default createEslintRule<Options, MessageIds>({
     return {
       ImportDeclaration(node) {
         const { specifiers } = node
-
-        let blankLinesReported = false
+        // If blank lines are allowed, skip checking them by setting this to true
+        let blankLinesChecked = allowBlankLines
         const startColumn = node.loc.start.column
         const commentsInsideImport = getCommentsInsideImport(node)
         const commentBeforeLastLine = findCommentBeforeLastLine(node, commentsInsideImport)
@@ -300,21 +312,21 @@ export default createEslintRule<Options, MessageIds>({
           const currentStartLine = currentItem.loc.start.line
           const lineDifference = currentStartLine - previousEndLine
 
-          if (!blankLinesReported && lineDifference > 1) {
+          if (!blankLinesChecked && lineDifference > 1) {
             context.report({
               node,
               messageId: 'noBlankBetween',
               fix: fixer(node, includeSemi),
             })
-            blankLinesReported = true
+            blankLinesChecked = true
           }
         })
 
-        if (!blankLinesReported) {
+        if (!blankLinesChecked) {
           const singleLine = importLineCount === 1
 
           if (singleLine) {
-            const line = context.getSourceCode().getText(node)
+            const line = context.sourceCode.getText(node)
 
             if (line.length > maxLineLength) {
               const canBeSplit = specifiers.length > 2
