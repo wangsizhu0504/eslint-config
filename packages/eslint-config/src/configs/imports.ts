@@ -20,31 +20,34 @@ export async function imports(
         // import plugin recommended rules
         // https://github.com/import-js/eslint-plugin-import/blob/main/config/recommended.js
         ...pluginImport.configs.recommended.rules,
+
         // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/default.md#when-not-to-use-it
         'import/default': 'off',
+
         // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/dynamic-import-chunkname.md
         'import/dynamic-import-chunkname': ['off', {
           importFunctions: [],
           webpackChunknameFormat: '[0-9a-zA-Z-_/.]+',
         }],
+
         // dynamic imports require a leading comment with a webpackChunkName
         // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/export.md
         'import/export': 'error',
-        // Helpful warnings:
 
+        // Helpful warnings:
         // disallow invalid exports, e.g. multiple defaults
         // In TS, if a type needs to be exported inline, it's dependent types should be right above it
+        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/exports-last.md
         'import/exports-last': 'off',
 
-        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/exports-last.md
         // Hard to expect this when the grouped exports can't be enabled.
         // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/first.md
         'import/first': 'error',
 
         // Re-exporting a type when the 'isolatedModules' flag is provided requires using 'export type'
+        // https://githubis.com/benmosher/eslint-plugin-import/blob/main/docs/rules/group-exports.md
         'import/group-exports': 'off',
 
-        // https://githubis.com/benmosher/eslint-plugin-import/blob/main/docs/rules/group-exports.md
         // Excessive. Also, not suppored in TS w/ isolatedModules:
         // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/named.md#when-not-to-use-it
         'import/named': 'error',
@@ -53,8 +56,6 @@ export async function imports(
         // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/namespace.md
         'import/namespace': 'off',
 
-        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/newline-after-import.md
-        'import/newline-after-import': 'error',
         // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-absolute-path.md
         'import/no-absolute-path': 'error',
 
@@ -86,7 +87,6 @@ export async function imports(
         'import/no-duplicates': 'error',
 
         // Forbid the use of extraneous packages
-        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-extraneous-dependencies.md
         // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-mutable-exports.md
         'import/no-mutable-exports': 'error',
 
@@ -113,15 +113,7 @@ export async function imports(
         'import/prefer-default-export': 'off',
 
         'kriszu/import-dedupe': 'error',
-        // Enforce newlines inside named import
-        'kriszu/import-enforce-newlines': [
-          'error',
-          {
-            'items': 5,
-            'max-len': 120,
-            'semi': false,
-          },
-        ],
+
         'kriszu/no-import-dist': 'error',
         'kriszu/no-import-node-modules-by-path': 'error',
 
@@ -148,7 +140,17 @@ export async function imports(
         ],
         ...stylistic
           ? {
+              // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/newline-after-import.md
               'import/newline-after-import': ['error', { considerComments: true, count: 1 }],
+              // Enforce newlines inside named import
+              'kriszu/import-enforce-newlines': [
+                'error',
+                {
+                  'items': 5,
+                  'max-len': 120,
+                  'semi': false,
+                },
+              ],
             }
           : {},
 

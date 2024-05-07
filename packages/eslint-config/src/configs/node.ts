@@ -9,16 +9,6 @@ export async function node(): Promise<TypedFlatConfigItem[]> {
         node: pluginNode,
       },
       rules: {
-        // https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/file-extension-in-import.md
-        // TODO: Defer to import plugin
-        'node/file-extension-in-import': ['error', 'always', {
-
-          // TypeScript doesn't allow extensions https://github.com/Microsoft/TypeScript/issues/27481
-          // Use .js instead
-          '.ts': 'never',
-          '.tsx': 'never',
-        }],
-
         // https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/global-require.md
         'node/global-require': 'error',
         // https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/handle-callback-err.md

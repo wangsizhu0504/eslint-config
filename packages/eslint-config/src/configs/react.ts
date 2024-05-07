@@ -1,7 +1,7 @@
 import { isPackageExists } from 'local-pkg'
-import { ensurePackages, interopDefault,toArray } from '../utils'
+import { ensurePackages, interopDefault, toArray } from '../utils'
 import type { OptionsFiles, OptionsOverrides, OptionsTypeScriptWithTypes, TypedFlatConfigItem } from '../types'
-import { GLOB_JSX, GLOB_TS, GLOB_TSX } from '../globs'
+import { GLOB_TS, GLOB_TSX } from '../globs'
 
 // react refresh
 const ReactRefreshAllowConstantExportPackages = ['vite']
@@ -29,7 +29,7 @@ export async function react(
     pluginReact,
     pluginReactHooks,
     pluginReactRefresh,
-    parserTs
+    parserTs,
   ] = await Promise.all(
     [
       interopDefault(import('@eslint-react/eslint-plugin')),

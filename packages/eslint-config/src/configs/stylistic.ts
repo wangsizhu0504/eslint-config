@@ -53,10 +53,9 @@ export async function stylistic(
               curly: ['error', 'all'],
             }
           : {
-              'curly': ['error', 'multi-or-nest', 'consistent'],
+              curly: ['error', 'multi-or-nest', 'consistent'],
             }
         ),
-
 
         'kriszu/consistent-list-newline': 'error',
         'kriszu/top-level-function': 'error',

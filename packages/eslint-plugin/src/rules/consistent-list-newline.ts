@@ -260,5 +260,5 @@ export default createEslintRule<Options, MessageIds>({
   },
 })
 
-// eslint-disable-next-line ts/no-unused-vars
+// eslint-disable-next-line ts/no-unused-vars, unused-imports/no-unused-vars
 function exportType<A, B extends A>() {}

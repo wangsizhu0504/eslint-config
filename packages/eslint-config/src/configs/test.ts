@@ -30,7 +30,6 @@ export async function test(
     },
   }
 
-
   return [
     {
       name: 'kriszu/test/setup',
