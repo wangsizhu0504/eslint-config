@@ -3,7 +3,6 @@
   "type": "module",
   "version": "3.2.5",
   "private": true,
-  "packageManager": "pnpm@8.15.8",
   "author": "Kriszu <wangsizhu0504@outlook.com>",
   "license": "MIT",
   "scripts": {
