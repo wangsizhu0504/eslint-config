@@ -1,23 +1,35 @@
-# @kriszu/eslint-config [![npm](https://img.shields.io/npm/v/@kriszu/eslint-config.svg)](https://npmjs.com/package/@kriszu/eslint-config)
+<picture><img src=".github/cover.png" /></picture>
 
-> kriszu eslint configuration based on @antfu/eslint-config.
+<div align="center">
 
-Flat ESLint config for JavaScript, TypeScript, Vue 2, Vue 3.
+[![npm version][npm-version-src]][npm-version-href]
+[![npm downloads][npm-downloads-src]][npm-downloads-href]
+[![License][license-src]][license-href]
+[![code style][antfu-src]][antfu-href]
+[![code quality][code-quality-src]][code-quality-href]
+
+My ESlint configuration, based on `@antfu/eslint-config` with personal customizations. Flat ESLint config for JavaScript, TypeScript, Vue 2, Vue 3.
+
+---
+
+</div>
 
 ## Features
 
-- Single quotes, no semi
+This is my personal ESlint configuration, based on the excellent [`@antfu/eslint-config`](https://github.com/antfu/eslint-config).
+
 - Auto fix for formatting (aimed to be used standalone **without** Prettier)
-- Sorted imports, dangling commas
 - Reasonable defaults, best practices, only one line of config
-- Designed to work with TypeScript, JSX, Vue out-of-box
-- Lints also for json, yaml, toml, markdown
-- Opinionated, but [very customizable](#customization)
+- Designed to work with TypeScript, JSX, Vue, JSON, YAML, Toml, Markdown, etc. Out-of-box.
 - [ESLint Flat config](https://eslint.org/docs/latest/use/configure/configuration-files-new), compose easily!
-- Using [ESLint Stylistic](https://github.com/eslint-stylistic/eslint-stylistic)
+- Optional React, UnoCSS support
+- Optional formatters support for formatting CSS, HTML, XML, etc.
+- **Style principle**: Minimal for reading, stable for diff, consistent
+  - Sorted imports, dangling commas
+  - Single quotes
+  - Using [ESLint Stylistic](https://github.com/eslint-stylistic/eslint-stylistic)
 - Respects `.gitignore` by default
-- Optional [React](#react), [UnoCSS](#unocss) support
-- Optional [formatters](#formatters) support for CSS, HTML, etc.
+- Supports ESLint v9 or v8.50.0+
 
 ## Install
 
@@ -25,53 +37,13 @@ Flat ESLint config for JavaScript, TypeScript, Vue 2, Vue 3.
 pnpm i -D eslint @kriszu/eslint-config
 ```
 
-### Create config file
-
-With [`"type": "module"`](https://nodejs.org/api/packages.html#type) in `package.json` (recommended):
+And create `eslint.config.mjs` in your project root:
 
 ```js
-// eslint.config.js
+// eslint.config.mjs
 import defineEslintConfig from '@kriszu/eslint-config'
 
 export default defineEslintConfig()
-```
-
-With CJS:
-
-```js
-// eslint.config.js
-const defineEslintConfig = require('@kriszu/eslint-config').default
-
-module.exports = defineEslintConfig()
-```
-
-> [!TIP]
-> ESLint only detects `eslint.config.js` as the flat config entry, meaning you need to put `type: module` in your `package.json` or you have to use CJS in `eslint.config.js`. If you want explicit extension like `.mjs` or `.cjs`, or even `eslint.config.ts`, you can install [`eslint-ts-patch`](https://github.com/antfu/eslint-ts-patch) to fix it.
-
-Combined with legacy config:
-
-```js
-// eslint.config.js
-const defineEslintConfig = require('@kriszu/eslint-config').default
-const { FlatCompat } = require('@eslint/eslintrc')
-
-const compat = new FlatCompat()
-
-module.exports = defineEslintConfig(
-  {
-    ignores: [],
-  },
-
-  // Legacy config
-  ...compat.config({
-    extends: [
-      'eslint:recommended',
-      // Other extends...
-    ],
-  })
-
-  // Other flat configs...
-)
 ```
 
 > Note that `.eslintignore` no longer works in Flat config, see [customization](#customization) for more details.
@@ -106,6 +78,7 @@ Add the following settings to your `.vscode/settings.json`:
 ```jsonc
 {
   // Enable the ESlint flat config support
+  // (remove this if your ESLint extension above v3.0.5)
   "eslint.experimental.useFlatConfig": true,
 
   // Disable the default formatter, use eslint instead
@@ -114,13 +87,14 @@ Add the following settings to your `.vscode/settings.json`:
 
   // Auto fix
   "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit",
+    "source.fixAll.eslint": "explicit",
     "source.organizeImports": "never"
   },
 
   // Silent the stylistic rules in you IDE, but still auto fix them
   "eslint.rules.customizations": [
     { "rule": "style/*", "severity": "off" },
+    { "rule": "format/*", "severity": "off" },
     { "rule": "*-indent", "severity": "off" },
     { "rule": "*-spacing", "severity": "off" },
     { "rule": "*-spaces", "severity": "off" },
@@ -141,7 +115,11 @@ Add the following settings to your `.vscode/settings.json`:
     "html",
     "markdown",
     "json",
-    "jsonc"
+    "jsonc",
+    "yaml",
+    "xml",
+    "gql",
+    "graphql"
   ]
 }
 ```
@@ -175,8 +153,9 @@ export default defineEslintConfig({
   typescript: true,
   vue: true,
 
-  // Disable jsonc support
+  // Disable jsonc and yaml support
   jsonc: false,
+  yaml: false,
 
   // `.eslintignore` is no longer supported in Flat config, use `ignores` instead
   ignores: [
@@ -186,77 +165,7 @@ export default defineEslintConfig({
 })
 ```
 
-The `kriszu` factory function also accepts any number of arbitrary custom config overrides:
-
-```js
-// eslint.config.js
-import kriszu from '@kriszu/eslint-config'
-
-export default kriszu(
-  {
-    // flat config
-  },
-
-  // From the second arguments they are ESLint Flat Configs
-  // you can have multiple configs
-  {
-    files: ['**/*.ts'],
-    rules: {},
-  },
-  {
-    rules: {},
-  },
-)
-```
-
-Going more advanced, you can also import fine-grained configs and compose them as you wish:
-
-<details>
-<summary>Advanced Example</summary>
-
-We wouldn't recommend using this style in general unless you know exactly what they are doing, as there are shared options between configs and might need extra care to make them consistent.
-
-```js
-// eslint.config.js
-import {
-  combine,
-  comments,
-  ignores,
-  imports,
-  javascript,
-  jsdoc,
-  jsonc,
-  markdown,
-  node,
-  sortPackageJson,
-  sortTsconfig,
-  stylistic,
-  typescript,
-  unicorn,
-  vue,
-} from '@kriszu/eslint-config'
-
-export default combine(
-  ignores(),
-  javascript(/* Options */),
-  comments(),
-  node(),
-  jsdoc(),
-  imports(),
-  unicorn(),
-  typescript(/* Options */),
-  stylistic(),
-  vue(),
-  jsonc(),
-  markdown(),
-)
-```
-
-</details>
-
 Check out the [configs](https://github.com/wangsizhu0504/eslint-config/blob/main/packages/eslint-config/src/configs) and [factory](https://github.com/wangsizhu0504/eslint-config/blob/main/packages/eslint-config/src/factory.ts) for more details.
-
-> Thanks to [antfu/eslint-config](https://github.com/antfu/eslint-config) for the inspiration and reference.
 
 ### Plugins Renaming
 
@@ -275,88 +184,6 @@ When you want to override rules, or disable them inline, you need to update to t
 -// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 +// eslint-disable-next-line ts/consistent-type-definitions
 type foo = { bar: 2 }
-```
-
-### Rules Overrides
-
-Certain rules would only be enabled in specific files, for example, `ts/*` rules would only be enabled in `.ts` files and `vue/*` rules would only be enabled in `.vue` files. If you want to override the rules, you need to specify the file extension:
-
-```js
-// eslint.config.js
-import defineEslintConfig from '@kriszu/eslint-config'
-
-export default defineEslintConfig(
-  { vue: true, typescript: true },
-  {
-    // Remember to specify the file glob here, otherwise it might cause the vue plugin to handle non-vue files
-    files: ['**/*.vue'],
-    rules: {
-      'vue/operator-linebreak': ['error', 'before'],
-    },
-  },
-  {
-    // Without `files`, they are general rules for all files
-    rules: {
-      'style/semi': ['error', 'never'],
-    },
-  },
-)
-```
-
-We also provided an `overrides` options to make it easier:
-
-```js
-// eslint.config.js
-import defineEslintConfig from '@kriszu/eslint-config'
-
-export default defineEslintConfig({
-  overrides: {
-    vue: {
-      'vue/operator-linebreak': ['error', 'before'],
-    },
-    typescript: {
-      'ts/consistent-type-definitions': ['error', 'interface'],
-    },
-    // ...
-  },
-})
-```
-
-### Optional Configs
-
-We provide some optional configs for specific use cases, that we don't include their dependencies by default.
-
-#### Formatters
-
-> [!WARNING]
-> Experimental feature, changes might not follow semver.
-
-Use external formatters to format files that ESLint cannot handle yet (`.css`, `.html`, etc). Powered by [`eslint-plugin-format`](https://github.com/antfu/eslint-plugin-format).
-
-```js
-// eslint.config.js
-import defineEslintConfig from '@kriszu/eslint-config'
-
-export default defineEslintConfig({
-  formatters: {
-    /**
-     * Format CSS, LESS, SCSS files, also the `<style>` blocks in Vue
-     * By default uses Prettier
-     */
-    css: true,
-    /**
-     * Format HTML files
-     * By default uses Prettier
-     */
-    html: true,
-    /**
-     * Format Markdown files
-     * Supports Prettier and dprint
-     * By default uses Prettier
-     */
-    markdown: 'prettier'
-  }
-})
 ```
 
 Running `npx eslint` should prompt you to install the required dependencies, otherwise, you can install them manually:
@@ -403,42 +230,6 @@ Running `npx eslint` should prompt you to install the required dependencies, oth
 npm i -D @unocss/eslint-plugin
 ```
 
-### Optional Rules
-
-This config also provides some optional plugins/rules for extended usages.
-
-#### `perfectionist` (sorting)
-
-This plugin [`eslint-plugin-perfectionist`](https://github.com/azat-io/eslint-plugin-perfectionist) allows you to sorted object keys, imports, etc, with auto-fix.
-
-The plugin is installed but no rules are enabled by default.
-
-It's recommended to opt-in on each file individually using [configuration comments](https://eslint.org/docs/latest/use/configure/rules#using-configuration-comments-1).
-
-```js
-/* eslint perfectionist/sort-objects: "error" */
-const objectWantedToSort = {
-  a: 2,
-  b: 1,
-  c: 3,
-}
-```
-
-### Type Aware Rules
-
-You can optionally enable the [type aware rules](https://typescript-eslint.io/linting/typed-linting/) by passing the options object to the `typescript` config:
-
-```js
-// eslint.config.js
-import defineEslintConfig from '@kriszu/eslint-config'
-
-export default defineEslintConfig({
-  typescript: {
-    tsconfigPath: 'tsconfig.json',
-  },
-})
-```
-
 ### Lint Staged
 
 If you want to apply lint and auto-fix before every commit, you can add the following to your `package.json`:
@@ -454,12 +245,19 @@ If you want to apply lint and auto-fix before every commit, you can add the foll
 }
 ```
 
-and then
-
-```bash
-npm i -D lint-staged simple-git-hooks
-```
-
 ## License
 
 [MIT](./LICENSE) License © 2022-PRESENT [Kriszu](https://github.com/wangsizhu0504)
+
+<!-- Badges -->
+
+[npm-version-src]: https://img.shields.io/npm/v/@kriszu/eslint-config/latest.svg?style=flat&colorA=18181B&colorB=28CF8D
+[npm-version-href]: https://npmjs.com/package/@kriszu/eslint-config
+[npm-downloads-src]: https://img.shields.io/npm/dm/@kriszu/eslint-config.svg?style=flat&colorA=18181B&colorB=28CF8D
+[npm-downloads-href]: https://npmjs.com/package/@kriszu/eslint-config
+[code-quality-src]: https://img.shields.io/codacy/grade/2089b728f6904916aff7a595c4197b09.svg?style=flat&colorA=18181B&colorB=28CF8D
+[code-quality-href]: https://app.codacy.com/gh/kriszu/eslint-config
+[license-src]: https://img.shields.io/npm/l/@kriszu/eslint-config.svg?style=flat&colorA=18181B&colorB=28CF8D
+[license-href]: https://npmjs.com/package/@kriszu/eslint-config
+[antfu-src]: https://antfu.me/badge-code-style.svg
+[antfu-href]: https://github.com/antfu/eslint-config
