@@ -172,7 +172,7 @@ export async function vue(
         ],
         'vue/key-spacing': 'off',
         'vue/keyword-spacing': 'off',
-        'vue/max-attributes-per-line': ['warn', { singleline: 4 }],
+        'vue/max-attributes-per-line': ['error', { singleline: { max: 10 }, multiline: { max: 1 } }],
         'vue/multi-word-component-names': 'off',
         'vue/multiline-html-element-content-newline': 'off',
         'vue/no-console': [
