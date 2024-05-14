@@ -147,6 +147,12 @@ export interface OptionsOverrides {
   overrides?: TypedFlatConfigItem['rules']
 }
 
+export interface OptionsRegExp {
+  /**
+   * Override rulelevels
+   */
+  level?: 'error' | 'warn'
+}
 export interface OptionsIsInEditor {
   isInEditor?: boolean
 }
@@ -238,13 +244,6 @@ export interface OptionsConfig extends OptionsComponentExts {
   yaml?: boolean | OptionsOverrides
 
   /**
-   * Enable TOML support.
-   *
-   * @default true
-   */
-  toml?: boolean | OptionsOverrides
-
-  /**
    * Enable linting for **code snippets** in Markdown.
    *
    * For formatting Markdown content, enable also `formatters.markdown`.
@@ -259,6 +258,14 @@ export interface OptionsConfig extends OptionsComponentExts {
    * @default true
    */
   stylistic?: boolean | (StylisticConfig & OptionsOverrides)
+
+  /**
+   * Enable regexp rules.
+   *
+   * @see https://ota-meshi.github.io/eslint-plugin-regexp/
+   * @default true
+   */
+  regexp?: boolean | (OptionsRegExp & OptionsOverrides)
 
   /**
    * Enable react rules.
@@ -321,7 +328,6 @@ export interface OptionsConfig extends OptionsComponentExts {
     jsonc?: TypedFlatConfigItem['rules']
     markdown?: TypedFlatConfigItem['rules']
     yaml?: TypedFlatConfigItem['rules']
-    toml?: TypedFlatConfigItem['rules']
     react?: TypedFlatConfigItem['rules']
   }
 }

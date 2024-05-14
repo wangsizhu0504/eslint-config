@@ -5,6 +5,7 @@ import { FlatConfigComposer } from 'eslint-flat-config-utils'
 import type { Linter } from 'eslint'
 import { gitignore } from './gitignore'
 import {
+  command,
   comments,
   ignores,
   imports,
@@ -15,6 +16,7 @@ import {
   node,
   perfectionist,
   react,
+  regexp,
   sortPackageJson,
   sortTsconfig,
   stylistic,
@@ -23,6 +25,7 @@ import {
   unicorn,
   unocss,
   vue,
+  yaml,
 } from './configs'
 import type { Awaitable, ConfigNames, OptionsConfig, TypedFlatConfigItem } from './types'
 import { hasReact, hasTypeScript } from './env'
@@ -80,6 +83,7 @@ export function defineEslintConfig(
     gitignore: enableGitignore = true,
     isInEditor = !!((process.env.VSCODE_PID || process.env.JETBRAINS_IDE || process.env.VIM) && !process.env.CI),
     react: enableReact = hasReact,
+    regexp: enableRegexp = true,
     typescript: enableTypeScript = hasTypeScript,
     unocss: enableUnoCSS = false,
     vue: enableVue = VuePackages.some(i => isPackageExists(i)),
@@ -121,6 +125,8 @@ export function defineEslintConfig(
       stylistic: stylisticOptions,
     }),
     unicorn(),
+    command(),
+
     // Optional plugins (installed but not enabled by default)
     perfectionist(),
   )
@@ -143,6 +149,8 @@ export function defineEslintConfig(
       overrides: getOverrides(options, 'stylistic'),
     }))
   }
+  if (enableRegexp)
+    configs.push(regexp(typeof enableRegexp === 'boolean' ? {} : enableRegexp))
 
   if (options.test ?? true) {
     configs.push(test({
@@ -166,6 +174,7 @@ export function defineEslintConfig(
       tsconfigPath: getOverrides(options, 'typescript').tsconfigPath,
     }))
   }
+
   if (enableUnoCSS) {
     configs.push(unocss({
       ...resolveSubOptions(options, 'unocss'),
@@ -182,6 +191,12 @@ export function defineEslintConfig(
       sortPackageJson(),
       sortTsconfig(),
     )
+  }
+  if (options.yaml ?? true) {
+    configs.push(yaml({
+      overrides: getOverrides(options, 'yaml'),
+      stylistic: stylisticOptions,
+    }))
   }
 
   if (options.markdown ?? true) {
