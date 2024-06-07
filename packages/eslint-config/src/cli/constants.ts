@@ -45,6 +45,11 @@ export const vscodeSettingsString = `
     "jsonc",
     "yaml",
     "toml",
+    "css",
+    "less",
+    "scss",
+    "pcss",
+    "postcss"
   ]
 `
 
