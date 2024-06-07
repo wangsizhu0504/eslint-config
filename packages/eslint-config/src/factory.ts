@@ -108,6 +108,8 @@ export function defineEslintConfig(
       configs.push([gitignore(enableGitignore)])
     }
   }
+  const typescriptOptions = resolveSubOptions(options, 'typescript')
+  const tsconfigPath = 'tsconfigPath' in typescriptOptions ? typescriptOptions.tsconfigPath : undefined
 
   // Base configs
   configs.push(
@@ -136,7 +138,7 @@ export function defineEslintConfig(
 
   if (enableTypeScript) {
     configs.push(typescript({
-      ...resolveSubOptions(options, 'typescript'),
+      ...typescriptOptions,
       componentExts,
       overrides: getOverrides(options, 'typescript'),
     }))
@@ -171,7 +173,7 @@ export function defineEslintConfig(
   if (enableReact) {
     configs.push(react({
       overrides: getOverrides(options, 'react'),
-      tsconfigPath: getOverrides(options, 'typescript').tsconfigPath,
+      tsconfigPath,
     }))
   }
 
