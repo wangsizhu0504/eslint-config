@@ -53,7 +53,7 @@ export async function stylistic(
               curly: ['error', 'all'],
             }
           : {
-              curly: ['error', 'multi-or-nest', 'consistent'],
+              'kriszu/curly': 'error',
             }
         ),
 
