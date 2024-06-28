@@ -58,7 +58,9 @@ export async function typescript(
     'ts/no-unsafe-return': 'error',
     'ts/restrict-plus-operands': 'error',
     'ts/restrict-template-expressions': 'error',
+    'ts/return-await': 'error',
     'ts/strict-boolean-expressions': 'error',
+    'ts/switch-exhaustiveness-check': 'error',
     'ts/unbound-method': 'error',
   }
   const [pluginTs, parserTs] = await Promise.all([
