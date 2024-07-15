@@ -211,6 +211,7 @@ export async function sortTsconfig(): Promise<TypedFlatConfigItem[]> {
               'allowSyntheticDefaultImports',
               'esModuleInterop',
               'forceConsistentCasingInFileNames',
+              'isolatedDeclarations',
               'isolatedModules',
               'preserveSymlinks',
               'verbatimModuleSyntax',

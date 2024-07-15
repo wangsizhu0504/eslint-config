@@ -39,7 +39,6 @@ export async function typescript(
   const typeAwareRules: TypedFlatConfigItem['rules'] = {
     'dot-notation': 'off',
     'no-implied-eval': 'off',
-    'no-throw-literal': 'off',
     'ts/await-thenable': 'error',
     'ts/dot-notation': ['error', { allowKeywords: true }],
     'ts/no-floating-promises': [
@@ -49,7 +48,6 @@ export async function typescript(
     'ts/no-for-in-array': 'error',
     'ts/no-implied-eval': 'error',
     'ts/no-misused-promises': 'error',
-    'ts/no-throw-literal': 'error',
     'ts/no-unnecessary-type-assertion': 'error',
     'ts/no-unsafe-argument': 'error',
     'ts/no-unsafe-assignment': 'warn',
@@ -240,6 +238,7 @@ export async function typescript(
         'ts/no-dupe-class-members': ['error'],
         'ts/no-duplicate-enum-values': ['error'],
         'ts/no-dynamic-delete': ['off'],
+        'ts/no-empty-object-type': ['error', { allowInterfaces: 'always' }],
         'ts/no-empty-function': [
           'error',
           { allow: ['arrowFunctions', 'functions', 'methods'] },
@@ -300,6 +299,7 @@ export async function typescript(
           { classes: false, functions: false, variables: true },
         ],
         'ts/no-useless-constructor': 'off',
+        'ts/no-wrapper-object-types': 'error',
         'ts/no-useless-empty-export': ['error'],
         'ts/no-var-requires': ['error'],
         'ts/parameter-properties': 'off',
