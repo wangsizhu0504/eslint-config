@@ -17,7 +17,7 @@
     "@kriszu/eslint-config": "workspace:*",
     "@types/eslint": "^8.56.10",
     "@types/fs-extra": "^11.0.4",
-    "@types/node": "^20.14.9",
+    "@types/node": "^20.14.10",
     "@types/prompts": "^2.4.9",
     "@types/yargs": "^17.0.32",
     "bumpp": "^9.4.1",
@@ -28,10 +28,10 @@
     "fast-glob": "^3.3.2",
     "fs-extra": "^11.2.0",
     "lint-staged": "^15.2.7",
-    "rimraf": "^5.0.7",
+    "rimraf": "^5.0.9",
     "simple-git-hooks": "^2.11.1",
     "tsup": "^8.1.0",
-    "typescript": "^5.5.2",
+    "typescript": "^5.5.3",
     "unbuild": "^2.0.0",
     "vitest": "^1.6.0"
   }

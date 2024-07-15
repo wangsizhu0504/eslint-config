@@ -1,9 +1,9 @@
 import process from 'node:process'
-import { GLOB_DTS, GLOB_SRC, GLOB_TS, GLOB_TSX } from '../globs'
+import { GLOB_MARKDOWN, GLOB_TS, GLOB_TSX } from '../globs'
 import { interopDefault, renameRules, toArray } from '../utils'
 import { pluginKriszu } from '../plugins'
 import type {
-  OptionsComponentExts as OptionsComponentExtensions,
+  OptionsComponentExts,
   OptionsFiles,
   OptionsOverrides,
   OptionsTypeScriptParserOptions,
@@ -12,14 +12,11 @@ import type {
 } from '../types'
 
 export async function typescript(
-  options: OptionsFiles &
-  OptionsComponentExtensions &
-  OptionsOverrides &
-  OptionsTypeScriptWithTypes &
-  OptionsTypeScriptParserOptions = {},
+  options: OptionsFiles
+  & OptionsComponentExts & OptionsOverrides & OptionsTypeScriptWithTypes & OptionsTypeScriptParserOptions = {},
 ): Promise<TypedFlatConfigItem[]> {
   const {
-    componentExts: componentExtensions = [],
+    componentExts = [],
     overrides = {},
     parserOptions = {},
   } = options ?? {}
@@ -27,10 +24,13 @@ export async function typescript(
   const files = options.files ?? [
     GLOB_TS,
     GLOB_TSX,
-    ...componentExtensions.map(extension => `**/*.${extension}`),
+    ...componentExts.map(ext => `**/*.${ext}`),
   ]
 
   const filesTypeAware = options.filesTypeAware ?? [GLOB_TS, GLOB_TSX]
+  const ignoresTypeAware = options.ignoresTypeAware ?? [
+    `${GLOB_MARKDOWN}/**`,
+  ]
   const tsconfigPath = options?.tsconfigPath
     ? toArray(options.tsconfigPath)
     : undefined
@@ -59,8 +59,8 @@ export async function typescript(
     'ts/promise-function-async': 'error',
     'ts/restrict-plus-operands': 'error',
     'ts/restrict-template-expressions': 'error',
-    'ts/return-await': 'error',
-    'ts/strict-boolean-expressions': 'error',
+    'ts/return-await': ['error', 'in-try-catch'],
+    'ts/strict-boolean-expressions': ['error', { allowNullableBoolean: true, allowNullableObject: true }],
     'ts/switch-exhaustiveness-check': 'error',
     'ts/unbound-method': 'error',
   }
@@ -76,15 +76,18 @@ export async function typescript(
       languageOptions: {
         parser: parserTs,
         parserOptions: {
-          extraFileExtensions: componentExtensions.map(extension => `.${extension}`),
+          extraFileExtensions: componentExts.map(ext => `.${ext}`),
           sourceType: 'module',
           ...typeAware
             ? {
-                project: tsconfigPath,
+                projectService: {
+                  allowDefaultProject: ['./*.js'],
+                  defaultProject: tsconfigPath,
+                },
                 tsconfigRootDir: process.cwd(),
-                ...parserOptions as any,
               }
             : {},
+          ...parserOptions as any,
         },
       },
       name: `kriszu/typescript/${typeAware ? 'type-aware-parser' : 'parser'}`,
@@ -107,21 +110,6 @@ export async function typescript(
         ]
       : [makeParser(false, files)],
     {
-      files: [GLOB_SRC, ...componentExtensions.map(extension => `**/*.${extension}`)],
-      languageOptions: {
-        parser: parserTs,
-        parserOptions: {
-          extraFileExtensions: componentExtensions.map(extension => `.${extension}`),
-          sourceType: 'module',
-          ...(tsconfigPath
-            ? {
-                project: tsconfigPath,
-                tsconfigRootDir: process.cwd(),
-              }
-            : {}),
-          ...(parserOptions as any),
-        },
-      },
       name: 'kriszu/typescript/rules',
       rules: {
         ...renameRules(
@@ -132,8 +120,6 @@ export async function typescript(
           pluginTs.configs.strict.rules!,
           { '@typescript-eslint/': 'ts/' },
         ),
-
-        'default-param-last': 'off',
 
         'no-array-constructor': 'off',
         'no-dupe-class-members': 'off',
@@ -331,17 +317,17 @@ export async function typescript(
         ...overrides,
       },
     },
+    ...isTypeAware
+      ? [{
+          files: filesTypeAware,
+          ignores: ignoresTypeAware,
+          name: 'kriszu/typescript/rules-type-aware',
+          rules: typeAwareRules,
+        }]
+      : [],
     {
-      files: filesTypeAware,
-      name: 'kriszu/typescript/rules-type-aware',
-      rules: {
-        ...(tsconfigPath ? typeAwareRules : {}),
-        ...overrides,
-      },
-    },
-    {
-      files: [GLOB_DTS],
-      name: 'kriszu/typescript/dts-overrides',
+      files: ['**/*.d.?([cm])ts'],
+      name: 'kriszu/typescript/disables/dts',
       rules: {
         'eslint-comments/no-unlimited-disable': 'off',
         'import/no-duplicates': 'off',
