@@ -34,7 +34,6 @@ export default defineEslintConfig(
   {
     rules: {
       'kriszu/no-import-dist': 'off',
-      'ts/ban-types': 'off',
     },
   },
 )

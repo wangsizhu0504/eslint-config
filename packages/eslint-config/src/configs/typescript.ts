@@ -146,57 +146,6 @@ export async function typescript(
           },
         ],
         'ts/ban-tslint-comment': ['error'],
-        'ts/ban-types': [
-          'error',
-          {
-            extendDefaults: false,
-            types: {
-              '[[[[[]]]]]': '🦄💥',
-              '[[[[]]]]': 'ur drunk 🤡',
-              '[[[]]]': 'Don\'t use `[[[]]]`. Use `SomeType[][][]` instead.',
-              '[[]]':
-                'Don\'t use `[[]]`. It only allows an array with a single element which is an empty array. Use `SomeType[][]` instead.',
-              '[]': 'Don\'t use the empty array type `[]`. It only allows empty arrays. Use `SomeType[]` instead.',
-              '{}': {
-                fixWith: 'Record<string, unknown>',
-                message:
-                  'The `{}` type is mostly the same as `unknown`. You probably want `Record<string, unknown>` instead.',
-              },
-              'BigInt': {
-                fixWith: 'bigint',
-                message: 'Use `bigint` instead.',
-              },
-              'Boolean': {
-                fixWith: 'boolean',
-                message: 'Use `boolean` instead.',
-              },
-              'Function':
-                'Use a specific function type instead, like `() => void`.',
-              'Number': {
-                fixWith: 'number',
-                message: 'Use `number` instead.',
-              },
-              'object': {
-                fixWith: 'Record<string, unknown>',
-                message:
-                  'The `object` type is hard to use. Use `Record<string, unknown>` instead. See: https://github.com/typescript-eslint/typescript-eslint/pull/848',
-              },
-              'Object': {
-                fixWith: 'Record<string, unknown>',
-                message:
-                  'The `Object` type is mostly the same as `unknown`. You probably want `Record<string, unknown>` instead. See https://github.com/typescript-eslint/typescript-eslint/pull/848',
-              },
-              'String': {
-                fixWith: 'string',
-                message: 'Use `string` instead.',
-              },
-              'Symbol': {
-                fixWith: 'symbol',
-                message: 'Use `symbol` instead.',
-              },
-            },
-          },
-        ],
         'ts/class-literal-property-style': ['error', 'getters'],
         'ts/consistent-generic-constructors': [
           'error',
