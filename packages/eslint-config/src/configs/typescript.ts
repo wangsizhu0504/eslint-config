@@ -6,19 +6,20 @@ import type {
   OptionsComponentExts,
   OptionsFiles,
   OptionsOverrides,
+  OptionsProjectType,
   OptionsTypeScriptParserOptions,
   OptionsTypeScriptWithTypes,
   TypedFlatConfigItem,
 } from '../types'
 
 export async function typescript(
-  options: OptionsFiles
-  & OptionsComponentExts & OptionsOverrides & OptionsTypeScriptWithTypes & OptionsTypeScriptParserOptions = {},
+  options: OptionsFiles & OptionsComponentExts & OptionsOverrides & OptionsTypeScriptWithTypes & OptionsTypeScriptParserOptions & OptionsProjectType = {},
 ): Promise<TypedFlatConfigItem[]> {
   const {
     componentExts = [],
     overrides = {},
     parserOptions = {},
+    type = 'app',
   } = options ?? {}
 
   const files = options.files ?? [
@@ -41,17 +42,14 @@ export async function typescript(
     'no-implied-eval': 'off',
     'ts/await-thenable': 'error',
     'ts/dot-notation': ['error', { allowKeywords: true }],
-    'ts/no-floating-promises': [
-      'error',
-      { ignoreIIFE: true, ignoreVoid: true },
-    ],
+    'ts/no-floating-promises': 'error',
     'ts/no-for-in-array': 'error',
     'ts/no-implied-eval': 'error',
     'ts/no-misused-promises': 'error',
     'ts/no-unnecessary-type-assertion': 'error',
     'ts/no-unsafe-argument': 'error',
-    'ts/no-unsafe-assignment': 'warn',
-    'ts/no-unsafe-call': 'warn',
+    'ts/no-unsafe-assignment': 'error',
+    'ts/no-unsafe-call': 'error',
     'ts/no-unsafe-member-access': 'error',
     'ts/no-unsafe-return': 'error',
     'ts/promise-function-async': 'error',
@@ -112,11 +110,11 @@ export async function typescript(
       rules: {
         ...renameRules(
           pluginTs.configs['eslint-recommended'].overrides![0].rules!,
-          { '@typescript-eslint/': 'ts/' },
+          { '@typescript-eslint': 'ts' },
         ),
         ...renameRules(
           pluginTs.configs.strict.rules!,
-          { '@typescript-eslint/': 'ts/' },
+          { '@typescript-eslint': 'ts' },
         ),
 
         'no-array-constructor': 'off',
@@ -314,6 +312,16 @@ export async function typescript(
         'ts/triple-slash-reference': 'off',
         'ts/typedef': ['off'],
         'ts/unified-signatures': 'off',
+        ...(type === 'lib'
+          ? {
+              'ts/explicit-function-return-type': ['error', {
+                allowExpressions: true,
+                allowHigherOrderFunctions: true,
+                allowIIFEs: true,
+              }],
+            }
+          : {}
+        ),
         ...overrides,
       },
     },
