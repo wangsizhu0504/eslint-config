@@ -12,7 +12,6 @@ export async function ignores(options: OptionsIgnores = {}): Promise<TypedFlatCo
         ...GLOB_EXCLUDE,
         ...ignoresOption,
       ],
-      name: 'kriszu/ignores',
     },
   ]
 }
