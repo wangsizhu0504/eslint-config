@@ -1,6 +1,6 @@
 import process from 'node:process'
 import { GLOB_MARKDOWN, GLOB_TS, GLOB_TSX } from '../globs'
-import { interopDefault, renameRules, toArray } from '../utils'
+import { interopDefault, renameRules } from '../utils'
 import { pluginKriszu } from '../plugins'
 import type {
   OptionsComponentExts,
@@ -33,7 +33,7 @@ export async function typescript(
     `${GLOB_MARKDOWN}/**`,
   ]
   const tsconfigPath = options?.tsconfigPath
-    ? toArray(options.tsconfigPath)
+    ? options.tsconfigPath
     : undefined
   const isTypeAware = !!tsconfigPath
 
