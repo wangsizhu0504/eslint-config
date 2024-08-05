@@ -255,7 +255,6 @@ export async function typescript(
         'ts/prefer-function-type': ['error'],
         'ts/prefer-literal-enum-member': ['error'],
         'ts/prefer-namespace-keyword': ['error'],
-        'ts/prefer-ts-expect-error': 'error',
         'ts/require-await': ['off'],
         'ts/strict-boolean-expressions': ['off'],
         'ts/triple-slash-reference': 'off',
