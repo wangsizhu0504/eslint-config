@@ -1,11 +1,4 @@
-import {
-  GLOB_CSS,
-  GLOB_HTML,
-  GLOB_LESS,
-  GLOB_MARKDOWN,
-  GLOB_POSTCSS,
-  GLOB_SCSS,
-} from '../globs'
+import {  GLOB_CSS, GLOB_GRAPHQL, GLOB_HTML, GLOB_LESS, GLOB_MARKDOWN, GLOB_POSTCSS, GLOB_SCSS } from '../globs'
 import type { VendoredPrettierOptions } from '../vender/prettier-types'
 import { ensurePackages, interopDefault, parserPlain } from '../utils'
 import type { OptionsFormatters, StylisticConfig, TypedFlatConfigItem } from '../types'
@@ -40,6 +33,7 @@ export async function formatters(
   const prettierOptions: VendoredPrettierOptions = Object.assign(
     {
       endOfLine: 'auto',
+      printWidth: 120,
       semi,
       singleQuote: quotes === 'single',
       tabWidth: typeof indent === 'number' ? indent : 2,
@@ -157,7 +151,6 @@ export async function formatters(
           'error',
           formater === 'prettier'
             ? {
-                printWidth: 120,
                 ...prettierOptions,
                 embeddedLanguageFormatting: 'off',
                 parser: 'markdown',
@@ -173,7 +166,7 @@ export async function formatters(
 
   if (options.graphql) {
     configs.push({
-      files: ['**/*.graphql'],
+      files: [GLOB_GRAPHQL],
       languageOptions: {
         parser: parserPlain,
       },
