@@ -185,7 +185,7 @@ export interface OptionsUnoCSS extends OptionsOverrides {
   strict?: boolean
 }
 
-export interface OptionsConfig extends OptionsComponentExts {
+export interface OptionsConfig extends OptionsComponentExts, OptionsProjectType{
   /**
    * Enable gitignore support.
    *

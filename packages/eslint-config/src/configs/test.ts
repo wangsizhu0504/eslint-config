@@ -48,6 +48,7 @@ export async function test(
         'test/no-only-tests': isInEditor ? 'off' : 'error',
         'test/prefer-hooks-in-order': 'error',
         'test/prefer-lowercase-title': 'error',
+        'ts/explicit-function-return-type': 'off',
 
         ...overrides,
       },

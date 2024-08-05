@@ -6,7 +6,7 @@ import * as p from '@clack/prompts'
 
 import { extra, extraOptions, frameworkOptions, frameworks } from './constants'
 import { isGitClean } from './utils'
-import type { ExtraLibrariesOption, FrameworkOption, PromItem, PromtResult } from './types'
+import type { ExtraLibrariesOption, FrameworkOption, PromItem, PromptResult } from './types'
 import { updatePackageJson } from './stages/update-package-json'
 import { updateEslintFiles } from './stages/update-eslint-files'
 import { updateVscodeSettings } from './stages/update-vscode-settings'
@@ -36,8 +36,8 @@ export async function run(options: CliRunOptions = {}) {
     return process.exit(1)
   }
 
-  // Set default value for promtResult if `argSkipPromt` is enabled
-  let result: PromtResult = {
+  // Set default value for PromptResult if `argSkipPromt` is enabled
+  let result: PromptResult = {
     extra: argExtra ?? [],
     frameworks: argTemplate ?? [],
     uncommittedConfirmed: false,
@@ -102,7 +102,7 @@ export async function run(options: CliRunOptions = {}) {
         p.cancel('Operation cancelled.')
         process.exit(0)
       },
-    }) as PromtResult
+    }) as PromptResult
 
     if (!result.uncommittedConfirmed)
       return process.exit(1)
