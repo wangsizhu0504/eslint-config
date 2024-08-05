@@ -1,4 +1,3 @@
-import process from 'node:process'
 import fs from 'node:fs'
 import { isPackageExists } from 'local-pkg'
 import { FlatConfigComposer } from 'eslint-flat-config-utils'
@@ -31,6 +30,7 @@ import type { Awaitable, ConfigNames, OptionsConfig, TypedFlatConfigItem } from 
 import { hasReact, hasTypeScript } from './env'
 import { formatters } from './configs/formatters'
 import type { RuleOptions } from './typegen'
+import { isInEditorEnv } from './utils'
 
 const flatConfigProps: Array<keyof TypedFlatConfigItem> = [
   'name',
@@ -82,7 +82,7 @@ export function defineEslintConfig(
     autoRenamePlugins = true,
     componentExts = [],
     gitignore: enableGitignore = true,
-    isInEditor = !!((process.env.VSCODE_PID || process.env.JETBRAINS_IDE || process.env.VIM) && !process.env.CI),
+    isInEditor = isInEditorEnv(),
     react: enableReact = hasReact,
     regexp: enableRegexp = true,
     typescript: enableTypeScript = hasTypeScript,
