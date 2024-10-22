@@ -17,7 +17,7 @@ export async function test(
     pluginVitest,
     pluginNoOnlyTests,
   ] = await Promise.all([
-    interopDefault(import('eslint-plugin-vitest')),
+    interopDefault(import('@vitest/eslint-plugin')),
     interopDefault(import('eslint-plugin-no-only-tests')),
   ] as const)
 
