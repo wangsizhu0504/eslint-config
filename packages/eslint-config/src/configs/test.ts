@@ -50,7 +50,6 @@ export async function test(
         'test/prefer-hooks-in-order': 'error',
         'test/prefer-lowercase-title': 'error',
         'ts/explicit-function-return-type': 'off',
-        'unicorn/consistent-function-scoping': 'off',
 
         ...overrides,
       },
