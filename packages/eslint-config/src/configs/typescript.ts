@@ -221,8 +221,13 @@ export async function typescript(
 
         'ts/no-non-null-assertion': 'off',
 
-        'ts/no-redeclare': 'error',
+        'ts/no-redeclare': ['error', { builtinGlobals: false }],
         'ts/no-redundant-type-constituents': ['off'],
+        'ts/no-unused-expressions': ['error', {
+          allowShortCircuit: true,
+          allowTaggedTemplates: true,
+          allowTernary: true,
+        }],
         'ts/no-require-imports': 'error',
         'ts/no-shadow': ['warn'],
         'ts/no-this-alias': ['error', { allowDestructuring: true }],
