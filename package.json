@@ -9,30 +9,31 @@
     "build": "pnpm -r build",
     "dev": "npx @eslint/config-inspector --config eslint.config.ts",
     "stub": "pnpm -r --parallel run stub",
-    "lint": "eslint .",
+    "lint": "eslint --flag unstable_ts_config .",
     "release": "npm run build && bumpp -r && pnpm -r publish"
   },
   "devDependencies": {
-    "@esbuild/darwin-arm64": "^0.21.5",
+    "@esbuild/darwin-arm64": "^0.24.0",
     "@kriszu/eslint-config": "workspace:*",
-    "@types/eslint": "^8.56.12",
+    "@types/eslint": "^9.6.1",
     "@types/fs-extra": "^11.0.4",
-    "@types/node": "^20.16.13",
+    "@types/node": "^22.7.7",
     "@types/prompts": "^2.4.9",
     "@types/yargs": "^17.0.33",
     "bumpp": "^9.7.1",
     "bundle-require": "^5.0.0",
-    "eslint": "9.4.0",
+    "eslint": "9.9.1",
     "esno": "^4.8.0",
     "execa": "^9.4.1",
     "fast-glob": "^3.3.2",
     "fs-extra": "^11.2.0",
+    "jiti": "^1.21.6",
     "lint-staged": "^15.2.10",
     "rimraf": "^5.0.10",
     "simple-git-hooks": "^2.11.1",
     "tsup": "^8.3.0",
     "typescript": "^5.6.3",
     "unbuild": "^2.0.0",
-    "vitest": "^1.6.0"
+    "vitest": "^2.1.3"
   }
 }

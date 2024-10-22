@@ -31,6 +31,7 @@ import { hasReact, hasTypeScript } from './env'
 import { formatters } from './configs/formatters'
 import type { RuleOptions } from './typegen'
 import { isInEditorEnv } from './utils'
+import { log } from 'node:console'
 
 const flatConfigProps: Array<keyof TypedFlatConfigItem> = [
   'name',
@@ -82,14 +83,19 @@ export function defineEslintConfig(
     autoRenamePlugins = true,
     componentExts = [],
     gitignore: enableGitignore = true,
-    isInEditor = isInEditorEnv(),
     react: enableReact = hasReact,
     regexp: enableRegexp = true,
     typescript: enableTypeScript = hasTypeScript,
     unocss: enableUnoCSS = false,
     vue: enableVue = VuePackages.some(i => isPackageExists(i)),
   } = options
-
+let isInEditor = options.isInEditor
+  if (isInEditor == null) {
+    isInEditor = isInEditorEnv()
+    if (isInEditor)
+      // eslint-disable-next-line no-console
+      console.log('[@antfu/eslint-config] Detected running in editor, some rules are disabled.')
+  }
   const stylisticOptions = options.stylistic === false
     ? false
     : (typeof options.stylistic === 'object'

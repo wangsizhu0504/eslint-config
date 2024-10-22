@@ -112,6 +112,6 @@
     "pre-commit": "pnpm lint-staged"
   },
   "lint-staged": {
-    "*": "eslint --fix"
+    "*": "eslint --flag unstable_ts_config --fix"
   }
 }
