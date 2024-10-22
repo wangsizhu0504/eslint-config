@@ -1,9 +1,9 @@
-import { GLOB_CSS, GLOB_GRAPHQL, GLOB_HTML, GLOB_LESS, GLOB_MARKDOWN, GLOB_POSTCSS, GLOB_SCSS, GLOB_SVG } from '../globs'
-import { ensurePackages, interopDefault, isPackageInScope, parserPlain } from '../utils'
-import { StylisticConfigDefaults } from './stylistic'
-
 import type { OptionsFormatters, StylisticConfig, TypedFlatConfigItem } from '../types'
 import type { VendoredPrettierOptions } from '../vender/prettier-types'
+import { GLOB_CSS, GLOB_GRAPHQL, GLOB_HTML, GLOB_LESS, GLOB_MARKDOWN, GLOB_POSTCSS, GLOB_SCSS, GLOB_SVG } from '../globs'
+
+import { ensurePackages, interopDefault, isPackageInScope, parserPlain } from '../utils'
+import { StylisticConfigDefaults } from './stylistic'
 
 export async function formatters(
   options: OptionsFormatters | true = {},

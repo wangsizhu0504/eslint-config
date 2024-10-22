@@ -1,8 +1,8 @@
+import type { OptionsOverrides, StylisticConfig, TypedFlatConfigItem } from '../types'
+
 import { interopDefault } from 'src'
 
 import { pluginKriszu } from '../plugins'
-
-import type { OptionsOverrides, StylisticConfig, TypedFlatConfigItem } from '../types'
 
 export const StylisticConfigDefaults: StylisticConfig = {
   indent: 2,

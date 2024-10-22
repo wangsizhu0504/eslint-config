@@ -29,7 +29,7 @@
   "scripts": {
     "build": "npm run typegen && tsup --format esm,cjs --clean --dts",
     "stub": "tsup --format esm",
-    "lint": "eslint .",
+    "lint": "eslint --flag unstable_ts_config .",
     "typegen": "esno scripts/typegen.ts",
     "prepack": "npm run build",
     "typecheck": "tsc --noEmit",
@@ -67,7 +67,7 @@
     "@stylistic/eslint-plugin": "^2.9.0",
     "@typescript-eslint/eslint-plugin": "^8.11.0",
     "@vitest/eslint-plugin": "^1.1.7",
-    "@typescript-eslint/parser": "^8.11.0",
+    "@typescript-eslint/parser": "^8.9.0",
     "eslint-config-flat-gitignore": "^0.3.0",
     "eslint-flat-config-utils": "^0.4.0",
     "eslint-merge-processors": "^0.1.0",

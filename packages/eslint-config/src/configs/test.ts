@@ -1,7 +1,7 @@
-import { GLOB_TESTS } from '../globs'
-import { interopDefault } from '../utils'
-
 import type { OptionsIsInEditor, OptionsOverrides, TypedFlatConfigItem } from '../types'
+import { GLOB_TESTS } from '../globs'
+
+import { interopDefault } from '../utils'
 
 // Hold the reference so we don't redeclare the plugin on each call
 let _pluginTest: any

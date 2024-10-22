@@ -1,9 +1,3 @@
-import process from 'node:process'
-
-import { GLOB_MARKDOWN, GLOB_TS, GLOB_TSX } from '../globs'
-import { pluginKriszu } from '../plugins'
-import { interopDefault, renameRules } from '../utils'
-
 import type {
   OptionsComponentExts,
   OptionsFiles,
@@ -13,6 +7,12 @@ import type {
   OptionsTypeScriptWithTypes,
   TypedFlatConfigItem,
 } from '../types'
+
+import process from 'node:process'
+import { GLOB_MARKDOWN, GLOB_TS, GLOB_TSX } from '../globs'
+import { pluginKriszu } from '../plugins'
+
+import { interopDefault, renameRules } from '../utils'
 
 export async function typescript(
   options: OptionsFiles & OptionsComponentExts & OptionsOverrides & OptionsTypeScriptWithTypes & OptionsTypeScriptParserOptions & OptionsProjectType = {},
@@ -155,14 +155,10 @@ export async function typescript(
         ],
         'ts/consistent-indexed-object-style': 'off',
         'ts/consistent-type-assertions': 'off',
-        'ts/consistent-type-imports': [
-          'error',
-          {
-            disallowTypeAnnotations: false,
-            fixStyle: 'separate-type-imports',
-            prefer: 'type-imports',
-          },
-        ],
+        'ts/consistent-type-imports': ['error', {
+          disallowTypeAnnotations: false,
+          prefer: 'type-imports',
+        }],
         'ts/default-param-last': ['error'],
         'ts/explicit-function-return-type': ['off'],
         'ts/explicit-member-accessibility': ['off'],

@@ -1,6 +1,6 @@
-import { pluginImport, pluginKriszu, pluginUnusedImports } from '../plugins'
-
 import type { OptionsIsInEditor, OptionsStylistic, TypedFlatConfigItem } from '../types'
+
+import { pluginImport, pluginKriszu, pluginUnusedImports } from '../plugins'
 
 export async function imports(
   options: OptionsIsInEditor & OptionsStylistic = {},
