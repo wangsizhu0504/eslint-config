@@ -1,11 +1,10 @@
-import type { ParserOptions } from '@typescript-eslint/parser';
-import type { Options as VueBlocksOptions } from 'eslint-processor-vue-blocks';
-import type { Linter } from 'eslint';
-import type { StylisticCustomizeOptions } from '@stylistic/eslint-plugin';
-import type { VendoredPrettierOptions } from './vender/prettier-types';
-import type { ConfigNames, RuleOptions } from './typegen';
-import type rules from '@typescript-eslint/eslint-plugin/use-at-your-own-risk/rules';
-import type { unicorn } from './configs';
+import type { StylisticCustomizeOptions } from '@stylistic/eslint-plugin'
+import type { ParserOptions } from '@typescript-eslint/parser'
+import type { Linter } from 'eslint'
+import type { Options as VueBlocksOptions } from 'eslint-processor-vue-blocks'
+
+import type { ConfigNames, RuleOptions } from './typegen'
+import type { VendoredPrettierOptions } from './vender/prettier-types'
 
 export interface FlatGitignoreOptions {
   files?: string | string[];
@@ -14,11 +13,11 @@ export interface OptionsIgnores {
   ignores?: string | string[];
 }
 
-export type Awaitable<T> = T | Promise<T>;
+export type Awaitable<T> = T | Promise<T>
 
-export type Rules = RuleOptions;
+export type Rules = RuleOptions
 
-export type { ConfigNames };
+export type { ConfigNames }
 
 export type TypedFlatConfigItem = Omit<
   Linter.Config<Linter.RulesRecord & Rules>,
@@ -31,7 +30,7 @@ export type TypedFlatConfigItem = Omit<
    * @see [Using plugins in your configuration](https://eslint.org/docs/latest/user-guide/configuring/configuration-files-new#using-plugins-in-your-configuration)
    */
   plugins?: Record<string, any>;
-};
+}
 
 export interface OptionsFiles {
   /**
@@ -59,7 +58,7 @@ export interface OptionsVue extends OptionsOverrides {
 
 export type OptionsTypescript =
   | (OptionsTypeScriptWithTypes & OptionsOverrides)
-  | (OptionsTypeScriptParserOptions & OptionsOverrides);
+  | (OptionsTypeScriptParserOptions & OptionsOverrides)
 
 export interface OptionsFormatters {
   /**
@@ -212,7 +211,7 @@ export interface OptionsUnoCSS extends OptionsOverrides {
 
 export interface OptionsConfig
   extends OptionsComponentExts,
-    OptionsProjectType {
+  OptionsProjectType {
   /**
    * Enable gitignore support.
    *

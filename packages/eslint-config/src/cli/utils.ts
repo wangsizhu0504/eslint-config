@@ -4,8 +4,8 @@ export function isGitClean() {
   try {
     execSync('git diff-index --quiet HEAD --')
     return true
-  }
-  catch (error) {
+  // eslint-disable-next-line unused-imports/no-unused-vars, ts/no-unused-vars
+  } catch (error) {
     return false
   }
 }

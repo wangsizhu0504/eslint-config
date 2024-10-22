@@ -1,11 +1,13 @@
-import path from 'node:path'
-import fsp from 'node:fs/promises'
 import fs from 'node:fs'
+import fsp from 'node:fs/promises'
+import path from 'node:path'
 import process from 'node:process'
-import c from 'picocolors'
+
 import * as p from '@clack/prompts'
+import c from 'picocolors'
 
 import { vscodeSettingsString } from '../constants'
+
 import type { PromptResult } from '../types'
 
 export async function updateVscodeSettings(result: PromptResult) {
@@ -27,7 +29,7 @@ export async function updateVscodeSettings(result: PromptResult) {
   else {
     let settingsContent = await fsp.readFile(settingsPath, 'utf8')
 
-    settingsContent = settingsContent.trim().replace(/\s*}$/, '')
+    settingsContent = settingsContent.trim().replace(/\s*\}$/, '')
     settingsContent += settingsContent.endsWith(',') || settingsContent.endsWith('{') ? '' : ','
     settingsContent += `${vscodeSettingsString}}\n`
 

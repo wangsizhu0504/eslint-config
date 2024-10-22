@@ -1,7 +1,9 @@
 import process from 'node:process'
+
 import { GLOB_MARKDOWN, GLOB_TS, GLOB_TSX } from '../globs'
-import { interopDefault, renameRules } from '../utils'
 import { pluginKriszu } from '../plugins'
+import { interopDefault, renameRules } from '../utils'
+
 import type {
   OptionsComponentExts,
   OptionsFiles,

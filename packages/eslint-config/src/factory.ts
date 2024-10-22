@@ -1,8 +1,10 @@
 import fs from 'node:fs'
-import { isPackageExists } from 'local-pkg'
+
 import { FlatConfigComposer } from 'eslint-flat-config-utils'
+import { isPackageExists } from 'local-pkg'
+
 import type { Linter } from 'eslint'
-import { gitignore } from './gitignore'
+
 import {
   command,
   comments,
@@ -27,16 +29,18 @@ import {
   vue,
   yaml,
 } from './configs'
+import { formatters } from './configs/formatters'
+import { hasReact, hasTypeScript } from './env'
+import { gitignore } from './gitignore'
+import { isInEditorEnv } from './utils'
+
+import type { RuleOptions } from './typegen'
 import type {
   Awaitable,
   ConfigNames,
   OptionsConfig,
   TypedFlatConfigItem,
 } from './types'
-import { hasReact, hasTypeScript } from './env'
-import { formatters } from './configs/formatters'
-import type { RuleOptions } from './typegen'
-import { isInEditorEnv } from './utils'
 
 const flatConfigProps = [
   'name',

@@ -1,4 +1,5 @@
 import { pluginComments } from '../plugins'
+
 import type { TypedFlatConfigItem } from '../types'
 
 export async function comments(): Promise<TypedFlatConfigItem[]> {

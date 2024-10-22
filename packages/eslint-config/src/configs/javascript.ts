@@ -1,4 +1,5 @@
 import globals from 'globals'
+
 import type { OptionsOverrides, TypedFlatConfigItem } from '../types'
 
 export async function javascript(
@@ -265,16 +266,6 @@ export async function javascript(
 
         'prefer-template': 'error',
         'require-await': 'off',
-        'sort-imports': [
-          'error',
-          {
-            allowSeparatedGroups: false,
-            ignoreCase: false,
-            ignoreDeclarationSort: true,
-            ignoreMemberSort: false,
-            memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
-          },
-        ],
         'spaced-comment': [
           'error',
           'always',

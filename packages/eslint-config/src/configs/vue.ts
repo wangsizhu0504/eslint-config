@@ -1,7 +1,9 @@
 import { mergeProcessors } from 'eslint-merge-processors'
 import { pluginKriszu } from 'src/plugins'
-import { interopDefault } from '../utils'
+
 import { GLOB_VUE } from '../globs'
+import { interopDefault } from '../utils'
+
 import type {
   OptionsFiles,
   OptionsHasTypeScript,

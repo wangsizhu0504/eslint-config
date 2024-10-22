@@ -1,4 +1,5 @@
 import { pluginImport, pluginKriszu, pluginUnusedImports } from '../plugins'
+
 import type { OptionsIsInEditor, OptionsStylistic, TypedFlatConfigItem } from '../types'
 
 export async function imports(
@@ -105,25 +106,12 @@ export async function imports(
         // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-webpack-loader-syntax.md
         'import/no-webpack-loader-syntax': 'error',
 
-        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/order.md
-        'import/order': 'error',
-
         // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/prefer-default-export.md
         // Excessive. Also, named exports help enforce readable imports.
         'import/prefer-default-export': 'off',
 
         'kriszu/import-dedupe': 'error',
 
-        'sort-imports': [
-          'error',
-          {
-            allowSeparatedGroups: false,
-            ignoreCase: false,
-            ignoreDeclarationSort: true,
-            ignoreMemberSort: false,
-            memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
-          },
-        ],
         'unused-imports/no-unused-imports': isInEditor ? 'off' : 'error',
         'unused-imports/no-unused-vars': [
           'error',

@@ -1,4 +1,5 @@
 import fs from 'node:fs'
+
 import { findUpSync } from 'find-up'
 
 // @ts-expect-error missing types
