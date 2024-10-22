@@ -41,7 +41,7 @@ export async function combine(...configs: Array<Awaitable<TypedFlatConfigItem | 
  *
  * @example
  * ```ts
- * import { renameRules } from '@antfu/eslint-config'
+ * import { renameRules } from '@kriszu/eslint-config'
  *
  * export default [{
  *   rules: renameRules(
@@ -74,7 +74,7 @@ export function renameRules(
  *
  * @example
  * ```ts
- * import { renamePluginInConfigs } from '@antfu/eslint-config'
+ * import { renamePluginInConfigs } from '@kriszu/eslint-config'
  * import someConfigs from './some-configs'
  *
  * export default renamePluginInConfigs(someConfigs, {

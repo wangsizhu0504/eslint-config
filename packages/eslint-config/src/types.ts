@@ -4,6 +4,7 @@ import type { Linter } from 'eslint'
 import type { StylisticCustomizeOptions } from '@stylistic/eslint-plugin'
 import type { VendoredPrettierOptions } from './vender/prettier-types'
 import type { ConfigNames, RuleOptions } from './typegen'
+import type rules from '@typescript-eslint/eslint-plugin/use-at-your-own-risk/rules'
 
 export interface FlatGitignoreOptions {
   files?: string | string[]
@@ -18,7 +19,7 @@ export type Rules = RuleOptions
 
 export type { ConfigNames }
 
-export type TypedFlatConfigItem = Omit<Linter.FlatConfig<Linter.RulesRecord & Rules>, 'plugins'> & {
+export type TypedFlatConfigItem = Omit<Linter.Config<Linter.RulesRecord & Rules>, 'plugins'> & {
 
   // Relax plugins type limitation, as most of the plugins did not have correct type info yet.
   /**
@@ -136,6 +137,10 @@ export interface OptionsTypeScriptWithTypes {
    * @see https://typescript-eslint.io/linting/typed-linting/
    */
   tsconfigPath?: string
+  /**
+   * Override type aware rules.
+   */
+  overridesTypeAware?: TypedFlatConfigItem['rules']
 }
 
 export interface OptionsHasTypeScript {
@@ -200,8 +205,8 @@ export interface OptionsConfig extends OptionsComponentExts, OptionsProjectType{
    * Disable some opinionated rules to Anthony's preference.
    *
    * Including:
-   * - `antfu/top-level-function`
-   * - `antfu/if-newline`
+   * - `kriszu/top-level-function`
+   * - `kriszu/if-newline`
    *
    * @default false
    */

@@ -94,7 +94,7 @@ let isInEditor = options.isInEditor
     isInEditor = isInEditorEnv()
     if (isInEditor)
       // eslint-disable-next-line no-console
-      console.log('[@antfu/eslint-config] Detected running in editor, some rules are disabled.')
+      console.log('[@kriszu/eslint-config] Detected running in editor, some rules are disabled.')
   }
   const stylisticOptions = options.stylistic === false
     ? false
