@@ -94,6 +94,7 @@ export async function vue(
         'node/prefer-global/process': 'off',
         'style/indent': 'off',
         'kriszu/no-index-vue': 'error',
+        'ts/explicit-function-return-type': 'off',
 
         'vue/block-lang': [
           'error',

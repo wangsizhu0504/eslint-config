@@ -1,5 +1,4 @@
 import type { TypedFlatConfigItem } from '../types'
-
 import { GLOB_SRC, GLOB_SRC_EXT } from '../globs'
 
 export async function disables(): Promise<TypedFlatConfigItem[]> {
@@ -49,6 +48,14 @@ export async function disables(): Promise<TypedFlatConfigItem[]> {
       name: 'kriszu/disables/cjs',
       rules: {
         'ts/no-require-imports': 'off',
+      },
+    },
+    {
+      files: [`**/*.config.${GLOB_SRC_EXT}`, `**/*.config.*.${GLOB_SRC_EXT}`],
+      name: 'antfu/disables/config-files',
+      rules: {
+        'no-console': 'off',
+        'ts/explicit-function-return-type': 'off',
       },
     },
   ]
