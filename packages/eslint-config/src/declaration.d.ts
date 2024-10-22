@@ -1,7 +1,7 @@
 declare module '@eslint-react/eslint-plugin';
 declare module 'eslint-plugin-react-hooks';
 declare module 'eslint-plugin-react-refresh';
-declare module 'eslint-plugin-eslint-comments';
+declare module '@eslint-community/eslint-plugin-eslint-comments';
 declare module 'eslint-plugin-import-x';
 declare module 'eslint-plugin-n';
 declare module 'eslint-plugin-unicorn';

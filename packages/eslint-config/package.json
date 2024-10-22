@@ -72,7 +72,7 @@
     "eslint-flat-config-utils": "^0.4.0",
     "eslint-merge-processors": "^0.1.0",
     "eslint-plugin-command": "^0.2.6",
-    "eslint-plugin-eslint-comments": "^3.2.0",
+    "@eslint-community/eslint-plugin-eslint-comments": "^4.3.0",
     "eslint-plugin-import-x": "^4.3.1",
     "eslint-plugin-jsdoc": "^50.4.3",
     "eslint-plugin-jsonc": "^2.16.0",
