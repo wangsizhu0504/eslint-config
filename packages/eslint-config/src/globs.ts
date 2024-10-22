@@ -25,6 +25,7 @@ export const GLOB_REACT = '**/*.?([cm])?(j|t)sx'
 export const GLOB_YAML = '**/*.y?(a)ml'
 export const GLOB_HTML = '**/*.htm?(l)'
 export const GLOB_GRAPHQL = '**/*.{g,graph}ql'
+export const GLOB_SVG = '**/*.svg'
 
 export const GLOB_MARKDOWN_CODE = `${GLOB_MARKDOWN}/${GLOB_SRC}`
 

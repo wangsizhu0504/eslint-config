@@ -72,6 +72,12 @@ export interface OptionsFormatters {
    * Currently only support Prettier.
    */
   html?: 'prettier' | boolean
+  /**
+   * Enable formatting support for SVG.
+   *
+   * Currently only support Prettier.
+   */
+  svg?: 'prettier' | boolean
 
   /**
    * Enable formatting support for Markdown.

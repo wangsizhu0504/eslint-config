@@ -1,24 +1,28 @@
-import {  GLOB_CSS, GLOB_GRAPHQL, GLOB_HTML, GLOB_LESS, GLOB_MARKDOWN, GLOB_POSTCSS, GLOB_SCSS } from '../globs'
+import { GLOB_CSS, GLOB_GRAPHQL, GLOB_HTML, GLOB_LESS, GLOB_MARKDOWN, GLOB_POSTCSS, GLOB_SCSS, GLOB_SVG } from '../globs'
 import type { VendoredPrettierOptions } from '../vender/prettier-types'
-import { ensurePackages, interopDefault, parserPlain } from '../utils'
+import { ensurePackages, interopDefault, isPackageInScope, parserPlain } from '../utils'
 import type { OptionsFormatters, StylisticConfig, TypedFlatConfigItem } from '../types'
 import { StylisticConfigDefaults } from './stylistic'
+
 
 export async function formatters(
   options: OptionsFormatters | true = {},
   stylistic: StylisticConfig = {},
 ): Promise<TypedFlatConfigItem[]> {
   if (options === true) {
+    const isPrettierPluginXmlInScope = isPackageInScope('@prettier/plugin-xml')
     options = {
       css: true,
       graphql: true,
       html: true,
       markdown: true,
+      svg: isPrettierPluginXmlInScope,
     }
   }
 
   await ensurePackages([
     'eslint-plugin-format',
+    (options.svg) ? '@prettier/plugin-xml' : undefined,
   ])
 
   const {
@@ -62,6 +66,28 @@ export async function formatters(
       },
     },
   ]
+if (options.svg) {
+    configs.push({
+      files: [GLOB_SVG],
+      languageOptions: {
+        parser: parserPlain,
+      },
+      name: 'kriszu/formatter/svg',
+      rules: {
+        'format/prettier': [
+          'error',
+          {
+            ...prettierOptions,
+            parser: 'xml',
+            plugins: [
+              '@prettier/plugin-xml',
+            ],
+          },
+        ],
+      },
+    })
+  }
+
 
   if (options.css) {
     configs.push(
