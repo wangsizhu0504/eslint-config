@@ -11,7 +11,6 @@ import type {
   OptionsTypeScriptWithTypes,
   TypedFlatConfigItem,
 } from '../types'
-import type { rules } from 'eslint-plugin-jsonc'
 
 export async function typescript(
   options: OptionsFiles & OptionsComponentExts & OptionsOverrides & OptionsTypeScriptWithTypes & OptionsTypeScriptParserOptions & OptionsProjectType = {},
@@ -125,7 +124,6 @@ export async function typescript(
         'no-empty-function': 'off',
         'no-invalid-this': 'off',
         'no-loop-func': 'off',
-        'no-loss-of-precision': 'off',
         'no-magic-numbers': ['off'],
         'no-redeclare': 'off',
         'no-restricted-imports': 'off',
@@ -206,7 +204,6 @@ export async function typescript(
         'ts/no-invalid-this': 'error',
         'ts/no-invalid-void-type': 'off',
         'ts/no-loop-func': ['error'],
-        'ts/no-loss-of-precision': 'error',
         'ts/no-magic-numbers': [
           'off',
           {
@@ -286,30 +283,5 @@ export async function typescript(
           },
         }]
       : [],
-    {
-      files: ['**/*.d.?([cm])ts'],
-      name: 'kriszu/typescript/disables/dts',
-      rules: {
-        'eslint-comments/no-unlimited-disable': 'off',
-        'import/no-duplicates': 'off',
-        'no-restricted-syntax': 'off',
-        'unused-imports/no-unused-vars': 'off',
-      },
-    },
-    {
-      files: ['**/*.{test,spec}.ts?(x)'],
-      name: 'kriszu/typescript/tests-overrides',
-      rules: {
-        'no-unused-expressions': 'off',
-      },
-    },
-    {
-      files: ['**/*.js', '**/*.cjs'],
-      name: 'kriszu/typescript/javascript-overrides',
-      rules: {
-        'ts/no-require-imports': 'off',
-        'ts/no-var-requires': 'off',
-      },
-    },
   ]
 }

@@ -11,7 +11,6 @@ export default createEslintRule<Options, MessageIds>({
     type: 'layout',
     docs: {
       description: 'Enforce Anthony\'s style of curly bracket',
-      recommended: 'stylistic',
     },
     fixable: 'whitespace',
     schema: [],
@@ -21,7 +20,7 @@ export default createEslintRule<Options, MessageIds>({
   },
   defaultOptions: [],
   create: (context) => {
-    function requireCurly(body: TSESTree.Statement | TSESTree.Expression) {
+    function requireCurly(body: TSESTree.Statement | TSESTree.Expression): boolean {
       if (!body)
         return false
       // already has curly brackets
@@ -39,7 +38,7 @@ export default createEslintRule<Options, MessageIds>({
       return false
     }
 
-    function wrapCurlyIfNeeded(body: TSESTree.Statement) {
+    function wrapCurlyIfNeeded(body: TSESTree.Statement): void {
       if (body.type === 'BlockStatement')
         return
       context.report({
@@ -53,7 +52,7 @@ export default createEslintRule<Options, MessageIds>({
       })
     }
 
-    function check(bodies: TSESTree.Statement[], additionalChecks: TSESTree.Expression[] = []) {
+    function check(bodies: TSESTree.Statement[], additionalChecks: TSESTree.Expression[] = []): void {
       const requires = [...bodies, ...additionalChecks].map(body => requireCurly(body))
 
       // If any of the bodies requires curly brackets, wrap all of them to be consistent
@@ -70,7 +69,8 @@ export default createEslintRule<Options, MessageIds>({
 
         const statements: TSESTree.Statement[] = []
         const tests: TSESTree.Expression[] = []
-        function addIf(node: TSESTree.IfStatement) {
+
+        function addIf(node: TSESTree.IfStatement): void {
           statements.push(node.consequent)
           if (node.test)
             tests.push(node.test)
@@ -81,6 +81,7 @@ export default createEslintRule<Options, MessageIds>({
               statements.push(node.alternate)
           }
         }
+
         addIf(node)
         check(statements, tests)
       },

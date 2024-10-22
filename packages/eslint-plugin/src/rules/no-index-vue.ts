@@ -69,7 +69,6 @@ export default createEslintRule<Options, MessageIds>({
     type: 'layout',
     docs: {
       description: 'Better optimize vue component naming',
-      recommended: 'strict',
     },
     fixable: 'whitespace',
     schema: [],

@@ -10,7 +10,6 @@ export default createEslintRule<Options, MessageIds>({
     type: 'problem',
     docs: {
       description: 'Prevent importing modules in `dist` folder',
-      recommended: 'recommended',
     },
     schema: [],
     messages: {
@@ -19,8 +18,8 @@ export default createEslintRule<Options, MessageIds>({
   },
   defaultOptions: [],
   create: (context) => {
-    function isDist(path: string) {
-      return (path.startsWith('.') && path.match(/\/dist(\/|$)/))
+    function isDist(path: string): boolean {
+      return Boolean((path.startsWith('.') && path.match(/\/dist(\/|$)/)))
         || path === 'dist'
     }
 

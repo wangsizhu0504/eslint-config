@@ -58,6 +58,7 @@ export async function stylistic(
         ),
 
         'kriszu/consistent-list-newline': 'error',
+        'kriszu/consistent-chaining': 'error',
         'kriszu/top-level-function': 'error',
 
         'style/brace-style': 'off',

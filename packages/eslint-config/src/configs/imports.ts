@@ -114,9 +114,6 @@ export async function imports(
 
         'kriszu/import-dedupe': 'error',
 
-        'kriszu/no-import-dist': 'error',
-        'kriszu/no-import-node-modules-by-path': 'error',
-
         'sort-imports': [
           'error',
           {
@@ -140,17 +137,8 @@ export async function imports(
         ],
         ...stylistic
           ? {
-              // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/newline-after-import.md
+            // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/newline-after-import.md
               'import/newline-after-import': ['error', { considerComments: true, count: 1 }],
-              // Enforce newlines inside named import
-              'kriszu/import-enforce-newlines': [
-                'error',
-                {
-                  'items': 5,
-                  'max-len': 120,
-                  'semi': false,
-                },
-              ],
             }
           : {},
 

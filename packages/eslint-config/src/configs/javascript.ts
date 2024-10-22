@@ -1,5 +1,4 @@
 import globals from 'globals'
-import { GLOB_SRC, GLOB_SRC_EXT } from '../globs'
 import type { OptionsOverrides, TypedFlatConfigItem } from '../types'
 
 export async function javascript(
@@ -304,13 +303,6 @@ export async function javascript(
         'yoda': ['error', 'never'],
 
         ...overrides,
-      },
-    },
-    {
-      files: [`scripts/${GLOB_SRC}`, `cli.${GLOB_SRC_EXT}`],
-      name: 'kriszu/javascript/disables/cli',
-      rules: {
-        'no-console': 'off',
       },
     },
   ]
