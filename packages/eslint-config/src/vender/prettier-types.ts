@@ -4,6 +4,11 @@
 
 export type VendoredPrettierOptions = Partial<VendoredPrettierOptionsRequired>
 
+export type VendoredPrettierRuleOptions = VendoredPrettierOptions & {
+  [k: string]: unknown | undefined
+  parser?: BuiltInParserName
+}
+
 export interface VendoredPrettierOptionsRequired {
   /**
    * Specify the line length that the printer will wrap on.
@@ -33,13 +38,13 @@ export interface VendoredPrettierOptionsRequired {
   /**
    * Print trailing commas wherever possible.
    */
-  trailingComma: 'all' | 'es5' | 'none'
+  trailingComma: 'none' | 'es5' | 'all'
   /**
    * Print spaces between brackets in object literals.
    */
   bracketSpacing: boolean
   /**
-   * Put the `>` of a multi-line HTML (HTML, JSX, Vue, Angular) element at the end of the last line instead of being
+   * Put the `>` of a multi-line HTML (HTML, XML, JSX, Vue, Angular) element at the end of the last line instead of being
    * alone on the next line (does not apply to self closing elements).
    */
   bracketSameLine: boolean
@@ -67,21 +72,21 @@ export interface VendoredPrettierOptionsRequired {
    * Include parentheses around a sole arrow function parameter.
    * @default "always"
    */
-  arrowParens: 'always' | 'avoid'
+  arrowParens: 'avoid' | 'always'
   /**
    * Provide ability to support new languages to prettier.
    */
-  plugins: Array<any | string>
+  plugins: Array<string | any>
   /**
    * How to handle whitespaces in HTML.
    * @default "css"
    */
-  htmlWhitespaceSensitivity: 'css' | 'ignore' | 'strict'
+  htmlWhitespaceSensitivity: 'css' | 'strict' | 'ignore'
   /**
    * Which end of line characters to apply.
    * @default "lf"
    */
-  endOfLine: 'auto' | 'cr' | 'crlf' | 'lf'
+  endOfLine: 'auto' | 'lf' | 'crlf' | 'cr'
   /**
    * Change when properties in objects are quoted.
    * @default "as-needed"
@@ -93,26 +98,47 @@ export interface VendoredPrettierOptionsRequired {
    */
   vueIndentScriptAndStyle: boolean
   /**
-   * Enforce single attribute per line in HTML, Vue and JSX.
+   * Enforce single attribute per line in HTML, XML, Vue and JSX.
    * @default false
    */
   singleAttributePerLine: boolean
+
+  /**
+   * How to handle whitespaces in XML.
+   * @default "preserve"
+   */
+  xmlQuoteAttributes: 'single' | 'double' | 'preserve'
+  /**
+   * Whether to put a space inside the brackets of self-closing XML elements.
+   * @default true
+   */
+  xmlSelfClosingSpace: boolean
+  /**
+   * Whether to sort attributes by key in XML elements.
+   * @default false
+   */
+  xmlSortAttributesByKey: boolean
+  /**
+   * How to handle whitespaces in XML.
+   * @default "ignore"
+   */
+  xmlWhitespaceSensitivity: 'ignore' | 'strict' | 'preserve'
 }
 
 export type BuiltInParserName =
   | 'acorn'
   | 'angular'
-  | 'babel'
   | 'babel-flow'
   | 'babel-ts'
+  | 'babel'
   | 'css'
   | 'espree'
   | 'flow'
   | 'glimmer'
   | 'graphql'
   | 'html'
-  | 'json'
   | 'json-stringify'
+  | 'json'
   | 'json5'
   | 'less'
   | 'lwc'
@@ -122,6 +148,7 @@ export type BuiltInParserName =
   | 'scss'
   | 'typescript'
   | 'vue'
+  | 'xml'
   | 'yaml'
 
 // This utility is here to handle the case where you have an explicit union
@@ -132,5 +159,5 @@ export type BuiltInParserName =
 // It comes from this issue: microsoft/TypeScript#29729:
 //   https://github.com/microsoft/TypeScript/issues/29729#issuecomment-700527227
 export type LiteralUnion<T extends U, U = string> =
-  | (Pick<U, never> & { _?: never | undefined })
   | T
+  | (Pick<U, never> & { _?: never | undefined })
