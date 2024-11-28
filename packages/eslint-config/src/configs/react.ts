@@ -1,19 +1,36 @@
-import type { OptionsFiles, OptionsOverrides, OptionsTypeScriptWithTypes, TypedFlatConfigItem } from '../types'
+import type { OptionsFiles, OptionsOverrides, OptionsTypeScriptParserOptions, OptionsTypeScriptWithTypes, TypedFlatConfigItem } from '../types'
 
 import { isPackageExists } from 'local-pkg'
-import { GLOB_SRC } from '../globs'
+import { GLOB_ASTRO_TS, GLOB_MARKDOWN, GLOB_SRC, GLOB_TS, GLOB_TSX } from '../globs'
 
-import { ensurePackages, interopDefault, toArray } from '../utils'
+import { ensurePackages, interopDefault } from '../utils'
 
 // react refresh
-const ReactRefreshAllowConstantExportPackages = ['vite']
+const ReactRefreshAllowConstantExportPackages = [
+  'vite',
+]
+const RemixPackages = [
+  '@remix-run/node',
+  '@remix-run/react',
+  '@remix-run/serve',
+  '@remix-run/dev',
+]
+const NextJsPackages = [
+  'next',
+]
 
 export async function react(
-  options: OptionsTypeScriptWithTypes & OptionsOverrides & OptionsFiles = {},
+  options: OptionsTypeScriptParserOptions & OptionsTypeScriptWithTypes & OptionsOverrides & OptionsFiles = {},
 ): Promise<TypedFlatConfigItem[]> {
   const {
     files = [GLOB_SRC],
+    filesTypeAware = [GLOB_TS, GLOB_TSX],
+    ignoresTypeAware = [
+      `${GLOB_MARKDOWN}/**`,
+      GLOB_ASTRO_TS,
+    ],
     overrides = {},
+    tsconfigPath,
   } = options
 
   await ensurePackages([
@@ -22,31 +39,31 @@ export async function react(
     'eslint-plugin-react-refresh',
   ])
 
-  const tsconfigPath = options?.tsconfigPath
-    ? toArray(options.tsconfigPath)
-    : undefined
   const isTypeAware = !!tsconfigPath
+
+  const typeAwareRules: TypedFlatConfigItem['rules'] = {
+    'react/no-leaked-conditional-rendering': 'warn',
+  }
 
   const [
     pluginReact,
     pluginReactHooks,
     pluginReactRefresh,
-    parserTs,
-  ] = await Promise.all(
-    [
-      interopDefault(import('@eslint-react/eslint-plugin')),
-      interopDefault(import('eslint-plugin-react-hooks')),
-      interopDefault(import('eslint-plugin-react-refresh')),
-      interopDefault(import('@typescript-eslint/parser')),
-    ] as const,
-  )
+  ] = await Promise.all([
+    interopDefault(import('@eslint-react/eslint-plugin')),
+    interopDefault(import('eslint-plugin-react-hooks')),
+    interopDefault(import('eslint-plugin-react-refresh')),
+  ] as const)
 
-  const isAllowConstantExport = ReactRefreshAllowConstantExportPackages.some(
-    i => isPackageExists(i),
-  )
+  const isAllowConstantExport = ReactRefreshAllowConstantExportPackages.some(i => isPackageExists(i))
+  const isUsingRemix = RemixPackages.some(i => isPackageExists(i))
+  const isUsingNext = NextJsPackages.some(i => isPackageExists(i))
+
   const plugins = pluginReact.configs.all.plugins
+
   return [
     {
+      name: 'kriszu/react/setup',
       plugins: {
         'react': plugins['@eslint-react'],
         'react-dom': plugins['@eslint-react/dom'],
@@ -55,22 +72,16 @@ export async function react(
         'react-naming-convention': plugins['@eslint-react/naming-convention'],
         'react-refresh': pluginReactRefresh,
       },
-      settings: {
-        react: {
-          version: 'detect',
-        },
-      },
     },
     {
       files,
       languageOptions: {
-        parser: parserTs,
         parserOptions: {
           ecmaFeatures: {
             jsx: true,
           },
-          ...isTypeAware ? { project: tsconfigPath } : {},
         },
+        sourceType: 'module',
       },
       name: 'kriszu/react/rules',
       rules: {
@@ -94,7 +105,37 @@ export async function react(
         // react refresh
         'react-refresh/only-export-components': [
           'warn',
-          { allowConstantExport: isAllowConstantExport },
+          {
+            allowConstantExport: isAllowConstantExport,
+            allowExportNames: [
+              ...(isUsingNext
+                ? [
+                    'dynamic',
+                    'dynamicParams',
+                    'revalidate',
+                    'fetchCache',
+                    'runtime',
+                    'preferredRegion',
+                    'maxDuration',
+                    'config',
+                    'generateStaticParams',
+                    'metadata',
+                    'generateMetadata',
+                    'viewport',
+                    'generateViewport',
+                  ]
+                : []),
+              ...(isUsingRemix
+                ? [
+                    'meta',
+                    'links',
+                    'headers',
+                    'loader',
+                    'action',
+                  ]
+                : []),
+            ],
+          },
         ],
 
         // recommended rules from @eslint-react
@@ -135,16 +176,19 @@ export async function react(
         'react/prefer-shorthand-boolean': 'warn',
         'react/prefer-shorthand-fragment': 'warn',
 
-        ...(isTypeAware
-          ? {
-              'react/jsx-no-undef': 'off',
-              'react/prop-type': 'off',
-            }
-          : {}),
-
         // overrides
         ...overrides,
       },
     },
+    ...isTypeAware
+      ? [{
+          files: filesTypeAware,
+          ignores: ignoresTypeAware,
+          name: 'kriszu/react/type-aware-rules',
+          rules: {
+            ...typeAwareRules,
+          },
+        }]
+      : [],
   ]
 }

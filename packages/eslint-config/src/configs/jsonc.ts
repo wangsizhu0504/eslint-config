@@ -32,11 +32,11 @@ export async function jsonc(
       },
     },
     {
+      name: 'kriszu/jsonc/rules',
       files,
       languageOptions: {
         parser: parserJsonc,
       },
-      name: 'kriszu/jsonc/rules',
       rules: {
         'jsonc/no-bigint-literals': 'error',
         'jsonc/no-binary-expression': 'error',

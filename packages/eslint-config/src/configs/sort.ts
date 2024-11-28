@@ -31,6 +31,7 @@ export async function sortPackageJson(): Promise<TypedFlatConfigItem[]> {
               'packageManager',
               'description',
               'author',
+              'contributors',
               'license',
               'funding',
               'homepage',
@@ -77,10 +78,6 @@ export async function sortPackageJson(): Promise<TypedFlatConfigItem[]> {
             pathPattern: '^(?:resolutions|overrides|pnpm.overrides)$',
           },
           {
-            order: { type: 'asc' },
-            pathPattern: '^pnpm.overrides$',
-          },
-          {
             order: [
               'types',
               'import',
@@ -88,6 +85,22 @@ export async function sortPackageJson(): Promise<TypedFlatConfigItem[]> {
               'default',
             ],
             pathPattern: '^exports.*$',
+          },
+          {
+            order: [
+              // client hooks only
+              'pre-commit',
+              'prepare-commit-msg',
+              'commit-msg',
+              'post-commit',
+              'pre-rebase',
+              'post-rewrite',
+              'post-checkout',
+              'post-merge',
+              'pre-push',
+              'pre-auto-gc',
+            ],
+            pathPattern: '^(?:gitHooks|husky|simple-git-hooks)$',
           },
         ],
       },
@@ -100,11 +113,11 @@ export async function sortPackageJson(): Promise<TypedFlatConfigItem[]> {
  * Requires `jsonc` config
  */
 
-export async function sortTsconfig(): Promise<TypedFlatConfigItem[]> {
+export function sortTsconfig(): TypedFlatConfigItem[] {
   return [
     {
       files: ['**/tsconfig.json', '**/tsconfig.*.json'],
-      name: 'kriszu/sort/tsconfig',
+      name: 'kriszu/sort/tsconfig-json',
       rules: {
         'jsonc/sort-keys': [
           'error',

@@ -25,9 +25,9 @@ export async function markdown(
       },
     },
     {
+      name: 'kriszu/markdown/processor',
       files,
       ignores: [GLOB_MARKDOWN_IN_MARKDOWN],
-      name: 'kriszu/markdown/processor',
       // `eslint-plugin-markdown` only creates virtual files for code blocks,
       // but not the markdown file itself. We use `eslint-merge-processors` to
       // add a pass-through processor for the markdown file itself.
@@ -37,13 +37,14 @@ export async function markdown(
       ]),
     },
     {
+      name: 'kriszu/markdown/parser',
       files,
       languageOptions: {
         parser: parserPlain,
       },
-      name: 'kriszu/markdown/parser',
     },
     {
+      name: 'kriszu/markdown/disables',
       files: [
         GLOB_MARKDOWN_CODE,
         ...componentExts.map(ext => `${GLOB_MARKDOWN}/**/*.${ext}`),
@@ -55,7 +56,6 @@ export async function markdown(
           },
         },
       },
-      name: 'kriszu/markdown/disables',
       rules: {
         'import/newline-after-import': 'off',
 

@@ -33,6 +33,9 @@ export async function javascript(
       linterOptions: {
         reportUnusedDisableDirectives: true,
       },
+      name: 'kriszu/javascript/setup',
+    },
+    {
       name: 'kriszu/javascript/rules',
       rules: {
         'accessor-pairs': [
@@ -43,9 +46,6 @@ export async function javascript(
         'array-bracket-newline': 'off',
         // best-practice
         'array-callback-return': 'error',
-        'array-element-newline': 'off',
-        'arrow-body-style': 'off',
-        'arrow-parens': 'off',
         'block-scoped-var': 'error',
         'complexity': ['off', 11],
         'consistent-return': 'off',
