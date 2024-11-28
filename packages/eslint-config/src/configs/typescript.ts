@@ -77,7 +77,7 @@ export async function typescript(
         parserOptions: {
           extraFileExtensions: componentExts.map(ext => `.${ext}`),
           sourceType: 'module',
-          ...typeAware
+          ...(typeAware
             ? {
                 projectService: {
                   allowDefaultProject: ['./*.js'],
@@ -85,7 +85,7 @@ export async function typescript(
                 },
                 tsconfigRootDir: process.cwd(),
               }
-            : {},
+            : {}),
           ...parserOptions as any,
         },
       },
@@ -110,6 +110,7 @@ export async function typescript(
       : [makeParser(false, files)],
     {
       name: 'kriszu/typescript/rules',
+      files,
       rules: {
         ...renameRules(
           pluginTs.configs['eslint-recommended'].overrides![0].rules!,
@@ -155,6 +156,7 @@ export async function typescript(
         ],
         'ts/consistent-indexed-object-style': 'off',
         'ts/consistent-type-assertions': 'off',
+        'ts/consistent-type-definitions': ['error', 'interface'],
         'ts/consistent-type-imports': ['error', {
           disallowTypeAnnotations: false,
           prefer: 'type-imports',
