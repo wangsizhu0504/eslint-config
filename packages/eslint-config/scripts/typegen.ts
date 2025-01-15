@@ -24,6 +24,7 @@ import {
 
 const configs = await combine(
   {
+    //@ts-expect-error
     rules: Object.fromEntries(builtinRules.entries()),
   },
   comments(),
