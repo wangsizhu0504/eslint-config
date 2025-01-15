@@ -9,6 +9,12 @@ import { ensurePackages, interopDefault } from '../utils'
 const ReactRefreshAllowConstantExportPackages = [
   'vite',
 ]
+const ReactRouterPackages = [
+  '@react-router/node',
+  '@react-router/react',
+  '@react-router/serve',
+  '@react-router/dev',
+]
 const RemixPackages = [
   '@remix-run/node',
   '@remix-run/react',
@@ -57,6 +63,7 @@ export async function react(
 
   const isAllowConstantExport = ReactRefreshAllowConstantExportPackages.some(i => isPackageExists(i))
   const isUsingRemix = RemixPackages.some(i => isPackageExists(i))
+   const isUsingReactRouter = ReactRouterPackages.some(i => isPackageExists(i))
   const isUsingNext = NextJsPackages.some(i => isPackageExists(i))
 
   const plugins = pluginReact.configs.all.plugins
@@ -125,7 +132,7 @@ export async function react(
                     'generateViewport',
                   ]
                 : []),
-              ...(isUsingRemix
+              ...(isUsingRemix || isUsingReactRouter
                 ? [
                     'meta',
                     'links',
