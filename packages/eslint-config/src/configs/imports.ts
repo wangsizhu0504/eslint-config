@@ -109,6 +109,7 @@ export async function imports(
         // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/prefer-default-export.md
         // Excessive. Also, named exports help enforce readable imports.
         'import/prefer-default-export': 'off',
+        'import/consistent-type-specifier-style': ['error', 'prefer-top-level'],
 
         'kriszu/import-dedupe': 'error',
 
