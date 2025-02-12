@@ -1,11 +1,12 @@
-import type { OptionsOverrides, TypedFlatConfigItem } from '../types'
+import type { OptionsIsInEditor, OptionsOverrides, TypedFlatConfigItem } from '../types'
 
 import globals from 'globals'
 
 export async function javascript(
-  options: OptionsOverrides = {},
+  options: OptionsIsInEditor & OptionsOverrides = {},
 ): Promise<TypedFlatConfigItem[]> {
   const {
+    isInEditor = false,
     overrides = {},
   } = options
 
@@ -251,13 +252,15 @@ export async function javascript(
             allowUnboundThis: true,
           },
         ],
-        'prefer-const': [
-          'error',
-          {
-            destructuring: 'all',
-            ignoreReadBeforeAssign: true,
-          },
-        ],
+        'prefer-const': isInEditor
+          ? 'off'
+          : [
+              'error',
+              {
+                destructuring: 'all',
+                ignoreReadBeforeAssign: true,
+              },
+            ],
         'prefer-exponentiation-operator': 'error',
         'prefer-promise-reject-errors': 'error',
         'prefer-regex-literals': ['error', { disallowRedundantWrapping: true }],
