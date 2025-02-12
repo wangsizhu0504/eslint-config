@@ -112,7 +112,7 @@ export async function imports(
 
         'kriszu/import-dedupe': 'error',
 
-        'unused-imports/no-unused-imports': isInEditor ? 'off' : 'error',
+        'unused-imports/no-unused-imports': isInEditor ? 'warn' : 'error',
         'unused-imports/no-unused-vars': [
           'error',
           {
