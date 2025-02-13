@@ -8,8 +8,8 @@ import type { TypedFlatConfigItem } from '../types'
 export async function sortPackageJson(): Promise<TypedFlatConfigItem[]> {
   return [
     {
-      files: ['**/package.json'],
       name: 'kriszu/sort/package-json',
+      files: ['**/package.json'],
       rules: {
         'jsonc/sort-array-values': [
           'error',
@@ -116,8 +116,8 @@ export async function sortPackageJson(): Promise<TypedFlatConfigItem[]> {
 export function sortTsconfig(): TypedFlatConfigItem[] {
   return [
     {
-      files: ['**/tsconfig.json', '**/tsconfig.*.json'],
       name: 'kriszu/sort/tsconfig-json',
+      files: ['**/tsconfig.json', '**/tsconfig.*.json'],
       rules: {
         'jsonc/sort-keys': [
           'error',

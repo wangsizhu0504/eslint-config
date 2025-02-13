@@ -39,18 +39,23 @@ export async function test(
       },
     },
     {
-      files: GLOB_TESTS,
       name: 'kriszu/test/rules',
+      files: GLOB_TESTS,
       rules: {
-        'node/prefer-global/process': 'off',
-
         'test/consistent-test-it': ['error', { fn: 'it', withinDescribe: 'it' }],
         'test/no-identical-title': 'error',
+        'test/no-import-node-test': 'error',
         'test/no-only-tests': isInEditor ? 'warn' : 'error',
+
         'test/prefer-hooks-in-order': 'error',
         'test/prefer-lowercase-title': 'error',
-        'ts/explicit-function-return-type': 'off',
 
+        // Disables
+        ...{
+          'no-unused-expressions': 'off',
+          'node/prefer-global/process': 'off',
+          'ts/explicit-function-return-type': 'off',
+        },
         ...overrides,
       },
     },

@@ -94,14 +94,14 @@ Add the following settings to your `.vscode/settings.json`:
   // Silent the stylistic rules in you IDE, but still auto fix them
   "eslint.rules.customizations": [
     { "rule": "style/*", "severity": "off", "fixable": true },
-    { "rule": "format/*", "severity": "off" , "fixable": true},
-    { "rule": "*-indent", "severity": "off" , "fixable": true},
-    { "rule": "*-spacing", "severity": "off" , "fixable": true},
-    { "rule": "*-spaces", "severity": "off" , "fixable": true},
-    { "rule": "*-order", "severity": "off" , "fixable": true},
-    { "rule": "*-dangle", "severity": "off" , "fixable": true},
-    { "rule": "*-newline", "severity": "off" , "fixable": true},
-    { "rule": "*quotes", "severity": "off" , "fixable": true},
+    { "rule": "format/*", "severity": "off", "fixable": true },
+    { "rule": "*-indent", "severity": "off", "fixable": true },
+    { "rule": "*-spacing", "severity": "off", "fixable": true },
+    { "rule": "*-spaces", "severity": "off", "fixable": true },
+    { "rule": "*-order", "severity": "off", "fixable": true },
+    { "rule": "*-dangle", "severity": "off", "fixable": true },
+    { "rule": "*-newline", "severity": "off", "fixable": true },
+    { "rule": "*quotes", "severity": "off", "fixable": true },
     { "rule": "*semi", "severity": "off", "fixable": true }
   ],
 
@@ -175,7 +175,7 @@ Check out the [configs](https://github.com/wangsizhu0504/eslint-config/blob/main
 | `node/*`   | `n/*`                  | [eslint-plugin-n](https://github.com/eslint-community/eslint-plugin-n)                     |
 | `ts/*`     | `@typescript-eslint/*` | [@typescript-eslint/eslint-plugin](https://github.com/typescript-eslint/typescript-eslint) |
 | `style/*`  | `@stylistic/*`         | [@stylistic/eslint-plugin](https://github.com/eslint-stylistic/eslint-stylistic)           |
-| `test/*`   | `vitest/*`             | [@vitest/eslint-plugin](https://github.com/vitest-dev/eslint-plugin-vitest)                    |
+| `test/*`   | `vitest/*`             | [@vitest/eslint-plugin](https://github.com/vitest-dev/eslint-plugin-vitest)                |
 | `test/*`   | `no-only-tests/*`      | [eslint-plugin-no-only-tests](https://github.com/levibuzolic/eslint-plugin-no-only-tests)  |
 
 When you want to override rules, or disable them inline, you need to update to the new prefix:

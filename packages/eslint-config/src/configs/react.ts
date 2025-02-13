@@ -63,7 +63,7 @@ export async function react(
 
   const isAllowConstantExport = ReactRefreshAllowConstantExportPackages.some(i => isPackageExists(i))
   const isUsingRemix = RemixPackages.some(i => isPackageExists(i))
-   const isUsingReactRouter = ReactRouterPackages.some(i => isPackageExists(i))
+  const isUsingReactRouter = ReactRouterPackages.some(i => isPackageExists(i))
   const isUsingNext = NextJsPackages.some(i => isPackageExists(i))
 
   const plugins = pluginReact.configs.all.plugins
@@ -195,9 +195,9 @@ export async function react(
     },
     ...isTypeAware
       ? [{
+          name: 'kriszu/react/type-aware-rules',
           files: filesTypeAware,
           ignores: ignoresTypeAware,
-          name: 'kriszu/react/type-aware-rules',
           rules: {
             ...typeAwareRules,
           },

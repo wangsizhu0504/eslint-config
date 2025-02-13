@@ -5,19 +5,6 @@ export type MessageIds = 'topLevelFunctionDeclaration'
 export type Options = []
 
 export default createEslintRule<Options, MessageIds>({
-  name: RULE_NAME,
-  meta: {
-    type: 'problem',
-    docs: {
-      description: 'Enforce top-level functions to be declared with function keyword',
-    },
-    fixable: 'code',
-    schema: [],
-    messages: {
-      topLevelFunctionDeclaration: 'Top-level functions should be declared with function keyword',
-    },
-  },
-  defaultOptions: [],
   create: (context) => {
     return {
       VariableDeclaration(node) {
@@ -42,20 +29,15 @@ export default createEslintRule<Options, MessageIds>({
         if (
           declaration.init.body.type !== 'BlockStatement'
           && declaration.id?.loc.start.line === declaration.init?.body.loc.end.line
-        )
+        ) {
           return
+        }
 
         const arrowFn = declaration.init
         const body = declaration.init.body
         const id = declaration.id
 
         context.report({
-          node,
-          loc: {
-            start: id.loc.start,
-            end: body.loc.start,
-          },
-          messageId: 'topLevelFunctionDeclaration',
           fix(fixer) {
             const code = context.getSourceCode().text
             const textName = code.slice(id.range[0], id.range[1])
@@ -80,8 +62,27 @@ export default createEslintRule<Options, MessageIds>({
             // })
             return fixer.replaceTextRange([node.range[0], node.range[1]], final)
           },
+          loc: {
+            end: body.loc.start,
+            start: id.loc.start,
+          },
+          messageId: 'topLevelFunctionDeclaration',
+          node,
         })
       },
     }
   },
+  defaultOptions: [],
+  meta: {
+    docs: {
+      description: 'Enforce top-level functions to be declared with function keyword',
+    },
+    fixable: 'code',
+    messages: {
+      topLevelFunctionDeclaration: 'Top-level functions should be declared with function keyword',
+    },
+    schema: [],
+    type: 'problem',
+  },
+  name: RULE_NAME,
 })

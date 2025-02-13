@@ -5,18 +5,6 @@ export type MessageIds = 'noTsExportEqual'
 export type Options = []
 
 export default createEslintRule<Options, MessageIds>({
-  name: RULE_NAME,
-  meta: {
-    type: 'problem',
-    docs: {
-      description: 'Do not use `exports =`',
-    },
-    schema: [],
-    messages: {
-      noTsExportEqual: 'Use ESM `export default` instead',
-    },
-  },
-  defaultOptions: [],
   create: (context) => {
     const extension = context.getFilename().split('.').pop()
     if (!extension)
@@ -27,10 +15,22 @@ export default createEslintRule<Options, MessageIds>({
     return {
       TSExportAssignment(node) {
         context.report({
-          node,
           messageId: 'noTsExportEqual',
+          node,
         })
       },
     }
   },
+  defaultOptions: [],
+  meta: {
+    docs: {
+      description: 'Do not use `exports =`',
+    },
+    messages: {
+      noTsExportEqual: 'Use ESM `export default` instead',
+    },
+    schema: [],
+    type: 'problem',
+  },
+  name: RULE_NAME,
 })

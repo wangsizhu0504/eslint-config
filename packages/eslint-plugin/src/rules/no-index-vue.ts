@@ -1,5 +1,5 @@
-import path from 'node:path'
 import type { RuleContext } from '@typescript-eslint/utils/ts-eslint'
+import path from 'node:path'
 import { createEslintRule } from '../utils'
 
 export const RULE_NAME = 'no-index-vue'

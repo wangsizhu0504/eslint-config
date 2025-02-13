@@ -8,8 +8,9 @@ import type {
 } from '../types'
 import { mergeProcessors } from 'eslint-merge-processors'
 
-import { pluginKriszu } from 'src/plugins'
 import { GLOB_VUE } from '../globs'
+
+import { pluginKriszu } from '../plugins'
 
 import { interopDefault } from '../utils'
 
@@ -43,8 +44,29 @@ export async function vue(
         vue: pluginVue,
         kriszu: pluginKriszu,
       },
+      // This allows Vue plugin to work with auto imports
+      // https://github.com/vuejs/eslint-plugin-vue/pull/2422
+      languageOptions: {
+        globals: {
+          computed: 'readonly',
+          defineEmits: 'readonly',
+          defineExpose: 'readonly',
+          defineProps: 'readonly',
+          onMounted: 'readonly',
+          onUnmounted: 'readonly',
+          reactive: 'readonly',
+          ref: 'readonly',
+          shallowReactive: 'readonly',
+          shallowRef: 'readonly',
+          toRef: 'readonly',
+          toRefs: 'readonly',
+          watch: 'readonly',
+          watchEffect: 'readonly',
+        },
+      },
     },
     {
+      name: 'kriszu/vue/rules',
       files,
       languageOptions: {
         parser: parserVue,
@@ -61,20 +83,19 @@ export async function vue(
           sourceType: 'module',
         },
       },
-      name: 'kriszu/vue/rules',
       processor:
         sfcBlocks === false
           ? pluginVue.processors['.vue']
           : mergeProcessors([
-            pluginVue.processors['.vue'],
-            processorVueBlocks({
-              ...sfcBlocks,
-              blocks: {
-                styles: true,
-                ...sfcBlocks.blocks,
-              },
-            }),
-          ]),
+              pluginVue.processors['.vue'],
+              processorVueBlocks({
+                ...sfcBlocks,
+                blocks: {
+                  styles: true,
+                  ...sfcBlocks.blocks,
+                },
+              }),
+            ]),
       rules: {
         ...(pluginVue.configs.base.rules as any),
         ...(vueVersion === 2

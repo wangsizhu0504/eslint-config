@@ -1,8 +1,8 @@
 import type { OptionsOverrides, StylisticConfig, TypedFlatConfigItem } from '../types'
 
-import { interopDefault } from 'src'
-
 import { pluginKriszu } from '../plugins'
+
+import { interopDefault } from '../utils'
 
 export const StylisticConfigDefaults: StylisticConfig = {
   indent: 2,
@@ -32,7 +32,6 @@ export async function stylistic(
   const pluginStylistic = await interopDefault(import('@stylistic/eslint-plugin'))
 
   const config = pluginStylistic.configs.customize({
-    flat: true,
     indent,
     jsx,
     pluginName: 'style',

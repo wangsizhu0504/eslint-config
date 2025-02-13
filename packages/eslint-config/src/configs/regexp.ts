@@ -20,8 +20,8 @@ export async function regexp(
 
   return [
     {
-      ...config,
       name: 'kriszu/regexp/rules',
+      ...config,
       rules: {
         ...rules,
         ...options.overrides,

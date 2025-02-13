@@ -1,4 +1,4 @@
-import { createRuleTester } from './_test'
+import { run } from './_test'
 import rule, { RULE_NAME } from './no-import-node-modules-by-path'
 
 const valids = [
@@ -15,15 +15,12 @@ const invalids = [
   'require("../node_modules/d")',
 ]
 
-const ruleTester = createRuleTester({
-  name: RULE_NAME,
-  rule,
-})
-
-ruleTester.run({
-  valid: valids,
+run({
   invalid: invalids.map(i => ({
     code: i,
     errors: [{ messageId: 'noImportNodeModulesByPath' }],
   })),
+  name: RULE_NAME,
+  rule,
+  valid: valids,
 })

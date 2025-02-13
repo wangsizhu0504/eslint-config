@@ -7,41 +7,10 @@ export type Options = [{
 }]
 
 export default createEslintRule<Options, MessageIds>({
-  name: 'indent-unindent',
-  meta: {
-    type: 'layout',
-    docs: {
-      description: 'Enforce consistent indentation in `unindent` template tag',
-    },
-    fixable: 'code',
-    schema: [
-      {
-        type: 'object',
-        properties: {
-          indent: {
-            type: 'number',
-            minimum: 0,
-            default: 2,
-          },
-          tags: {
-            type: 'array',
-            items: {
-              type: 'string',
-            },
-          },
-        },
-        additionalProperties: false,
-      },
-    ],
-    messages: {
-      'indent-unindent': 'Consistent indentation in unindent tag',
-    },
-  },
-  defaultOptions: [{}],
   create(context) {
     const {
-      tags = ['$', 'unindent', 'unIndent'],
       indent = 2,
+      tags = ['$', 'unindent', 'unIndent'],
     } = context.options?.[0] ?? {}
 
     return {
@@ -56,8 +25,8 @@ export default createEslintRule<Options, MessageIds>({
         const quasi = node.quasi.quasis[0]
         const value = quasi.value.raw
         const lineStartIndex = context.sourceCode.getIndexFromLoc({
-          line: node.loc.start.line,
           column: 0,
+          line: node.loc.start.line,
         })
         const baseIndent = context.sourceCode.text.slice(lineStartIndex).match(/^\s*/)?.[0] ?? ''
         const targetIndent = baseIndent + ' '.repeat(indent)
@@ -71,12 +40,43 @@ export default createEslintRule<Options, MessageIds>({
 
         if (final !== value) {
           context.report({
-            node: quasi,
-            messageId: 'indent-unindent',
             fix: fixer => fixer.replaceText(quasi, `\`${final}\``),
+            messageId: 'indent-unindent',
+            node: quasi,
           })
         }
       },
     }
   },
+  defaultOptions: [{}],
+  meta: {
+    docs: {
+      description: 'Enforce consistent indentation in `unindent` template tag',
+    },
+    fixable: 'code',
+    messages: {
+      'indent-unindent': 'Consistent indentation in unindent tag',
+    },
+    schema: [
+      {
+        additionalProperties: false,
+        properties: {
+          indent: {
+            default: 2,
+            minimum: 0,
+            type: 'number',
+          },
+          tags: {
+            items: {
+              type: 'string',
+            },
+            type: 'array',
+          },
+        },
+        type: 'object',
+      },
+    ],
+    type: 'layout',
+  },
+  name: 'indent-unindent',
 })

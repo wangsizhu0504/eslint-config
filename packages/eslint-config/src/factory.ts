@@ -21,6 +21,7 @@ import {
   javascript,
   jsdoc,
   jsonc,
+  jsx,
   markdown,
   node,
   perfectionist,
@@ -30,6 +31,7 @@ import {
   sortTsconfig,
   stylistic,
   test,
+  toml,
   typescript,
   unicorn,
   unocss,
@@ -37,15 +39,12 @@ import {
   yaml,
 } from './configs'
 import { formatters } from './configs/formatters'
-import { hasReact, hasTypeScript } from './env'
 
 import { gitignore } from './gitignore'
 import { isInEditorEnv } from './utils'
 
 const flatConfigProps = [
   'name',
-  'files',
-  'ignores',
   'languageOptions',
   'linterOptions',
   'processor',
@@ -86,7 +85,7 @@ export function defineEslintConfig(
       | TypedFlatConfigItem
       | TypedFlatConfigItem[]
       | FlatConfigComposer<any, any>
-      | Linter.FlatConfig[]
+      | Linter.Config[]
     >
   >
 ): FlatConfigComposer<TypedFlatConfigItem, ConfigNames> {
@@ -94,9 +93,10 @@ export function defineEslintConfig(
     autoRenamePlugins = true,
     componentExts = [],
     gitignore: enableGitignore = true,
-    react: enableReact = hasReact,
+    jsx: enableJsx = true,
+    react: enableReact = isPackageExists('react'),
     regexp: enableRegexp = true,
-    typescript: enableTypeScript = hasTypeScript,
+    typescript: enableTypeScript = isPackageExists('typescript'),
     unicorn: enableUnicorn = true,
     unocss: enableUnoCSS = false,
     vue: enableVue = VuePackages.some(i => isPackageExists(i)),
@@ -110,15 +110,14 @@ export function defineEslintConfig(
       )
     }
   }
-  const stylisticOptions
-    = options.stylistic === false
-      ? false
-      : typeof options.stylistic === 'object'
-        ? options.stylistic
-        : {}
+  const stylisticOptions = options.stylistic === false
+    ? false
+    : typeof options.stylistic === 'object'
+      ? options.stylistic
+      : {}
 
   if (stylisticOptions && !('jsx' in stylisticOptions))
-    stylisticOptions.jsx = options.jsx ?? true
+    stylisticOptions.jsx = enableJsx
 
   const configs: Array<Awaitable<TypedFlatConfigItem[]>> = []
 
@@ -139,6 +138,7 @@ export function defineEslintConfig(
   configs.push(
     ignores(options.ignores),
     javascript({
+      isInEditor,
       overrides: getOverrides(options, 'javascript'),
     }),
     comments(),
@@ -160,7 +160,13 @@ export function defineEslintConfig(
     configs.push(unicorn(enableUnicorn === true ? {} : enableUnicorn))
   }
 
-  if (enableVue) componentExts.push('vue')
+  if (enableVue) {
+    componentExts.push('vue')
+  }
+
+  if (enableJsx) {
+    configs.push(jsx())
+  }
 
   if (enableTypeScript) {
     configs.push(
@@ -208,6 +214,7 @@ export function defineEslintConfig(
   if (enableReact) {
     configs.push(
       react({
+        ...typescriptOptions,
         overrides: getOverrides(options, 'react'),
         tsconfigPath,
       }),
@@ -233,6 +240,7 @@ export function defineEslintConfig(
       sortTsconfig(),
     )
   }
+
   if (options.yaml ?? true) {
     configs.push(
       yaml({
@@ -240,6 +248,13 @@ export function defineEslintConfig(
         stylistic: stylisticOptions,
       }),
     )
+  }
+
+  if (options.toml ?? true) {
+    configs.push(toml({
+      overrides: getOverrides(options, 'toml'),
+      stylistic: stylisticOptions,
+    }))
   }
 
   if (options.markdown ?? true) {
@@ -272,7 +287,6 @@ export function defineEslintConfig(
   // We pick the known keys as ESLint would do schema validation
   const fusedConfig = flatConfigProps.reduce((acc, key) => {
     if (key in options) {
-      // @ts-expect-error
       acc[key] = options[key] as any
     }
 

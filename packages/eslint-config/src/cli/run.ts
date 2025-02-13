@@ -1,11 +1,11 @@
-import type { ExtraLibrariesOption, FrameworkOption, PromItem, PromptResult } from './types'
+import type { ExtraLibrariesOption, FrameworkOption, PromptResult } from './types'
+
 import fs from 'node:fs'
 import path from 'node:path'
-
 import process from 'node:process'
 import * as p from '@clack/prompts'
+import c from 'ansis'
 
-import c from 'picocolors'
 import { extra, extraOptions, frameworkOptions, frameworks } from './constants'
 import { updateEslintFiles } from './stages/update-eslint-files'
 import { updatePackageJson } from './stages/update-package-json'
@@ -19,7 +19,7 @@ export interface CliRunOptions {
    */
   yes?: boolean
   /**
-   * Use the framework template for optimal customization: vue / react
+   * Use the framework template for optimal customization: vue / react / svelte / astro
    */
   frameworks?: string[]
   /**
@@ -28,17 +28,17 @@ export interface CliRunOptions {
   extra?: string[]
 }
 
-export async function run(options: CliRunOptions = {}) {
+export async function run(options: CliRunOptions = {}): Promise<void> {
   const argSkipPrompt = !!process.env.SKIP_PROMPT || options.yes
   const argTemplate = <FrameworkOption[]>options.frameworks?.map(m => m.trim())
   const argExtra = <ExtraLibrariesOption[]>options.extra?.map(m => m.trim())
 
   if (fs.existsSync(path.join(process.cwd(), 'eslint.config.js'))) {
-    p.log.warn(c.yellow(`eslint.config.js already exists, migration wizard exited.`))
+    p.log.warn(c.yellow`eslint.config.js already exists, migration wizard exited.`)
     return process.exit(1)
   }
 
-  // Set default value for PromptResult if `argSkipPromt` is enabled
+  // Set default value for promptResult if `argSkipPrompt` is enabled
   let result: PromptResult = {
     extra: argExtra ?? [],
     frameworks: argTemplate ?? [],
@@ -67,7 +67,7 @@ export async function run(options: CliRunOptions = {}) {
           ? `"${argTemplate}" isn't a valid template. Please choose from below: `
           : 'Select a framework:'
 
-        return p.multiselect<Array<PromItem<FrameworkOption>>, FrameworkOption>({
+        return p.multiselect<FrameworkOption>({
           message: c.reset(message),
           options: frameworkOptions,
           required: false,
@@ -83,7 +83,7 @@ export async function run(options: CliRunOptions = {}) {
           ? `"${argExtra}" isn't a valid extra util. Please choose from below: `
           : 'Select a extra utils:'
 
-        return p.multiselect<Array<PromItem<ExtraLibrariesOption>>, ExtraLibrariesOption>({
+        return p.multiselect<ExtraLibrariesOption>({
           message: c.reset(message),
           options: extraOptions,
           required: false,
@@ -114,6 +114,6 @@ export async function run(options: CliRunOptions = {}) {
   await updateEslintFiles(result)
   await updateVscodeSettings(result)
 
-  p.log.success(c.green(`Setup completed`))
+  p.log.success(c.green`Setup completed`)
   p.outro(`Now you can update the dependencies by run ${c.blue('pnpm install')} and run ${c.blue('eslint . --fix')}\n`)
 }

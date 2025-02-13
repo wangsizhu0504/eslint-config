@@ -1,20 +1,20 @@
 import process from 'node:process'
 
 import * as p from '@clack/prompts'
-import c from 'picocolors'
+import c from 'ansis'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 
 import { pkgJson } from './constants'
 import { run } from './run'
 
-function header() {
+function header(): void {
   console.log('\n')
-  p.intro(`${c.green(`@kriszu/eslint-config `)}${c.dim(`v${pkgJson.version}`)}`)
+  p.intro(`${c.green`@antfu/eslint-config `}${c.dim`v${pkgJson.version}`}`)
 }
 
 const instance = yargs(hideBin(process.argv))
-  .scriptName('@kriszu/eslint-config')
+  .scriptName('@antfu/eslint-config')
   .usage('')
   .command(
     '*',
@@ -27,7 +27,7 @@ const instance = yargs(hideBin(process.argv))
       })
       .option('template', {
         alias: 't',
-        description: 'Use the framework template for optimal customization: vue / react',
+        description: 'Use the framework template for optimal customization: vue / react / svelte / astro',
         type: 'string',
       })
       .option('extra', {
@@ -43,8 +43,8 @@ const instance = yargs(hideBin(process.argv))
         await run(args)
       }
       catch (error) {
-        p.log.error(c.inverse(c.red(' Failed to migrate ')))
-        p.log.error(c.red(`✘ ${String(error)}`))
+        p.log.error(c.inverse.red(' Failed to migrate '))
+        p.log.error(c.red`✘ ${String(error)}`)
         process.exit(1)
       }
     },

@@ -5,18 +5,6 @@ export type MessageIds = 'noImportDist'
 export type Options = []
 
 export default createEslintRule<Options, MessageIds>({
-  name: RULE_NAME,
-  meta: {
-    type: 'problem',
-    docs: {
-      description: 'Prevent importing modules in `dist` folder',
-    },
-    schema: [],
-    messages: {
-      noImportDist: 'Do not import modules in `dist` folder, got {{path}}',
-    },
-  },
-  defaultOptions: [],
   create: (context) => {
     function isDist(path: string): boolean {
       return Boolean((path.startsWith('.') && path.match(/\/dist(\/|$)/)))
@@ -27,14 +15,26 @@ export default createEslintRule<Options, MessageIds>({
       ImportDeclaration: (node) => {
         if (isDist(node.source.value)) {
           context.report({
-            node,
-            messageId: 'noImportDist',
             data: {
               path: node.source.value,
             },
+            messageId: 'noImportDist',
+            node,
           })
         }
       },
     }
   },
+  defaultOptions: [],
+  meta: {
+    docs: {
+      description: 'Prevent importing modules in `dist` folder',
+    },
+    messages: {
+      noImportDist: 'Do not import modules in `dist` folder, got {{path}}',
+    },
+    schema: [],
+    type: 'problem',
+  },
+  name: RULE_NAME,
 })

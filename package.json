@@ -9,7 +9,7 @@
     "build": "pnpm -r build",
     "dev": "npx @eslint/config-inspector --config eslint.config.ts",
     "stub": "pnpm -r --parallel run stub",
-    "lint": "eslint --flag unstable_ts_config .",
+    "lint": "eslint .",
     "release": "npm run build && bumpp -r && pnpm -r publish"
   },
   "devDependencies": {
@@ -21,12 +21,12 @@
     "@types/yargs": "^17.0.33",
     "bumpp": "^9.11.1",
     "bundle-require": "^5.1.0",
-    "eslint": "9.10.0",
+    "eslint": "^9.20.0",
     "esno": "^4.8.0",
     "execa": "^9.5.2",
     "fast-glob": "^3.3.3",
     "fs-extra": "^11.3.0",
-    "jiti": "^1.21.7",
+    "jiti": "^2.4.2",
     "lint-staged": "^15.4.3",
     "rimraf": "^5.0.10",
     "simple-git-hooks": "^2.11.1",

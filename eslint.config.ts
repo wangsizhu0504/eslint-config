@@ -1,6 +1,5 @@
-// @ts-check
 import styleMigrate from '@stylistic/eslint-plugin-migrate'
-import { defineEslintConfig } from './packages/eslint-config/dist/index.js'
+import { defineEslintConfig } from './packages/eslint-config/src'
 
 export default defineEslintConfig(
   {
@@ -32,11 +31,6 @@ export default defineEslintConfig(
     },
     rules: {
       'style-migrate/migrate': ['error', { namespaceTo: 'style' }],
-    },
-  },
-  {
-    rules: {
-      'kriszu/no-import-dist': 'off',
     },
   },
 )

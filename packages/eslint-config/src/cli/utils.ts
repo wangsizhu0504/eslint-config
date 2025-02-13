@@ -1,11 +1,11 @@
 import { execSync } from 'node:child_process'
 
-export function isGitClean() {
+export function isGitClean(): boolean {
   try {
     execSync('git diff-index --quiet HEAD --')
     return true
-  // eslint-disable-next-line unused-imports/no-unused-vars, ts/no-unused-vars
-  } catch (error) {
+  }
+  catch {
     return false
   }
 }
@@ -13,11 +13,11 @@ export function isGitClean() {
 export function getEslintConfigContent(
   mainConfig: string,
   additionalConfigs?: string[],
-) {
+): string {
   return `
-import defineEslintConfig from '@kriszu/eslint-config'
+import antfu from '@antfu/eslint-config'
 
-export default defineEslintConfig({
+export default antfu({
 ${mainConfig}
 }${additionalConfigs?.map(config => `,{\n${config}\n}`)})
 `.trimStart()

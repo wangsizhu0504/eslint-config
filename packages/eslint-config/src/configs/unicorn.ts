@@ -7,7 +7,6 @@ export async function unicorn(
 ): Promise<TypedFlatConfigItem[]> {
   return [
     {
-      ignores: ['**/*.{json,json5,jsonc,yml,yaml}'],
       name: 'kriszu/unicorn/rules',
       plugins: {
         unicorn: pluginUnicorn,

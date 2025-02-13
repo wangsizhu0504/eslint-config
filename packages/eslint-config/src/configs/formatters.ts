@@ -1,6 +1,6 @@
 import type { OptionsFormatters, StylisticConfig, TypedFlatConfigItem } from '../types'
 import type { VendoredPrettierOptions, VendoredPrettierRuleOptions } from '../vender/prettier-types'
-import { GLOB_CSS, GLOB_GRAPHQL, GLOB_HTML, GLOB_LESS, GLOB_MARKDOWN, GLOB_POSTCSS, GLOB_SCSS, GLOB_SVG } from '../globs'
+import { GLOB_CSS, GLOB_GRAPHQL, GLOB_HTML, GLOB_LESS, GLOB_MARKDOWN, GLOB_POSTCSS, GLOB_SCSS, GLOB_SVG, GLOB_XML } from '../globs'
 
 import { ensurePackages, interopDefault, isPackageInScope, parserPlain } from '../utils'
 import { StylisticConfigDefaults } from './stylistic'
@@ -30,12 +30,13 @@ export async function formatters(
       html: true,
       markdown: true,
       svg: isPrettierPluginXmlInScope,
+      xml: isPrettierPluginXmlInScope,
     }
   }
 
   await ensurePackages([
     'eslint-plugin-format',
-    (options.svg) ? '@prettier/plugin-xml' : undefined,
+    (options.xml || options.svg) ? '@prettier/plugin-xml' : undefined,
   ])
 
   const {
@@ -60,6 +61,13 @@ export async function formatters(
     options.prettierOptions || {},
   )
 
+  const prettierXmlOptions: VendoredPrettierOptions = {
+    xmlQuoteAttributes: 'double',
+    xmlSelfClosingSpace: true,
+    xmlSortAttributesByKey: false,
+    xmlWhitespaceSensitivity: 'ignore',
+  }
+
   const dprintOptions = Object.assign(
     {
       indentWidth: typeof indent === 'number' ? indent : 2,
@@ -79,26 +87,6 @@ export async function formatters(
       },
     },
   ]
-  if (options.svg) {
-    configs.push({
-      files: [GLOB_SVG],
-      languageOptions: {
-        parser: parserPlain,
-      },
-      name: 'kriszu/formatter/svg',
-      rules: {
-        'format/prettier': [
-          'error',
-          mergePrettierOptions(prettierOptions, {
-            parser: 'xml',
-            plugins: [
-              '@prettier/plugin-xml',
-            ],
-          }),
-        ],
-      },
-    })
-  }
 
   if (options.css) {
     configs.push(
@@ -167,6 +155,46 @@ export async function formatters(
       },
     })
   }
+  if (options.xml) {
+    configs.push({
+      files: [GLOB_XML],
+      languageOptions: {
+        parser: parserPlain,
+      },
+      name: 'kriszu/formatter/xml',
+      rules: {
+        'format/prettier': [
+          'error',
+          mergePrettierOptions({ ...prettierXmlOptions, ...prettierOptions }, {
+            parser: 'xml',
+            plugins: [
+              '@prettier/plugin-xml',
+            ],
+          }),
+        ],
+      },
+    })
+  }
+  if (options.svg) {
+    configs.push({
+      files: [GLOB_SVG],
+      languageOptions: {
+        parser: parserPlain,
+      },
+      name: 'kriszu/formatter/svg',
+      rules: {
+        'format/prettier': [
+          'error',
+          mergePrettierOptions({ ...prettierXmlOptions, ...prettierOptions }, {
+            parser: 'xml',
+            plugins: [
+              '@prettier/plugin-xml',
+            ],
+          }),
+        ],
+      },
+    })
+  }
 
   if (options.markdown) {
     const formater = options.markdown === true
@@ -184,9 +212,9 @@ export async function formatters(
           'error',
           formater === 'prettier'
             ? mergePrettierOptions(prettierOptions, {
-              embeddedLanguageFormatting: 'off',
-              parser: 'markdown',
-            })
+                embeddedLanguageFormatting: 'off',
+                parser: 'markdown',
+              })
             : {
                 ...dprintOptions,
                 language: 'markdown',

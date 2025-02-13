@@ -1,4 +1,4 @@
-import { createRuleTester } from './_test'
+import { run } from './_test'
 import rule, { RULE_NAME } from './top-level-function'
 
 const valids = [
@@ -50,16 +50,13 @@ const invalids = [
   ],
 ]
 
-const ruleTester = createRuleTester({
-  name: RULE_NAME,
-  rule,
-})
-
-ruleTester.run({
-  valid: valids,
+run({
   invalid: invalids.map(i => ({
     code: i[0],
-    output: i[1],
     errors: [{ messageId: 'topLevelFunctionDeclaration' }],
+    output: i[1],
   })),
+  name: RULE_NAME,
+  rule,
+  valid: valids,
 })

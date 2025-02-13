@@ -33,11 +33,11 @@ export async function yaml(
       },
     },
     {
+      name: 'kriszu/yaml/rules',
       files,
       languageOptions: {
         parser: parserYaml,
       },
-      name: 'kriszu/yaml/rules',
       rules: {
         'style/spaced-comment': 'off',
 

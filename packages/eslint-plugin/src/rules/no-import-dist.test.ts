@@ -1,4 +1,4 @@
-import { createRuleTester } from './_test'
+import { run } from './_test'
 import rule, { RULE_NAME } from './no-import-dist'
 
 const valids = [
@@ -14,15 +14,12 @@ const invalids = [
   'import c from \'./dist\'',
 ]
 
-const ruleTester = createRuleTester({
-  name: RULE_NAME,
-  rule,
-})
-
-ruleTester.run({
-  valid: valids,
+run({
   invalid: invalids.map(i => ({
     code: i,
     errors: [{ messageId: 'noImportDist' }],
   })),
+  name: RULE_NAME,
+  rule,
+  valid: valids,
 })

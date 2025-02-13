@@ -12,6 +12,7 @@ export async function javascript(
 
   return [
     {
+      name: 'kriszu/javascript/setup',
       languageOptions: {
         ecmaVersion: 2022,
         globals: {
@@ -34,7 +35,6 @@ export async function javascript(
       linterOptions: {
         reportUnusedDisableDirectives: true,
       },
-      name: 'kriszu/javascript/setup',
     },
     {
       name: 'kriszu/javascript/rules',
@@ -133,7 +133,7 @@ export async function javascript(
           { message: 'Use `Number.parseInt` instead', name: 'parseInt' },
         ],
         'no-restricted-properties': [
-          'error',
+          'warn',
           {
             message: 'Use `Number.isNaN` instead',
             object: 'globalThis',

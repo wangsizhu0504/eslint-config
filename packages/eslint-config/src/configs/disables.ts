@@ -4,7 +4,7 @@ import { GLOB_SRC, GLOB_SRC_EXT } from '../globs'
 export async function disables(): Promise<TypedFlatConfigItem[]> {
   return [
     {
-      files: [`scripts/${GLOB_SRC}`],
+      files: [`**/scripts/${GLOB_SRC}`],
       name: 'kriszu/disables/scripts',
       rules: {
         'no-console': 'off',
@@ -12,7 +12,7 @@ export async function disables(): Promise<TypedFlatConfigItem[]> {
       },
     },
     {
-      files: [`cli/${GLOB_SRC}`, `cli.${GLOB_SRC_EXT}`],
+      files: [`**/cli/${GLOB_SRC}`, `**/cli.${GLOB_SRC_EXT}`],
       name: 'kriszu/disables/cli',
       rules: {
         'no-console': 'off',
@@ -34,13 +34,6 @@ export async function disables(): Promise<TypedFlatConfigItem[]> {
         'import/no-duplicates': 'off',
         'no-restricted-syntax': 'off',
         'unused-imports/no-unused-vars': 'off',
-      },
-    },
-    {
-      files: ['**/*.{test,spec}.([tj])s?(x)'],
-      name: 'kriszu/disables/test',
-      rules: {
-        'no-unused-expressions': 'off',
       },
     },
     {

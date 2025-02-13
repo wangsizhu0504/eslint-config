@@ -10,6 +10,7 @@ import type {
 
 import process from 'node:process'
 import { GLOB_MARKDOWN, GLOB_TS, GLOB_TSX } from '../globs'
+
 import { pluginKriszu } from '../plugins'
 
 import { interopDefault, renameRules } from '../utils'
@@ -70,6 +71,7 @@ export async function typescript(
 
   function makeParser(typeAware: boolean, fileLists: string[], ignores?: string[]): TypedFlatConfigItem {
     return {
+      name: `kriszu/typescript/${typeAware ? 'type-aware-parser' : 'parser'}`,
       files: fileLists,
       ...ignores ? { ignores } : {},
       languageOptions: {
@@ -89,7 +91,6 @@ export async function typescript(
           ...parserOptions as any,
         },
       },
-      name: `kriszu/typescript/${typeAware ? 'type-aware-parser' : 'parser'}`,
     }
   }
   return [
@@ -202,7 +203,7 @@ export async function typescript(
           'error',
           { ignoreParameters: false, ignoreProperties: false },
         ],
-        'ts/no-invalid-this': 'error',
+        'ts/no-invalid-this': 'off',
         'ts/no-invalid-void-type': 'off',
         'ts/no-loop-func': ['error'],
         'ts/no-magic-numbers': [
@@ -280,9 +281,9 @@ export async function typescript(
     },
     ...isTypeAware
       ? [{
+          name: 'kriszu/typescript/rules-type-aware',
           files: filesTypeAware,
           ignores: ignoresTypeAware,
-          name: 'kriszu/typescript/rules-type-aware',
           rules: {
             ...typeAwareRules,
             ...overridesTypeAware,

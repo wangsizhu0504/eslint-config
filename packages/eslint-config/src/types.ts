@@ -75,6 +75,12 @@ export interface OptionsFormatters {
    */
   html?: 'prettier' | boolean;
   /**
+   * Enable formatting support for XML.
+   *
+   * Currently only support Prettier.
+   */
+  xml?: 'prettier' | boolean
+  /**
    * Enable formatting support for SVG.
    *
    * Currently only support Prettier.
@@ -292,6 +298,13 @@ export interface OptionsConfig
   yaml?: boolean | OptionsOverrides;
 
   /**
+   * Enable TOML support.
+   *
+   * @default true
+   */
+  toml?: boolean | OptionsOverrides
+
+  /**
    * Enable linting for **code snippets** in Markdown.
    *
    * For formatting Markdown content, enable also `formatters.markdown`.
@@ -376,6 +389,7 @@ export interface OptionsConfig
     jsonc?: TypedFlatConfigItem['rules'];
     markdown?: TypedFlatConfigItem['rules'];
     yaml?: TypedFlatConfigItem['rules'];
+    toml?: TypedFlatConfigItem['rules']
     react?: TypedFlatConfigItem['rules'];
   };
 }
