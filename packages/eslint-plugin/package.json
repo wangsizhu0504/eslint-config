@@ -47,7 +47,7 @@
     "ajv": "^8.17.1",
     "eslint-vitest-rule-tester": "^1.1.0",
     "lodash.merge": "4.6.2",
-    "semver": "^7.6.3"
+    "semver": "^7.7.1"
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"
