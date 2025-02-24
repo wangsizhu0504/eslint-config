@@ -14,13 +14,13 @@ export async function updatePackageJson(result: PromptResult): Promise<void> {
 
   const pathPackageJSON = path.join(cwd, 'package.json')
 
-  p.log.step(c.cyan`Bumping @antfu/eslint-config to v${pkgJson.version}`)
+  p.log.step(c.cyan`Bumping @kriszu/eslint-config to v${pkgJson.version}`)
 
   const pkgContent = await fsp.readFile(pathPackageJSON, 'utf-8')
   const pkg: Record<string, any> = JSON.parse(pkgContent)
 
   pkg.devDependencies ??= {}
-  pkg.devDependencies['@antfu/eslint-config'] = `^${pkgJson.version}`
+  pkg.devDependencies['@kriszu/eslint-config'] = `^${pkgJson.version}`
   pkg.devDependencies.eslint ??= pkgJson
     .devDependencies
     .eslint
@@ -35,7 +35,6 @@ export async function updatePackageJson(result: PromptResult): Promise<void> {
         case 'formatter':
           (<const>[
             'eslint-plugin-format',
-            result.frameworks.includes('astro') ? 'prettier-plugin-astro' : null,
           ]).forEach((f) => {
             if (!f)
               return
