@@ -1,7 +1,7 @@
 {
   "name": "@kriszu/eslint-config",
   "type": "module",
-  "version": "3.3.8",
+  "version": "3.3.9",
   "description": "Kriszu ESLint config",
   "author": "Kriszu <wangsizhu0504@outlook.com>",
   "license": "MIT",
@@ -74,12 +74,12 @@
     "@eslint-community/eslint-plugin-eslint-comments": "^4.4.1",
     "@eslint/markdown": "^6.2.2",
     "@kriszu/eslint-plugin": "workspace:*",
-    "@stylistic/eslint-plugin": "^4.0.0-beta.1",
-    "@typescript-eslint/eslint-plugin": "^8.24.0",
-    "@typescript-eslint/parser": "^8.24.0",
+    "@stylistic/eslint-plugin": "^4.0.1",
+    "@typescript-eslint/eslint-plugin": "^8.24.1",
+    "@typescript-eslint/parser": "^8.24.1",
     "@vitest/eslint-plugin": "^1.1.31",
-    "ansis": "^3.15.0",
-    "eslint-config-flat-gitignore": "^2.0.0",
+    "ansis": "^3.16.0",
+    "eslint-config-flat-gitignore": "^2.1.0",
     "eslint-flat-config-utils": "^2.0.1",
     "eslint-merge-processors": "^2.0.0",
     "eslint-plugin-command": "^3.1.0",
@@ -94,7 +94,7 @@
     "eslint-plugin-unicorn": "^56.0.1",
     "eslint-plugin-unused-imports": "^4.1.4",
     "eslint-plugin-vue": "^9.32.0",
-    "eslint-plugin-yml": "^1.16.0",
+    "eslint-plugin-yml": "^1.17.0",
     "eslint-processor-vue-blocks": "^2.0.0",
     "find-up": "^7.0.0",
     "globals": "^15.15.0",
@@ -107,12 +107,12 @@
     "yargs": "^17.7.2"
   },
   "devDependencies": {
-    "@eslint-react/eslint-plugin": "^1.26.2",
+    "@eslint-react/eslint-plugin": "^1.27.0",
     "@prettier/plugin-xml": "^3.4.1",
-    "@stylistic/eslint-plugin-migrate": "^4.0.0-beta.1",
+    "@stylistic/eslint-plugin-migrate": "^4.0.1",
     "@types/yargs": "^17.0.33",
     "@unocss/eslint-plugin": "^65.5.0",
-    "eslint": "^9.20.1",
+    "eslint": "^9.21.0",
     "eslint-plugin-format": "^1.0.1",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
@@ -120,9 +120,9 @@
   },
   "resolutions": {
     "@eslint-community/eslint-utils": "^4.4.1",
-    "@typescript-eslint/utils": "^8.24.0",
-    "eslint": "^9.20.1",
-    "tsx": "^4.19.2"
+    "@typescript-eslint/utils": "^8.24.1",
+    "eslint": "^9.21.0",
+    "tsx": "^4.19.3"
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"
