@@ -13,7 +13,7 @@ export async function unicorn(
       },
       rules: {
         ...(options.allRecommended
-          ? pluginUnicorn.configs['flat/recommended'].rules
+          ? pluginUnicorn.configs.recommended.rules
           : {
               'no-array-reduce': 'off',
 
@@ -39,7 +39,7 @@ export async function unicorn(
 
               // Disabled in favor of
               // Array.isArray instead of instanceof
-              'unicorn/no-instanceof-array': 'error',
+              'unicorn/no-instanceof-builtins': 'error',
 
               // Ban `new Array` as `Array` constructor's params are ambiguous
               'unicorn/no-new-array': 'off',
