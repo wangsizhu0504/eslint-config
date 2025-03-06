@@ -67,6 +67,8 @@ export async function stylistic(
         'style/member-delimiter-style': 'off',
         'style/no-mixed-spaces-and-tabs': 'off',
         'style/no-tabs': 'off',
+        'style/generator-star-spacing': ['error', { after: true, before: false }],
+        'style/yield-star-spacing': ['error', { after: true, before: false }],
         ...overrides,
       },
     },
