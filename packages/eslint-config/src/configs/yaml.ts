@@ -70,21 +70,40 @@ export async function yaml(
       },
     },
     {
-       files: ['pnpm-workspace.yaml'],
-       name: 'kriszu/yaml/pnpm-workspace',
-       rules: {
-         'yaml/sort-keys': [
-           'error',
-           {
-             order: [
-               'packages',
-               'catalog',
-               'catalogs',
-             ],
-             pathPattern: '^$',
-           },
-         ],
-       },
-     },
+      files: ['pnpm-workspace.yaml'],
+      name: 'kriszu/yaml/pnpm-workspace',
+      rules: {
+        'yaml/sort-keys': [
+          'error',
+          {
+            order: [
+              'packages',
+              'overrides',
+              'patchedDependencies',
+              'hoistPattern',
+              'catalog',
+              'catalogs',
+
+              'allowedDeprecatedVersions',
+              'allowNonAppliedPatches',
+              'configDependencies',
+              'ignoredBuiltDependencies',
+              'ignoredOptionalDependencies',
+              'neverBuiltDependencies',
+              'onlyBuiltDependencies',
+              'onlyBuiltDependenciesFile',
+              'packageExtensions',
+              'peerDependencyRules',
+              'supportedArchitectures',
+            ],
+            pathPattern: '^$',
+          },
+          {
+            order: { type: 'asc' },
+            pathPattern: '.*',
+          },
+        ],
+      },
+    },
   ]
 }
