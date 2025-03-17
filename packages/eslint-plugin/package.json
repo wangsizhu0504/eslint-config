@@ -41,7 +41,7 @@
   "devDependencies": {
     "@types/lodash.merge": "^4.6.9",
     "@types/semver": "^7.5.8",
-    "@typescript-eslint/rule-tester": "^8.26.0",
+    "@typescript-eslint/rule-tester": "^8.26.1",
     "@typescript-eslint/typescript-estree": "^8.24.1",
     "@typescript-eslint/utils": "^8.26.0",
     "ajv": "^8.17.1",
