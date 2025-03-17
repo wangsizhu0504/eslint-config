@@ -7,6 +7,7 @@ export default defineEslintConfig(
     react: true,
     typescript: true,
     formatters: true,
+    pnpm: true,
     stylistic: {
       semi: false,
     },

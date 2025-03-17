@@ -3,6 +3,7 @@
   "type": "module",
   "version": "3.4.2",
   "private": true,
+  "packageManager": "pnpm@10.6.3",
   "author": "Kriszu <wangsizhu0504@outlook.com>",
   "license": "MIT",
   "scripts": {
@@ -13,22 +14,20 @@
     "release": "npm run build && bumpp -r && pnpm -r publish"
   },
   "devDependencies": {
-    "@esbuild/darwin-arm64": "^0.24.2",
+    "@esbuild/darwin-arm64": "catalog:dev",
+    "@eslint/config-inspector": "catalog:dev",
     "@kriszu/eslint-config": "workspace:*",
-    "@types/node": "^22.13.10",
-    "@types/yargs": "^17.0.33",
-    "bumpp": "^9.11.1",
-    "bundle-require": "^5.1.0",
-    "eslint": "^9.22.0",
-    "esno": "^4.8.0",
-    "execa": "^9.5.2",
-    "jiti": "^2.4.2",
-    "lint-staged": "^15.5.0",
-    "simple-git-hooks": "^2.11.1",
-    "tinyglobby": "^0.2.12",
-    "tsup": "^8.4.0",
-    "typescript": "^5.8.2",
-    "unbuild": "^2.0.0",
-    "vitest": "^2.1.9"
+    "@types/node": "catalog:dev",
+    "bumpp": "catalog:dev",
+    "esno": "catalog:dev",
+    "execa": "catalog:dev",
+    "jiti": "catalog:dev",
+    "lint-staged": "catalog:dev",
+    "simple-git-hooks": "catalog:dev",
+    "tinyglobby": "catalog:dev",
+    "tsup": "catalog:dev",
+    "typescript": "catalog:dev",
+    "unbuild": "catalog:dev",
+    "vitest": "catalog:dev"
   }
 }
