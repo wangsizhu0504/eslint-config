@@ -25,6 +25,7 @@ import {
   markdown,
   node,
   perfectionist,
+  pnpmCatalogs,
   react,
   regexp,
   sortPackageJson,
@@ -94,6 +95,7 @@ export function defineEslintConfig(
     componentExts = [],
     gitignore: enableGitignore = true,
     jsx: enableJsx = true,
+    pnpmCatalogs: enablePnpmCatalogs = false,
     react: enableReact = isPackageExists('react'),
     regexp: enableRegexp = true,
     typescript: enableTypeScript = isPackageExists('typescript'),
@@ -238,6 +240,12 @@ export function defineEslintConfig(
       }),
       sortPackageJson(),
       sortTsconfig(),
+    )
+  }
+
+  if (enablePnpmCatalogs) {
+    configs.push(
+      pnpmCatalogs(),
     )
   }
 
