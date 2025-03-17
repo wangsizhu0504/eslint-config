@@ -24,7 +24,7 @@ catalogs:
     eslint-vitest-rule-tester: ^1.1.0
     esno: ^4.8.0
     execa: ^9.5.2
-    find-up-simple: ^7.0.0
+    find-up-simple: ^1.0.1
     jiti: ^2.4.2
     lint-staged: ^15.5.0
     lodash.merge: 4.6.2
