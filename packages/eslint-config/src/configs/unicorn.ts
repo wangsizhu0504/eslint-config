@@ -15,22 +15,14 @@ export async function unicorn(
         ...(options.allRecommended
           ? pluginUnicorn.configs.recommended.rules
           : {
-              'no-array-reduce': 'off',
 
+              'unicorn/consistent-empty-array-spread': 'error',
               // Conflicts with eslint-plugin-n/no-deprecated-api
               // Pass error message when throwing errors
               'unicorn/error-message': 'error',
 
               // Uppercase regex escapes
               'unicorn/escape-case': 'error',
-
-              /**
-               * For-of + iterators currently requires transpilation:
-               * https://www.typescriptlang.org/tsconfig#downlevelIteration
-               *
-               * Given this cost, it doesn't make sense to use instead of for-loops yet
-               */
-              'unicorn/no-for-loop': 'off',
 
               // Good rule and would like warning but no autofix
               // Some low level libraries that compile using babel would prefer to use
@@ -41,21 +33,12 @@ export async function unicorn(
               'unicorn/no-new-array': 'off',
               // https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/no-deprecated-api.md
               'unicorn/no-new-buffer': 'off',
-              // 保持正则表达式字面量安全！
-              'unicorn/no-unsafe-regex': 'off',
               // Lowercase number formatting for octal, hex, binary (0x1'error' instead of 0X1'error')
               'unicorn/number-literal-case': 'error',
-              // Disable even warnings because of autofix
-              'unicorn/prefer-export-from': [
-                'off',
-                {
-                  ignoreUsedVariables: true,
-                },
-              ],
+
               // includes over indexOf when checking for existence
               'unicorn/prefer-includes': 'error',
               // https://github.com/sindresorhus/eslint-plugin-unicorn/issues/1273#issuecomment-1069506684
-              'unicorn/prefer-json-parse-buffer': 'off',
               // Prefer using the node: protocol
               'unicorn/prefer-node-protocol': 'error',
               // Prefer using number properties like `Number.isNaN` rather than `isNaN`
@@ -70,6 +53,24 @@ export async function unicorn(
               'unicorn/prefer-type-error': 'error',
               // Use new when throwing error
               'unicorn/throw-new-error': 'error',
+
+              // custom
+              /**
+               * For-of + iterators currently requires transpilation:
+               * https://www.typescriptlang.org/tsconfig#downlevelIteration
+               *
+               * Given this cost, it doesn't make sense to use instead of for-loops yet
+               */
+              'unicorn/no-for-loop': 'off',
+              // Disable even warnings because of autofix
+              'unicorn/prefer-export-from': [
+                'off',
+                {
+                  ignoreUsedVariables: true,
+                },
+              ],
+              'unicorn/prefer-json-parse-buffer': 'off',
+
             }),
       },
     },

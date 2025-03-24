@@ -18,18 +18,29 @@ export async function imports(
         'unused-imports': pluginUnusedImports,
       },
       rules: {
-        // import plugin recommended rules
-        // https://github.com/import-js/eslint-plugin-import/blob/main/config/recommended.js
-        ...pluginImport.configs.recommended.rules,
+        'kriszu/import-dedupe': 'error',
 
-        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/default.md#when-not-to-use-it
-        'import/default': 'off',
+        'import/consistent-type-specifier-style': ['error', 'prefer-top-level'],
 
-        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/dynamic-import-chunkname.md
-        'import/dynamic-import-chunkname': ['off', {
-          importFunctions: [],
-          webpackChunknameFormat: '[0-9a-zA-Z-_/.]+',
-        }],
+        // Hard to expect this when the grouped exports can't be enabled.
+        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/first.md
+        'import/first': 'error',
+
+        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-duplicates.md
+        'import/no-duplicates': 'error',
+
+        // Forbid the use of extraneous packages
+        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-mutable-exports.md
+        'import/no-mutable-exports': 'error',
+
+        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-named-default.md
+        'import/no-named-default': 'error',
+
+        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-self-import.md
+        'import/no-self-import': 'error',
+
+        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-webpack-loader-syntax.md
+        'import/no-webpack-loader-syntax': 'error',
 
         // dynamic imports require a leading comment with a webpackChunkName
         // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/export.md
@@ -41,13 +52,13 @@ export async function imports(
         // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/exports-last.md
         'import/exports-last': 'off',
 
-        // Hard to expect this when the grouped exports can't be enabled.
-        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/first.md
-        'import/first': 'error',
-
         // Re-exporting a type when the 'isolatedModules' flag is provided requires using 'export type'
         // https://githubis.com/benmosher/eslint-plugin-import/blob/main/docs/rules/group-exports.md
         'import/group-exports': 'off',
+
+        // Forbid modules to have too many dependencies
+        // https://github.com/import-js/eslint-plugin-import/blob/e6f6018/docs/rules/max-dependencies.md
+        'import/max-dependencies': ['warn', { max: 15 }],
 
         // Excessive. Also, not suppored in TS w/ isolatedModules:
         // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/named.md#when-not-to-use-it
@@ -84,34 +95,49 @@ export async function imports(
           maxDepth: '∞',
         }],
 
-        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-duplicates.md
-        'import/no-duplicates': 'error',
-
-        // Forbid the use of extraneous packages
-        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-mutable-exports.md
-        'import/no-mutable-exports': 'error',
-
-        // Forbid a module from importing itself
-        'import/no-named-as-default': 'off',
-        'import/no-named-as-default-member': 'off',
-        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-named-default.md
-        'import/no-named-default': 'error',
-
-        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-self-import.md
-        'import/no-self-import': 'error',
         // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-unresolved.md
         'import/no-unresolved': 'off',
         // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-useless-path-segments.md
         'import/no-useless-path-segments': ['error', { commonjs: true }],
-        // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-webpack-loader-syntax.md
-        'import/no-webpack-loader-syntax': 'error',
+
+        // Forbid the use of extraneous packages
+        // https://github.com/import-js/eslint-plugin-import/blob/e6f6018/docs/rules/no-extraneous-dependencies.md
+        // paths are treated both as absolute paths, and relative to process.cwd()
+        'import/no-extraneous-dependencies': ['error', {
+          devDependencies: [
+            // Source directory - implies bundled
+            '**/src/**',
+            '**/@types/**',
+
+            // Build configuration related files
+            'build/**',
+            'build.{js,ts}',
+
+            // Scripts
+            '**/scripts/**',
+
+            // Tests
+            '**/{test,tests,test-d}/**',
+            '**/{test,test-*}.js',
+            '**/*{.,_}{test,spec}.js', // tests where the extension or filename suffix denotes that it is a test
+            '**/__{tests,mocks}__/**', // jest pattern
+
+            // Config files
+            '**/*.config.{js,cjs,mjs,ts,cts,mts}', // any config (eg. jest, webpack, rollup, postcss, vue)
+            '**/.*.js', // invisible config files
+
+            // Example snippets
+            'examples/**',
+
+            // Code snippets
+            'README.md',
+          ],
+          optionalDependencies: false,
+        }],
 
         // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/prefer-default-export.md
         // Excessive. Also, named exports help enforce readable imports.
         'import/prefer-default-export': 'off',
-        'import/consistent-type-specifier-style': ['error', 'prefer-top-level'],
-
-        'kriszu/import-dedupe': 'error',
 
         'unused-imports/no-unused-imports': isInEditor ? 'warn' : 'error',
         'unused-imports/no-unused-vars': [

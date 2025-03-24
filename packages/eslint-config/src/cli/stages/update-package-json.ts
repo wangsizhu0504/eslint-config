@@ -7,25 +7,23 @@ import * as p from '@clack/prompts'
 
 import c from 'ansis'
 
-import { dependenciesMap, pkgJson } from '../constants'
+import { version } from '../../../package.json'
+import { dependenciesMap } from '../constants'
+import { versionsMap } from '../constants-generated'
 
 export async function updatePackageJson(result: PromptResult): Promise<void> {
   const cwd = process.cwd()
 
   const pathPackageJSON = path.join(cwd, 'package.json')
 
-  p.log.step(c.cyan`Bumping @kriszu/eslint-config to v${pkgJson.version}`)
+  p.log.step(c.cyan`Bumping @kriszu/eslint-config to v${version}`)
 
   const pkgContent = await fsp.readFile(pathPackageJSON, 'utf-8')
   const pkg: Record<string, any> = JSON.parse(pkgContent)
 
   pkg.devDependencies ??= {}
-  pkg.devDependencies['@kriszu/eslint-config'] = `^${pkgJson.version}`
-  pkg.devDependencies.eslint ??= pkgJson
-    .devDependencies
-    .eslint
-    .replace('npm:eslint-ts-patch@', '')
-    .replace(/-\d+$/, '')
+  pkg.devDependencies['@kriszu/eslint-config'] = `^${version}`
+  pkg.devDependencies.eslint ??= versionsMap.eslint
 
   const addedPackages: string[] = []
 
@@ -34,19 +32,17 @@ export async function updatePackageJson(result: PromptResult): Promise<void> {
       switch (item) {
         case 'formatter':
           (<const>[
-            'eslint-plugin-format',
+            ...dependenciesMap.formatter,
           ]).forEach((f) => {
             if (!f)
               return
-            pkg.devDependencies[f] = pkgJson.devDependencies[f]
+            pkg.devDependencies[f] = versionsMap[f as keyof typeof versionsMap]
             addedPackages.push(f)
           })
           break
         case 'unocss':
-          (<const>[
-            '@unocss/eslint-plugin',
-          ]).forEach((f) => {
-            pkg.devDependencies[f] = pkgJson.devDependencies[f]
+          dependenciesMap.unocss.forEach((f) => {
+            pkg.devDependencies[f] = versionsMap[f as keyof typeof versionsMap]
             addedPackages.push(f)
           })
           break
@@ -58,7 +54,7 @@ export async function updatePackageJson(result: PromptResult): Promise<void> {
     const deps = dependenciesMap[framework]
     if (deps) {
       deps.forEach((f) => {
-        pkg.devDependencies[f] = pkgJson.devDependencies[f]
+        pkg.devDependencies[f] = versionsMap[f as keyof typeof versionsMap]
         addedPackages.push(f)
       })
     }

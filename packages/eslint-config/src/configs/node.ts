@@ -10,20 +10,13 @@ export async function node(): Promise<TypedFlatConfigItem[]> {
         node: pluginNode,
       },
       rules: {
-        // https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/global-require.md
-        'node/global-require': 'error',
+
         // https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/handle-callback-err.md
         'node/handle-callback-err': ['error', '^(err|error)$'],
         // https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/no-deprecated-api.md
         'node/no-deprecated-api': 'error',
         // https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/no-exports-assign.md
         'node/no-exports-assign': 'error',
-
-        // https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/no-mixed-requires.md
-        'node/no-mixed-requires': ['error', {
-          allowCall: true,
-          grouping: true,
-        }],
 
         // https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/no-new-require.md
         'node/no-new-require': 'error',
@@ -34,12 +27,23 @@ export async function node(): Promise<TypedFlatConfigItem[]> {
         // https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/prefer-global/buffer.md
         'node/prefer-global/buffer': ['error', 'always'],
 
-        // https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/prefer-global/console.md
-        'node/prefer-global/console': ['error', 'always'],
-
         // https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/prefer-global/process.md
         'node/prefer-global/process': ['error', 'never'],
 
+        // https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/process-exit-as-throw.md
+        'node/process-exit-as-throw': 'error',
+
+        // custom
+
+        // https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/global-require.md
+        'node/global-require': 'error',
+        // https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/no-mixed-requires.md
+        'node/no-mixed-requires': ['error', {
+          allowCall: true,
+          grouping: true,
+        }],
+        // https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/prefer-global/console.md
+        'node/prefer-global/console': ['error', 'always'],
         // https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/prefer-global/text-decoder.md
         'node/prefer-global/text-decoder': ['error', 'always'],
 
@@ -55,8 +59,6 @@ export async function node(): Promise<TypedFlatConfigItem[]> {
         'node/prefer-promises/dns': 'error',
         // https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/prefer-promises/fs.md
         'node/prefer-promises/fs': 'error',
-        // https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/process-exit-as-throw.md
-        'node/process-exit-as-throw': 'error',
       },
     },
   ]

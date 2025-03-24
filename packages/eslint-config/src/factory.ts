@@ -305,7 +305,7 @@ export function defineEslintConfig(
 
   let composer = new FlatConfigComposer<TypedFlatConfigItem, ConfigNames>()
 
-  composer = composer.append(...configs, ...(userConfigs as any))
+  composer = composer.append(...configs, ...userConfigs as any)
 
   if (autoRenamePlugins) {
     composer = composer.renamePlugins(defaultPluginRenaming)
@@ -328,7 +328,9 @@ export function resolveSubOptions<K extends keyof OptionsConfig>(
   options: OptionsConfig,
   key: K,
 ): ResolvedOptions<OptionsConfig[K]> {
-  return typeof options[key] === 'boolean' ? ({} as any) : (options[key] || {}) as any
+  return typeof options[key] === 'boolean'
+    ? {} as any
+    : options[key] || {} as any
 }
 
 export function getOverrides<K extends keyof OptionsConfig>(

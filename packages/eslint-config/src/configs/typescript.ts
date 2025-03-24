@@ -122,26 +122,10 @@ export async function typescript(
           { '@typescript-eslint': 'ts' },
         ),
 
-        'no-array-constructor': 'off',
         'no-dupe-class-members': 'off',
-
-        'no-empty-function': 'off',
-        'no-invalid-this': 'off',
-        'no-loop-func': 'off',
-        'no-magic-numbers': ['off'],
         'no-redeclare': 'off',
-        'no-restricted-imports': 'off',
-        'no-return-await': 'off',
-        'no-shadow': 'off',
-        'no-undef': 'off',
-        'no-unused-expressions': 'off',
-        'no-unused-vars': 'off',
         'no-use-before-define': 'off',
-
         'no-useless-constructor': 'off',
-        'ts/adjacent-overload-signatures': ['error'],
-        'ts/array-type': ['error', { default: 'array-simple' }],
-
         'ts/ban-ts-comment': [
           'error',
           {
@@ -149,6 +133,61 @@ export async function typescript(
             'ts-ignore': 'allow-with-description',
           },
         ],
+        'ts/consistent-type-definitions': ['error', 'interface'],
+        'ts/consistent-type-imports': ['error', {
+          disallowTypeAnnotations: false,
+          fixStyle: 'separate-type-imports',
+          prefer: 'type-imports',
+        }],
+
+        'ts/method-signature-style': ['error', 'property'], // https://www.totaltypescript.com/method-shorthand-syntax-considered-harmful
+        'ts/no-dupe-class-members': 'error',
+        'ts/no-dynamic-delete': 'off',
+        'ts/no-empty-object-type': ['error', { allowInterfaces: 'always' }],
+        'ts/no-explicit-any': 'off',
+        'ts/no-extraneous-class': 'off',
+        'ts/no-import-type-side-effects': 'error',
+        'ts/no-invalid-void-type': 'off',
+        'ts/no-non-null-assertion': 'off',
+        'ts/no-redeclare': ['error', { builtinGlobals: false }],
+        'ts/no-require-imports': 'error',
+        'ts/no-unused-expressions': ['error', {
+          allowShortCircuit: true,
+          allowTaggedTemplates: true,
+          allowTernary: true,
+        }],
+        'ts/no-unused-vars': 'off',
+        'ts/no-use-before-define': ['error', { classes: false, functions: false, variables: true }],
+        'ts/no-useless-constructor': 'off',
+        'ts/no-wrapper-object-types': 'error',
+        'ts/triple-slash-reference': 'off',
+        'ts/unified-signatures': 'off',
+
+        ...(type === 'lib'
+          ? {
+              'ts/explicit-function-return-type': ['error', {
+                allowExpressions: true,
+                allowHigherOrderFunctions: true,
+                allowIIFEs: true,
+              }],
+            }
+          : {}
+        ),
+
+        // custom
+        'no-array-constructor': 'off',
+        'no-empty-function': 'off',
+        'no-invalid-this': 'off',
+        'no-loop-func': 'off',
+        'no-magic-numbers': ['off'],
+        'no-restricted-imports': 'off',
+        'no-return-await': 'off',
+        'no-shadow': 'off',
+        'no-undef': 'off',
+        'no-unused-expressions': 'off',
+        'no-unused-vars': 'off',
+        'ts/adjacent-overload-signatures': ['error'],
+        'ts/array-type': ['error', { default: 'array-simple' }],
         'ts/ban-tslint-comment': ['error'],
         'ts/class-literal-property-style': ['error', 'getters'],
         'ts/consistent-generic-constructors': [
@@ -157,54 +196,26 @@ export async function typescript(
         ],
         'ts/consistent-indexed-object-style': 'off',
         'ts/consistent-type-assertions': 'off',
-        'ts/consistent-type-definitions': ['error', 'interface'],
-        'ts/consistent-type-imports': ['error', {
-          disallowTypeAnnotations: false,
-          fixStyle: 'separate-type-imports',
-          prefer: 'type-imports',
-        }],
         'ts/default-param-last': ['error'],
-        'ts/explicit-function-return-type': ['off'],
         'ts/explicit-member-accessibility': ['off'],
-        'ts/func-call-spacing': ['off', 'never'],
-        'ts/indent': [
-          'off',
-          'tab',
-          {
-            flatTernaryExpressions: false,
-            ignoreComments: false,
-            offsetTernaryExpressions: false,
-            SwitchCase: 1,
-          },
-        ],
         'ts/member-ordering': ['error'],
-        'ts/method-signature-style': ['error', 'property'], // https://www.totaltypescript.com/method-shorthand-syntax-considered-harmful
         'ts/naming-convention': [
           'warn',
           { format: ['PascalCase', 'camelCase'], selector: 'function' },
         ],
         'ts/no-array-constructor': ['error'],
-        'ts/no-dupe-class-members': ['error'],
         'ts/no-duplicate-enum-values': ['error'],
-        'ts/no-dynamic-delete': ['off'],
-        'ts/no-empty-object-type': ['error', { allowInterfaces: 'always' }],
         'ts/no-empty-function': [
           'error',
           { allow: ['arrowFunctions', 'functions', 'methods'] },
         ],
         'ts/no-empty-interface': ['error', { allowSingleExtends: true }],
-        'ts/no-explicit-any': ['off'],
         'ts/no-extra-non-null-assertion': ['error'],
-        'ts/no-extra-semi': ['off'],
-        'ts/no-extraneous-class': 'off',
-
-        'ts/no-import-type-side-effects': 'error',
         'ts/no-inferrable-types': [
           'error',
           { ignoreParameters: false, ignoreProperties: false },
         ],
         'ts/no-invalid-this': 'off',
-        'ts/no-invalid-void-type': 'off',
         'ts/no-loop-func': ['error'],
         'ts/no-magic-numbers': [
           'off',
@@ -222,37 +233,11 @@ export async function typescript(
         ],
         'ts/no-non-null-asserted-nullish-coalescing': ['error'],
         'ts/no-non-null-asserted-optional-chain': ['error'],
-
-        'ts/no-non-null-assertion': 'off',
-
-        'ts/no-redeclare': ['error', { builtinGlobals: false }],
         'ts/no-redundant-type-constituents': ['off'],
-        'ts/no-unused-expressions': ['error', {
-          allowShortCircuit: true,
-          allowTaggedTemplates: true,
-          allowTernary: true,
-        }],
-        'ts/no-require-imports': 'error',
         'ts/no-shadow': ['warn'],
         'ts/no-this-alias': ['error', { allowDestructuring: true }],
         'ts/no-unnecessary-condition': ['off'],
         'ts/no-unnecessary-type-constraint': ['error'],
-        'ts/no-unused-vars': [
-          'error',
-          {
-            args: 'after-used',
-            argsIgnorePattern: '^_',
-            ignoreRestSiblings: true,
-            vars: 'all',
-            varsIgnorePattern: '^_',
-          },
-        ],
-        'ts/no-use-before-define': [
-          'error',
-          { classes: false, functions: false, variables: true },
-        ],
-        'ts/no-useless-constructor': 'off',
-        'ts/no-wrapper-object-types': 'error',
         'ts/no-useless-empty-export': ['error'],
         'ts/no-var-requires': ['error'],
         'ts/parameter-properties': 'off',
@@ -263,19 +248,8 @@ export async function typescript(
         'ts/prefer-namespace-keyword': ['error'],
         'ts/require-await': ['off'],
         'ts/strict-boolean-expressions': ['off'],
-        'ts/triple-slash-reference': 'off',
         'ts/typedef': ['off'],
-        'ts/unified-signatures': 'off',
-        ...(type === 'lib'
-          ? {
-              'ts/explicit-function-return-type': ['error', {
-                allowExpressions: true,
-                allowHigherOrderFunctions: true,
-                allowIIFEs: true,
-              }],
-            }
-          : {}
-        ),
+
         ...overrides,
       },
     },

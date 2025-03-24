@@ -27,11 +27,11 @@
     "dist"
   ],
   "scripts": {
-    "build": "npm run typegen && tsup --format esm,cjs --clean --dts",
+    "build": "npm run gen && tsup --format esm,cjs --clean --dts",
     "stub": "tsup --format esm",
     "watch": "tsup --format esm --watch",
     "lint": "eslint .",
-    "typegen": "esno scripts/typegen.ts",
+    "gen": "tsx scripts/typegen.ts && tsx scripts/versiongen.ts",
     "prepack": "npm run build",
     "typecheck": "tsc --noEmit",
     "prepare": "simple-git-hooks"
@@ -53,9 +53,6 @@
       "optional": true
     },
     "@unocss/eslint-plugin": {
-      "optional": true
-    },
-    "astro-eslint-parser": {
       "optional": true
     },
     "eslint-plugin-format": {
@@ -116,7 +113,9 @@
     "eslint-plugin-react-hooks": "catalog:peer",
     "eslint-plugin-react-refresh": "catalog:peer",
     "eslint-typegen": "catalog:dev",
-    "find-up-simple": "catalog:dev"
+    "find-up-simple": "catalog:dev",
+    "jiti": "catalog:dev",
+    "pnpm-workspace-yaml": "catalog:dev"
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"

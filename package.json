@@ -21,11 +21,11 @@
     "bumpp": "catalog:dev",
     "esno": "catalog:dev",
     "execa": "catalog:dev",
-    "jiti": "catalog:dev",
     "lint-staged": "catalog:dev",
     "simple-git-hooks": "catalog:dev",
     "tinyglobby": "catalog:dev",
     "tsup": "catalog:dev",
+    "tsx": "catalog:dev",
     "typescript": "catalog:dev",
     "unbuild": "catalog:dev",
     "vitest": "catalog:dev"

@@ -3,7 +3,7 @@ packages:
 
 overrides:
   '@eslint-community/eslint-utils': ^4.5.1
-  '@typescript-eslint/utils': ^8.26.1
+  '@typescript-eslint/utils': ^8.27.0
   eslint: ^9.22.0
   tsx: ^4.19.3
 
@@ -28,10 +28,12 @@ catalogs:
     jiti: ^2.4.2
     lint-staged: ^15.5.0
     lodash.merge: 4.6.2
+    pnpm-workspace-yaml: ^0.3.1
     semver: ^7.7.1
     simple-git-hooks: ^2.11.1
     tinyglobby: ^0.2.12
     tsup: ^8.4.0
+    tsx: ^4.19.3
     typescript: ^5.8.2
     unbuild: ^2.0.0
     vitest: ^3.0.8
@@ -60,8 +62,8 @@ catalogs:
     eslint-flat-config-utils: ^2.0.1
     eslint-merge-processors: ^2.0.0
     eslint-plugin-command: ^3.1.0
-    eslint-plugin-import-x: ^4.8.0
-    eslint-plugin-jsdoc: ^50.6.6
+    eslint-plugin-import-x: ^4.9.1
+    eslint-plugin-jsdoc: ^50.6.8
     eslint-plugin-jsonc: ^2.19.1
     eslint-plugin-n: ^17.16.2
     eslint-plugin-no-only-tests: ^3.3.0
@@ -84,3 +86,4 @@ catalogs:
 
 onlyBuiltDependencies:
   - esbuild
+  - simple-git-hooks

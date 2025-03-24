@@ -62,13 +62,15 @@ export async function stylistic(
         'kriszu/consistent-chaining': 'error',
         'kriszu/top-level-function': 'error',
 
+        'style/generator-star-spacing': ['error', { after: true, before: false }],
+        'style/yield-star-spacing': ['error', { after: true, before: false }],
+
+        // custom
         'style/brace-style': 'off',
         'style/indent-binary-ops': 'off',
         'style/member-delimiter-style': 'off',
         'style/no-mixed-spaces-and-tabs': 'off',
         'style/no-tabs': 'off',
-        'style/generator-star-spacing': ['error', { after: true, before: false }],
-        'style/yield-star-spacing': ['error', { after: true, before: false }],
         ...overrides,
       },
     },

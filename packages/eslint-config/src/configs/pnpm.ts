@@ -15,6 +15,7 @@ export async function pnpm(): Promise<TypedFlatConfigItem[]> {
 
   return [
     {
+      name: 'kriszu/pnpm/package-json',
       files: [
         'package.json',
         '**/package.json',
@@ -22,7 +23,6 @@ export async function pnpm(): Promise<TypedFlatConfigItem[]> {
       languageOptions: {
         parser: jsoncParser,
       },
-      name: 'kriszu/pnpm/package-json',
       plugins: {
         pnpm: pluginPnpm,
       },
@@ -33,11 +33,11 @@ export async function pnpm(): Promise<TypedFlatConfigItem[]> {
       },
     },
     {
+      name: 'kriszu/pnpm/pnpm-workspace-yaml',
       files: ['pnpm-workspace.yaml'],
       languageOptions: {
         parser: yamlParser,
       },
-      name: 'kriszu/pnpm/pnpm-workspace-yaml',
       plugins: {
         pnpm: pluginPnpm,
       },

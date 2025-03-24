@@ -70,8 +70,8 @@ export async function yaml(
       },
     },
     {
-      files: ['pnpm-workspace.yaml'],
       name: 'kriszu/yaml/pnpm-workspace',
+      files: ['pnpm-workspace.yaml'],
       rules: {
         'yaml/sort-keys': [
           'error',

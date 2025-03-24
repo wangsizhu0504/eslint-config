@@ -20,15 +20,12 @@ export const GLOB_JSONC = '**/*.jsonc'
 
 export const GLOB_MARKDOWN = '**/*.md'
 export const GLOB_MARKDOWN_IN_MARKDOWN = '**/*.md/*.md'
-export const GLOB_SVELTE = '**/*.svelte'
 export const GLOB_VUE = '**/*.vue'
 export const GLOB_YAML = '**/*.y?(a)ml'
 export const GLOB_TOML = '**/*.toml'
 export const GLOB_XML = '**/*.xml'
 export const GLOB_SVG = '**/*.svg'
 export const GLOB_HTML = '**/*.htm?(l)'
-export const GLOB_ASTRO = '**/*.astro'
-export const GLOB_ASTRO_TS = '**/*.astro/*.ts'
 export const GLOB_GRAPHQL = '**/*.{g,graph}ql'
 
 export const GLOB_MARKDOWN_CODE = `${GLOB_MARKDOWN}/${GLOB_SRC}`
