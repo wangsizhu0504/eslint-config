@@ -1,3 +1,4 @@
+import { pluginUnusedImports } from '../plugins'
 import type { OptionsIsInEditor, OptionsOverrides, TypedFlatConfigItem } from '../types'
 
 import globals from 'globals'
@@ -38,6 +39,9 @@ export async function javascript(
     },
     {
       name: 'kriszu/javascript/rules',
+      plugins: {
+        'unused-imports': pluginUnusedImports,
+      },
       rules: {
         'accessor-pairs': [
           'error',
