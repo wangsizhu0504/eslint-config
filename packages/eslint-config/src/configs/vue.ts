@@ -12,7 +12,7 @@ import { GLOB_VUE } from '../globs'
 
 import { pluginKriszu } from '../plugins'
 
-import { interopDefault } from '../utils'
+import { ensurePackages,interopDefault } from '../utils'
 
 export async function vue(
   options: OptionsVue &
@@ -22,6 +22,7 @@ export async function vue(
     OptionsFiles = {},
 ): Promise<TypedFlatConfigItem[]> {
   const {
+    a11y = false,
     files = [GLOB_VUE],
     overrides = {},
     stylistic = true,
@@ -31,10 +32,22 @@ export async function vue(
 
   const { indent = 2 } = typeof stylistic === 'boolean' ? {} : stylistic
 
-  const [pluginVue, parserVue, processorVueBlocks] = await Promise.all([
+  if (a11y) {
+    await ensurePackages([
+      'eslint-plugin-vuejs-accessibility',
+    ])
+  }
+
+  const [
+    pluginVue,
+    parserVue,
+    processorVueBlocks,
+    ...pluginVueA11y
+  ] = await Promise.all([
     interopDefault(import('eslint-plugin-vue')),
     interopDefault(import('vue-eslint-parser')),
     interopDefault(import('eslint-processor-vue-blocks')),
+    ...a11y ? [interopDefault(import('eslint-plugin-vuejs-accessibility'))] : [],
   ] as const)
 
   return [
@@ -43,6 +56,7 @@ export async function vue(
       plugins: {
         vue: pluginVue,
         kriszu: pluginKriszu,
+        ...a11y ? { 'vue-a11y': pluginVueA11y } : {},
       },
       // This allows Vue plugin to work with auto imports
       // https://github.com/vuejs/eslint-plugin-vue/pull/2422
@@ -275,6 +289,32 @@ export async function vue(
               'vue/template-curly-spacing': 'error',
             }
           : {}),
+          ...a11y
+          ? {
+              'vue-a11y/alt-text': 'error',
+              'vue-a11y/anchor-has-content': 'error',
+              'vue-a11y/aria-props': 'error',
+              'vue-a11y/aria-role': 'error',
+              'vue-a11y/aria-unsupported-elements': 'error',
+              'vue-a11y/click-events-have-key-events': 'error',
+              'vue-a11y/form-control-has-label': 'error',
+              'vue-a11y/heading-has-content': 'error',
+              'vue-a11y/iframe-has-title': 'error',
+              'vue-a11y/interactive-supports-focus': 'error',
+              'vue-a11y/label-has-for': 'error',
+              'vue-a11y/media-has-caption': 'warn',
+              'vue-a11y/mouse-events-have-key-events': 'error',
+              'vue-a11y/no-access-key': 'error',
+              'vue-a11y/no-aria-hidden-on-focusable': 'error',
+              'vue-a11y/no-autofocus': 'warn',
+              'vue-a11y/no-distracting-elements': 'error',
+              'vue-a11y/no-redundant-roles': 'error',
+              'vue-a11y/no-role-presentation-on-focusable': 'error',
+              'vue-a11y/no-static-element-interactions': 'error',
+              'vue-a11y/role-has-required-aria-props': 'error',
+              'vue-a11y/tabindex-no-positive': 'warn',
+            }
+          : {},
 
         ...overrides,
       },

@@ -46,6 +46,7 @@ catalogs:
     eslint-plugin-format: ^1.0.1
     eslint-plugin-react-hooks: ^5.2.0
     eslint-plugin-react-refresh: ^0.4.19
+    eslint-plugin-vuejs-accessibility: ^2.4.1
 
   prod:
     '@antfu/install-pkg': ^1.0.0
