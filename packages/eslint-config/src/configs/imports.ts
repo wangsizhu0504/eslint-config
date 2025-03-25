@@ -100,41 +100,6 @@ export async function imports(
         // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-useless-path-segments.md
         'import/no-useless-path-segments': ['error', { commonjs: true }],
 
-        // Forbid the use of extraneous packages
-        // https://github.com/import-js/eslint-plugin-import/blob/e6f6018/docs/rules/no-extraneous-dependencies.md
-        // paths are treated both as absolute paths, and relative to process.cwd()
-        'import/no-extraneous-dependencies': ['error', {
-          devDependencies: [
-            // Source directory - implies bundled
-            '**/src/**',
-            '**/@types/**',
-
-            // Build configuration related files
-            'build/**',
-            'build.{js,ts}',
-
-            // Scripts
-            '**/scripts/**',
-
-            // Tests
-            '**/{test,tests,test-d}/**',
-            '**/{test,test-*}.js',
-            '**/*{.,_}{test,spec}.js', // tests where the extension or filename suffix denotes that it is a test
-            '**/__{tests,mocks}__/**', // jest pattern
-
-            // Config files
-            '**/*.config.{js,cjs,mjs,ts,cts,mts}', // any config (eg. jest, webpack, rollup, postcss, vue)
-            '**/.*.js', // invisible config files
-
-            // Example snippets
-            'examples/**',
-
-            // Code snippets
-            'README.md',
-          ],
-          optionalDependencies: false,
-        }],
-
         // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/prefer-default-export.md
         // Excessive. Also, named exports help enforce readable imports.
         'import/prefer-default-export': 'off',
