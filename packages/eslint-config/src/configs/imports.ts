@@ -56,10 +56,6 @@ export async function imports(
         // https://githubis.com/benmosher/eslint-plugin-import/blob/main/docs/rules/group-exports.md
         'import/group-exports': 'off',
 
-        // Forbid modules to have too many dependencies
-        // https://github.com/import-js/eslint-plugin-import/blob/e6f6018/docs/rules/max-dependencies.md
-        'import/max-dependencies': ['warn', { max: 15 }],
-
         // Excessive. Also, not suppored in TS w/ isolatedModules:
         // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/named.md#when-not-to-use-it
         'import/named': 'error',

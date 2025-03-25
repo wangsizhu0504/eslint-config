@@ -1,7 +1,7 @@
-import { pluginUnusedImports } from '../plugins'
 import type { OptionsIsInEditor, OptionsOverrides, TypedFlatConfigItem } from '../types'
-
 import globals from 'globals'
+
+import { pluginUnusedImports } from '../plugins'
 
 export async function javascript(
   options: OptionsIsInEditor & OptionsOverrides = {},
