@@ -5,6 +5,10 @@ import { pluginUnicorn } from '../plugins'
 export async function unicorn(
   options: OptionsUnicorn = {},
 ): Promise<TypedFlatConfigItem[]> {
+  const {
+    allRecommended = false,
+    overrides = {},
+  } = options
   return [
     {
       name: 'kriszu/unicorn/rules',
@@ -12,7 +16,7 @@ export async function unicorn(
         unicorn: pluginUnicorn,
       },
       rules: {
-        ...(options.allRecommended
+        ...(allRecommended
           ? pluginUnicorn.configs.recommended.rules
           : {
 
@@ -72,6 +76,7 @@ export async function unicorn(
               'unicorn/prefer-json-parse-buffer': 'off',
 
             }),
+        ...overrides,
       },
     },
   ]
