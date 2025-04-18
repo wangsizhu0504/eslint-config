@@ -20,4 +20,6 @@ const versions = Object.fromEntries(Array.from(names).map((name) => {
   return [name, version]
 }).sort((a, b) => a[0].localeCompare(b[0])))
 
-await fs.writeFile(new URL('../src/cli/constants-generated.ts', import.meta.url), `export const versionsMap = ${JSON.stringify(versions, null, 2)}`)
+await fs.writeFile(new URL('../src/cli/constants-generated.ts', import.meta.url), `/* eslint-disable eslint-comments/no-unlimited-disable */
+/* eslint-disable */
+export const versionsMap = ${JSON.stringify(versions, null, 2)}`)
