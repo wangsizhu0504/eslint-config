@@ -47,8 +47,6 @@ export async function javascript(
           'error',
           { enforceForClassMembers: true, setWithoutGet: true },
         ],
-        // Common
-        'array-bracket-newline': 'off',
         // best-practice
         'array-callback-return': 'error',
         'block-scoped-var': 'error',
@@ -216,40 +214,9 @@ export async function javascript(
 
         // custom config
         'no-invalid-this': 'error',
-        'no-return-await': 'off',
-        'no-spaced-func': 'off',
-        'nonblock-statement-body-position': 'off',
-        'one-var-declaration-per-line': 'off',
         'require-await': 'off',
-        'spaced-comment': [
-          'error',
-          'always',
-          {
-            block: {
-              balanced: true,
-              exceptions: ['*'],
-              markers: ['!'],
-            },
-            line: {
-              exceptions: ['/', '#'],
-              markers: ['/'],
-            },
-          },
-        ],
-        'switch-colon-spacing': 'off',
-        'wrap-regex': 'off',
         'consistent-return': 'off',
         'complexity': ['off', 11],
-        'function-call-argument-newline': 'off',
-        'function-paren-newline': 'off',
-        'implicit-arrow-linebreak': 'off',
-        'indent': 'off',
-        'indent-legacy': 'off',
-        'jsx-quotes': 'off',
-        'linebreak-style': 'off',
-        'newline-per-chained-call': 'off',
-        'no-confusing-arrow': 'off',
-        'no-extra-semi': 'off',
 
         ...overrides,
       },

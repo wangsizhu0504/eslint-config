@@ -181,7 +181,6 @@ export async function typescript(
         'no-loop-func': 'off',
         'no-magic-numbers': ['off'],
         'no-restricted-imports': 'off',
-        'no-return-await': 'off',
         'no-shadow': 'off',
         'no-undef': 'off',
         'no-unused-expressions': 'off',
@@ -209,7 +208,6 @@ export async function typescript(
           'error',
           { allow: ['arrowFunctions', 'functions', 'methods'] },
         ],
-        'ts/no-empty-interface': ['error', { allowSingleExtends: true }],
         'ts/no-extra-non-null-assertion': ['error'],
         'ts/no-inferrable-types': [
           'error',
@@ -239,7 +237,6 @@ export async function typescript(
         'ts/no-unnecessary-condition': ['off'],
         'ts/no-unnecessary-type-constraint': ['error'],
         'ts/no-useless-empty-export': ['error'],
-        'ts/no-var-requires': ['error'],
         'ts/parameter-properties': 'off',
         'ts/prefer-as-const': ['error'],
         'ts/prefer-for-of': ['error'],
@@ -248,7 +245,6 @@ export async function typescript(
         'ts/prefer-namespace-keyword': ['error'],
         'ts/require-await': ['off'],
         'ts/strict-boolean-expressions': ['off'],
-        'ts/typedef': ['off'],
 
         ...overrides,
       },
