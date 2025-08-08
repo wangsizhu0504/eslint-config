@@ -23,6 +23,7 @@ import {
   jsonc,
   jsx,
   markdown,
+  nextjs,
   node,
   perfectionist,
   pnpm,
@@ -41,7 +42,7 @@ import {
 } from './configs'
 import { formatters } from './configs/formatters'
 
-import { gitignore } from './gitignore'
+import gitignore from './gitignore'
 import { isInEditorEnv } from './utils'
 
 const flatConfigProps = [
@@ -54,7 +55,7 @@ const flatConfigProps = [
   'settings',
 ] satisfies Array<keyof TypedFlatConfigItem>
 
-const VuePackages = ['vue', 'nuxt', 'vitepress', '@slidev/cli']
+const VuePackages = ['vue', 'nuxt', 'vitepress']
 
 export const defaultPluginRenaming = {
   '@eslint-react': 'react',
@@ -62,11 +63,13 @@ export const defaultPluginRenaming = {
   '@eslint-react/hooks-extra': 'react-hooks-extra',
   '@eslint-react/naming-convention': 'react-naming-convention',
 
+  '@next/next': 'next',
   '@stylistic': 'style',
   '@typescript-eslint': 'ts',
-  'import-x': 'import',
+  'import-lite': 'import',
   'n': 'node',
   'vitest': 'test',
+
   'yml': 'yaml',
 }
 
@@ -94,7 +97,9 @@ export function defineEslintConfig(
     autoRenamePlugins = true,
     componentExts = [],
     gitignore: enableGitignore = true,
+    imports: enableImports = true,
     jsx: enableJsx = true,
+    nextjs: enableNextjs = false,
     pnpm: enablePnpmCatalogs = false,
     react: enableReact = isPackageExists('react'),
     regexp: enableRegexp = true,
@@ -119,7 +124,7 @@ export function defineEslintConfig(
       : {}
 
   if (stylisticOptions && !('jsx' in stylisticOptions))
-    stylisticOptions.jsx = enableJsx
+    stylisticOptions.jsx = !!enableJsx
 
   const configs: Array<Awaitable<TypedFlatConfigItem[]>> = []
 
@@ -158,6 +163,19 @@ export function defineEslintConfig(
     perfectionist(),
   )
 
+  if (enableImports) {
+    configs.push(
+      imports(enableImports === true
+        ? {
+            stylistic: stylisticOptions,
+          }
+        : {
+            stylistic: stylisticOptions,
+            ...enableImports,
+          }),
+    )
+  }
+
   if (enableUnicorn) {
     configs.push(unicorn(enableUnicorn === true ? {} : enableUnicorn))
   }
@@ -167,7 +185,7 @@ export function defineEslintConfig(
   }
 
   if (enableJsx) {
-    configs.push(jsx())
+    configs.push(jsx(enableJsx === true ? {} : enableJsx))
   }
 
   if (enableTypeScript) {
@@ -221,6 +239,12 @@ export function defineEslintConfig(
         tsconfigPath,
       }),
     )
+  }
+
+  if (enableNextjs) {
+    configs.push(nextjs({
+      overrides: getOverrides(options, 'nextjs'),
+    }))
   }
 
   if (enableUnoCSS) {

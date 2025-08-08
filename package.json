@@ -13,20 +13,23 @@
     "release": "npm run build && bumpp -r && pnpm -r publish"
   },
   "devDependencies": {
-    "@esbuild/darwin-arm64": "catalog:dev",
     "@eslint/config-inspector": "catalog:dev",
     "@kriszu/eslint-config": "workspace:*",
     "@types/node": "catalog:dev",
     "bumpp": "catalog:dev",
     "esno": "catalog:dev",
     "execa": "catalog:dev",
+    "jiti": "catalog:dev",
     "lint-staged": "catalog:dev",
+    "pnpm-workspace-yaml": "catalog:dev",
     "simple-git-hooks": "catalog:dev",
     "tinyglobby": "catalog:dev",
-    "tsup": "catalog:dev",
+    "tsdown": "catalog:dev",
     "tsx": "catalog:dev",
     "typescript": "catalog:dev",
-    "unbuild": "catalog:dev",
     "vitest": "catalog:dev"
+  },
+  "resolutions": {
+    "eslint": "catalog:peer"
   }
 }

@@ -5,7 +5,9 @@ import { interopDefault } from '../utils'
 export async function jsdoc(
   options: OptionsStylistic = {},
 ): Promise<TypedFlatConfigItem[]> {
-  const { stylistic = true } = options
+  const {
+    stylistic = true,
+  } = options
 
   return [
     {

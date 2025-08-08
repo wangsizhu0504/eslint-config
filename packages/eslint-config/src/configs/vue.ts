@@ -12,14 +12,14 @@ import { GLOB_VUE } from '../globs'
 
 import { pluginKriszu } from '../plugins'
 
-import { ensurePackages,interopDefault } from '../utils'
+import { ensurePackages, interopDefault } from '../utils'
 
 export async function vue(
-  options: OptionsVue &
-    OptionsHasTypeScript &
-    OptionsOverrides &
-    OptionsStylistic &
-    OptionsFiles = {},
+  options: OptionsVue
+    & OptionsHasTypeScript
+    & OptionsOverrides
+    & OptionsStylistic
+    & OptionsFiles = {},
 ): Promise<TypedFlatConfigItem[]> {
   const {
     a11y = false,
@@ -289,7 +289,7 @@ export async function vue(
               'vue/template-curly-spacing': 'error',
             }
           : {}),
-          ...a11y
+        ...a11y
           ? {
               'vue-a11y/alt-text': 'error',
               'vue-a11y/anchor-has-content': 'error',

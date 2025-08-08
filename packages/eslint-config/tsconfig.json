@@ -3,6 +3,7 @@
   "compilerOptions": {
     "jsx": "preserve",
     "baseUrl": ".",
+    "esModuleInterop": true,
     "moduleResolution": "Bundler"
   },
   "include": [

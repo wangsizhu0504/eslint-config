@@ -7,6 +7,7 @@ import { isPackageExists } from 'local-pkg'
 
 const scopeUrl = fileURLToPath(new URL('.', import.meta.url))
 const isCwdInScope = isPackageExists('@kriszu/eslint-config')
+
 export const parserPlain = {
   meta: {
     name: 'parser-plain',
@@ -145,6 +146,7 @@ export function isInEditorEnv(): boolean {
     || process.env.NVIM
   )
 }
+
 export function isInGitHooksOrLintStaged(): boolean {
   return !!(false
     || process.env.GIT_PARAMS

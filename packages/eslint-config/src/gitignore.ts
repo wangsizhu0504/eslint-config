@@ -55,7 +55,7 @@ export interface FlatConfigItem {
 const GITIGNORE = '.gitignore' as const
 const GITMODULES = '.gitmodules' as const
 
-export function gitignore(options: FlatGitignoreOptions = {}): FlatConfigItem {
+export default function gitignore(options: FlatGitignoreOptions = {}): FlatConfigItem {
   const ignores: string[] = []
 
   const {
@@ -109,7 +109,7 @@ export function gitignore(options: FlatGitignoreOptions = {}): FlatConfigItem {
     throw new Error('No .gitignore file found')
 
   return {
-    name: options.name || 'gitignore',
+    name: options.name || 'kriszu/gitignore',
     ignores,
   }
 }

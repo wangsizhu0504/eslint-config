@@ -32,7 +32,6 @@ export async function disables(): Promise<TypedFlatConfigItem[]> {
       name: 'kriszu/disables/dts',
       rules: {
         'eslint-comments/no-unlimited-disable': 'off',
-        'import/no-duplicates': 'off',
         'no-restricted-syntax': 'off',
         'unused-imports/no-unused-vars': 'off',
       },

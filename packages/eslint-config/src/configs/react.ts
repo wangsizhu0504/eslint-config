@@ -1,3 +1,4 @@
+/* eslint-disable perfectionist/sort-objects */
 import type { OptionsFiles, OptionsOverrides, OptionsTypeScriptParserOptions, OptionsTypeScriptWithTypes, TypedFlatConfigItem } from '../types'
 
 import { isPackageExists } from 'local-pkg'
@@ -125,6 +126,7 @@ export async function react(
         'react/no-unsafe-component-will-mount': 'warn',
         'react/no-unsafe-component-will-receive-props': 'warn',
         'react/no-unsafe-component-will-update': 'warn',
+        'react/no-unstable-context-value': 'warn',
         'react/no-unstable-default-props': 'warn',
         'react/no-unused-class-component-members': 'warn',
         'react/no-unused-state': 'warn',
@@ -136,9 +138,11 @@ export async function react(
         'react-dom/no-dangerously-set-innerhtml-with-children': 'error',
         'react-dom/no-find-dom-node': 'error',
         'react-dom/no-flush-sync': 'error',
+        'react-dom/no-hydrate': 'error',
         'react-dom/no-missing-button-type': 'warn',
         'react-dom/no-missing-iframe-sandbox': 'warn',
         'react-dom/no-namespace': 'error',
+        'react-dom/no-render': 'error',
         'react-dom/no-render-return-value': 'error',
         'react-dom/no-script-url': 'warn',
         'react-dom/no-unsafe-iframe-sandbox': 'warn',
@@ -191,6 +195,10 @@ export async function react(
                     'headers',
                     'loader',
                     'action',
+                    'clientLoader',
+                    'clientAction',
+                    'handle',
+                    'shouldRevalidate',
                   ]
                 : []),
             ],

@@ -88,6 +88,9 @@ export const dependenciesMap = {
     'eslint-plugin-react-hooks',
     'eslint-plugin-react-refresh',
   ],
+  nextjs: [
+    '@next/eslint-plugin-next',
+  ],
   unocss: [
     '@unocss/eslint-plugin',
   ],

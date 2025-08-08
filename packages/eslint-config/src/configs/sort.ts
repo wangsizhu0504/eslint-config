@@ -40,6 +40,7 @@ export async function sortPackageJson(): Promise<TypedFlatConfigItem[]> {
               'keywords',
               'categories',
               'sideEffects',
+              'imports',
               'exports',
               'main',
               'module',
@@ -117,7 +118,7 @@ export function sortTsconfig(): TypedFlatConfigItem[] {
   return [
     {
       name: 'kriszu/sort/tsconfig-json',
-      files: ['**/tsconfig.json', '**/tsconfig.*.json'],
+      files: ['**/[jt]sconfig.json', '**/[jt]sconfig.*.json'],
       rules: {
         'jsonc/sort-keys': [
           'error',

@@ -1,13 +1,19 @@
-import styleMigrate from '@stylistic/eslint-plugin-migrate'
 import { defineEslintConfig } from './packages/eslint-config/src'
 
 export default defineEslintConfig(
   {
-    vue: true,
+    vue: {
+      a11y: true,
+    },
     react: true,
+    nextjs: true,
     typescript: true,
     formatters: true,
     pnpm: true,
+    type:"lib",
+    jsx: {
+      a11y: true,
+    },
     stylistic: {
       semi: false,
     },
@@ -24,14 +30,5 @@ export default defineEslintConfig(
     rules: {
       'perfectionist/sort-objects': 'error',
     },
-  },
-  {
-    files: ['src/configs/*.ts'],
-    plugins: {
-      'style-migrate': styleMigrate,
-    },
-    rules: {
-      'style-migrate/migrate': ['error', { namespaceTo: 'style' }],
-    },
-  },
+  }
 )

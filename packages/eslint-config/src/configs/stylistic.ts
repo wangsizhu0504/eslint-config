@@ -37,7 +37,7 @@ export async function stylistic(
     pluginName: 'style',
     quotes,
     semi,
-  })
+  }) as TypedFlatConfigItem
 
   return [
     {
@@ -49,6 +49,9 @@ export async function stylistic(
       rules: {
         ...config.rules,
 
+        'kriszu/consistent-chaining': 'error',
+        'kriszu/consistent-list-newline': 'error',
+        'kriszu/top-level-function': 'error',
         ...(lessOpinionated
           ? {
               curly: ['error', 'all'],
@@ -57,10 +60,6 @@ export async function stylistic(
               'kriszu/curly': 'error',
             }
         ),
-
-        'kriszu/consistent-list-newline': 'error',
-        'kriszu/consistent-chaining': 'error',
-        'kriszu/top-level-function': 'error',
 
         'style/generator-star-spacing': ['error', { after: true, before: false }],
         'style/yield-star-spacing': ['error', { after: true, before: false }],
