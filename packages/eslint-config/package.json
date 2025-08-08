@@ -1,7 +1,7 @@
 {
   "name": "@kriszu/eslint-config",
   "type": "module",
-  "version": "3.5.6",
+  "version": "4.0.0",
   "description": "Kriszu ESLint config",
   "author": "Kriszu <wangsizhu0504@outlook.com>",
   "license": "MIT",
