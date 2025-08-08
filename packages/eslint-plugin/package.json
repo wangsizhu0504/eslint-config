@@ -1,7 +1,7 @@
 {
   "name": "@kriszu/eslint-plugin",
   "type": "module",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Kriszu extended ESLint rules",
   "author": "Kriszu <wangsizhu0504@outlook.com>",
   "license": "MIT",
