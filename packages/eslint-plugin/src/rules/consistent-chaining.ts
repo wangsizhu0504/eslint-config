@@ -10,6 +10,36 @@ export type Options = [
 ]
 
 export default createEslintRule<Options, MessageIds>({
+  name: RULE_NAME,
+  meta: {
+    type: 'layout',
+    docs: {
+      description: 'Having line breaks styles to object, array and named imports',
+    },
+    fixable: 'whitespace',
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          allowLeadingPropertyAccess: {
+            type: 'boolean',
+            description: 'Allow leading property access to be on the same line',
+            default: true,
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
+    messages: {
+      shouldWrap: 'Should have line breaks between items, in node {{name}}',
+      shouldNotWrap: 'Should not have line breaks between items, in node {{name}}',
+    },
+  },
+  defaultOptions: [
+    {
+      allowLeadingPropertyAccess: true,
+    },
+  ],
   create: (context) => {
     const knownRoot = new WeakSet<any>()
 
@@ -40,6 +70,10 @@ export default createEslintRule<Options, MessageIds>({
               current = current.callee
               break
             }
+            case 'TSNonNullExpression': {
+              current = current.expression
+              break
+            }
             default: {
               // Other type of note, that means we are probably reaching out the head
               current = undefined
@@ -55,10 +89,10 @@ export default createEslintRule<Options, MessageIds>({
           const token = context.sourceCode.getTokenBefore(m.property)!
           const tokenBefore = context.sourceCode.getTokenBefore(token)!
           const currentMode: 'single' | 'multi' = token.loc.start.line === tokenBefore.loc.end.line ? 'single' : 'multi'
-
+          const object = m.object.type === 'TSNonNullExpression' ? m.object.expression : m.object
           if (
             leadingPropertyAcccess
-            && (m.object.type === 'ThisExpression' || m.object.type === 'Identifier' || m.object.type === 'MemberExpression' || m.object.type === 'Literal')
+            && (object.type === 'ThisExpression' || object.type === 'Identifier' || object.type === 'MemberExpression' || object.type === 'Literal')
             && currentMode === 'single'
           ) {
             return
@@ -72,6 +106,8 @@ export default createEslintRule<Options, MessageIds>({
 
           if (mode !== currentMode) {
             context.report({
+              messageId: mode === 'single' ? 'shouldNotWrap' : 'shouldWrap',
+              loc: token.loc,
               data: {
                 name: root.type,
               },
@@ -81,42 +117,10 @@ export default createEslintRule<Options, MessageIds>({
                 else
                   return fixer.removeRange([tokenBefore.range[1], token.range[0]])
               },
-              loc: token.loc,
-              messageId: mode === 'single' ? 'shouldNotWrap' : 'shouldWrap',
             })
           }
         })
       },
     }
   },
-  defaultOptions: [
-    {
-      allowLeadingPropertyAccess: true,
-    },
-  ],
-  meta: {
-    docs: {
-      description: 'Having line breaks styles to object, array and named imports',
-    },
-    fixable: 'whitespace',
-    messages: {
-      shouldNotWrap: 'Should not have line breaks between items, in node {{name}}',
-      shouldWrap: 'Should have line breaks between items, in node {{name}}',
-    },
-    schema: [
-      {
-        additionalProperties: false,
-        properties: {
-          allowLeadingPropertyAccess: {
-            default: true,
-            description: 'Allow leading property access to be on the same line',
-            type: 'boolean',
-          },
-        },
-        type: 'object',
-      },
-    ],
-    type: 'layout',
-  },
-  name: RULE_NAME,
 })

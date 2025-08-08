@@ -12,7 +12,7 @@ export const defineOptionRegex = /defineOptions\(\{(?:[^']|'[^']*')*name\s*:\s*'
  * @param {RuleContext} context The ESLint rule context object.
  * @returns {VElement | null} the element of `<script setup>`
  */
-function getScriptSetupElement(context: RuleContext<MessageIds, Options>) {
+function getScriptSetupElement(context: RuleContext<MessageIds, Options>): any {
   const sourceCode = context.sourceCode as any
   const df
     = sourceCode.parserServices?.getDocumentFragment
@@ -40,7 +40,7 @@ function getScriptSetupElement(context: RuleContext<MessageIds, Options>) {
  * @param {string} [value] The attribute value to check.
  * @returns {boolean} `true` if the start tag has the attribute.
  */
-function hasAttribute(node: any, name: string, value?: string) {
+function hasAttribute(node: any, name: string, value?: string): boolean {
   return Boolean(getAttribute(node, name, value))
 }
 
@@ -51,7 +51,7 @@ function hasAttribute(node: any, name: string, value?: string) {
  * @param {string} [value] The attribute value to check.
  * @returns {VAttribute | null} The found attribute.
  */
-function getAttribute(node: any, name: string, value?: string) {
+function getAttribute(node: any, name: string, value?: string): any {
   return (
     node.startTag.attributes.find(
       (n: any) =>

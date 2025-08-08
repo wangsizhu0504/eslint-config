@@ -16,8 +16,8 @@ interface CommentNode {
 }
 
 export const RULE_NAME = 'import-enforce-newlines'
-export type MessageIds =
-  | 'limitLineCount'
+export type MessageIds
+  = | 'limitLineCount'
   | 'mustNotSplit'
   | 'mustSplitLong'
   | 'mustSplitMany'
@@ -32,12 +32,11 @@ export interface ImportNewLinesOption {
 }
 export type Options = [ImportNewLinesOption]
 
-function applyAliasAndType(currentNode: TSESTree.ImportSpecifier) {
+function applyAliasAndType(currentNode: TSESTree.ImportSpecifier): string {
   const localName = currentNode.local.name
 
   if (!currentNode.imported) return localName
 
-  console.log('1111', currentNode.imported)
   // @ts-expect-error
   const importedName = currentNode.imported.name
   const importedNameWithPrefix
@@ -51,7 +50,7 @@ function applyAliasAndType(currentNode: TSESTree.ImportSpecifier) {
     : importedNameWithPrefix
 }
 
-function outputComment(commentNode: CommentNode | null) {
+function outputComment(commentNode: CommentNode | null): string {
   const commentNodeType = commentNode && commentNode.type
 
   switch (commentNodeType) {
@@ -67,7 +66,7 @@ function outputComment(commentNode: CommentNode | null) {
   }
 }
 
-function getCommentLineCount(commentNode: CommentNode) {
+function getCommentLineCount(commentNode: CommentNode): number {
   let newLineCount = 0
 
   if (commentNode) {
@@ -80,7 +79,7 @@ function getCommentLineCount(commentNode: CommentNode) {
   return 1 + newLineCount
 }
 
-function getCommentsInsideImport(node: TSESTree.ImportDeclaration) {
+function getCommentsInsideImport(node: TSESTree.ImportDeclaration): TSESTree.Comment[] {
   const comments: TSESTree.Comment[] = []
   const parent = node.parent as TSESTree.Program
 
@@ -113,7 +112,7 @@ function getCommentsInsideImport(node: TSESTree.ImportDeclaration) {
 function findTrailingCommentInImport(
   node: TSESTree.ImportDeclaration,
   comments: TSESTree.Comment[],
-) {
+): any {
   let trailingCommentBeforeEnd = null
   const [, nodeSourceEndPos] = node.source.range
 
@@ -140,7 +139,7 @@ function findTrailingCommentInImport(
 function findCommentBeforeLastLine(
   node: TSESTree.ImportDeclaration,
   comments: TSESTree.Comment[],
-) {
+): any {
   let commentBeforeLastLine = null
   if (node.specifiers.length > 0) {
     const lastSpecifierEndLine
