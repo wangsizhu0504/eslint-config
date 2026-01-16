@@ -1,8 +1,12 @@
+import type { Linter } from 'eslint'
+
 import type {
   OptionsComponentExts,
+
   OptionsFiles,
   OptionsOverrides,
   OptionsProjectType,
+  OptionsTypeScriptErasableOnly,
   OptionsTypeScriptParserOptions,
   OptionsTypeScriptWithTypes,
   TypedFlatConfigItem,
@@ -16,10 +20,11 @@ import { pluginKriszu } from '../plugins'
 import { interopDefault, renameRules } from '../utils'
 
 export async function typescript(
-  options: OptionsFiles & OptionsComponentExts & OptionsOverrides & OptionsTypeScriptWithTypes & OptionsTypeScriptParserOptions & OptionsProjectType = {},
+  options: OptionsFiles & OptionsComponentExts & OptionsOverrides & OptionsTypeScriptWithTypes & OptionsTypeScriptParserOptions & OptionsProjectType & OptionsTypeScriptErasableOnly = {},
 ): Promise<TypedFlatConfigItem[]> {
   const {
     componentExts = [],
+    erasableOnly = false,
     overrides = {},
     overridesTypeAware = {},
     parserOptions = {},
@@ -64,7 +69,11 @@ export async function typescript(
     'ts/switch-exhaustiveness-check': 'error',
     'ts/unbound-method': 'error',
   }
-  const [pluginTs, parserTs] = await Promise.all([
+
+  const [
+    pluginTs,
+    parserTs,
+  ] = await Promise.all([
     interopDefault(import('@typescript-eslint/eslint-plugin')),
     interopDefault(import('@typescript-eslint/parser')),
   ] as const)
@@ -79,7 +88,7 @@ export async function typescript(
         parserOptions: {
           extraFileExtensions: componentExts.map(ext => `.${ext}`),
           sourceType: 'module',
-          ...(typeAware
+          ...typeAware
             ? {
                 projectService: {
                   allowDefaultProject: ['./*.js'],
@@ -87,12 +96,13 @@ export async function typescript(
                 },
                 tsconfigRootDir: process.cwd(),
               }
-            : {}),
+            : {},
           ...parserOptions as any,
         },
       },
     }
   }
+
   return [
     {
       // Install the plugins without globs, so they can be configured separately.
@@ -108,7 +118,9 @@ export async function typescript(
           makeParser(false, files),
           makeParser(true, filesTypeAware, ignoresTypeAware),
         ]
-      : [makeParser(false, files)],
+      : [
+          makeParser(false, files),
+        ],
     {
       name: 'kriszu/typescript/rules',
       files,
@@ -121,7 +133,6 @@ export async function typescript(
           pluginTs.configs.strict.rules!,
           { '@typescript-eslint': 'ts' },
         ),
-
         'no-dupe-class-members': 'off',
         'no-redeclare': 'off',
         'no-use-before-define': 'off',
@@ -259,6 +270,22 @@ export async function typescript(
             ...overridesTypeAware,
           },
         }]
+      : [],
+    ...erasableOnly
+      ? [
+          {
+            name: 'kriszu/typescript/erasable-syntax-only',
+            plugins: {
+              'erasable-syntax-only': await interopDefault(import('eslint-plugin-erasable-syntax-only')),
+            },
+            rules: {
+              'erasable-syntax-only/enums': 'error',
+              'erasable-syntax-only/import-aliases': 'error',
+              'erasable-syntax-only/namespaces': 'error',
+              'erasable-syntax-only/parameter-properties': 'error',
+            } as Record<string, Linter.RuleEntry>,
+          },
+        ]
       : [],
   ]
 }

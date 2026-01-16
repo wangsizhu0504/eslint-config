@@ -74,7 +74,7 @@ export async function unicorn(
                 },
               ],
               'unicorn/prefer-json-parse-buffer': 'off',
-
+              'unicorn/new-for-builtins': 'error',
             }),
         ...overrides,
       },

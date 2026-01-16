@@ -18,15 +18,15 @@ export async function perfectionist(): Promise<TypedFlatConfigItem[]> {
         'perfectionist/sort-exports': ['error', { order: 'asc', type: 'natural' }],
         'perfectionist/sort-imports': ['error', {
           groups: [
-            'type',
-            ['parent-type', 'sibling-type', 'index-type', 'internal-type'],
-            'builtin',
-            'external',
-            'internal',
-            ['parent', 'sibling', 'index'],
+            'type-import',
+            ['type-parent', 'type-sibling', 'type-index', 'type-internal'],
 
+            'value-builtin',
+            'value-external',
+            'value-internal',
+            ['value-parent', 'value-sibling', 'value-index'],
             'side-effect',
-            'object',
+            'ts-equals-import',
             'unknown',
           ],
           newlinesBetween: 'ignore',

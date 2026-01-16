@@ -32,7 +32,7 @@ export const parserPlain = {
 /**
  * Combine array and non-array configs into a single array.
  */
-export async function combine(...configs: Array<Awaitable<TypedFlatConfigItem | TypedFlatConfigItem[]>>): Promise<TypedFlatConfigItem[]> {
+export async function combine(...configs: Awaitable<TypedFlatConfigItem | TypedFlatConfigItem[]>[]): Promise<TypedFlatConfigItem[]> {
   const resolved = await Promise.all(configs)
   return resolved.flat()
 }
@@ -81,7 +81,7 @@ export function renameRules(
  *
  * export default renamePluginInConfigs(someConfigs, {
  *   '@typescript-eslint': 'ts',
- *   'import-x': 'import',
+ *   '@stylistic': 'style',
  * })
  * ```
  */
@@ -117,7 +117,7 @@ export function isPackageInScope(name: string): boolean {
   return isPackageExists(name, { paths: [scopeUrl] })
 }
 
-export async function ensurePackages(packages: Array<string | undefined>): Promise<void> {
+export async function ensurePackages(packages: (string | undefined)[]): Promise<void> {
   if (process.env.CI || process.stdout.isTTY === false || isCwdInScope === false)
     return
 

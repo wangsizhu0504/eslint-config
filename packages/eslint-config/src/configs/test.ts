@@ -1,15 +1,16 @@
-import type { OptionsIsInEditor, OptionsOverrides, TypedFlatConfigItem } from '../types'
-import { GLOB_TESTS } from '../globs'
+import type { OptionsFiles, OptionsIsInEditor, OptionsOverrides, TypedFlatConfigItem } from '../types'
 
+import { GLOB_TESTS } from '../globs'
 import { interopDefault } from '../utils'
 
 // Hold the reference so we don't redeclare the plugin on each call
 let _pluginTest: any
 
 export async function test(
-  options: OptionsIsInEditor & OptionsOverrides = {},
+  options: OptionsFiles & OptionsIsInEditor & OptionsOverrides = {},
 ): Promise<TypedFlatConfigItem[]> {
   const {
+    files = GLOB_TESTS,
     isInEditor = false,
     overrides = {},
   } = options
@@ -39,8 +40,8 @@ export async function test(
       },
     },
     {
+      files,
       name: 'kriszu/test/rules',
-      files: GLOB_TESTS,
       rules: {
         'test/consistent-test-it': ['error', { fn: 'it', withinDescribe: 'it' }],
         'test/no-identical-title': 'error',

@@ -5,11 +5,13 @@ import { pluginKriszu } from '../plugins'
 import { interopDefault } from '../utils'
 
 export const StylisticConfigDefaults: StylisticConfig = {
+  experimental: false,
   indent: 2,
   jsx: true,
   quotes: 'single',
   semi: true,
 }
+
 export interface StylisticOptions extends StylisticConfig, OptionsOverrides {
   lessOpinionated?: boolean
 }
@@ -18,6 +20,7 @@ export async function stylistic(
   options: StylisticOptions = {},
 ): Promise<TypedFlatConfigItem[]> {
   const {
+    experimental,
     indent,
     jsx,
     lessOpinionated = false,
@@ -32,6 +35,7 @@ export async function stylistic(
   const pluginStylistic = await interopDefault(import('@stylistic/eslint-plugin'))
 
   const config = pluginStylistic.configs.customize({
+    experimental,
     indent,
     jsx,
     pluginName: 'style',
@@ -50,14 +54,21 @@ export async function stylistic(
         ...config.rules,
 
         'kriszu/consistent-chaining': 'error',
-        'kriszu/consistent-list-newline': 'error',
-        'kriszu/top-level-function': 'error',
+        ...experimental
+          ? {}
+          : {
+              'kriszu/consistent-list-newline': 'error',
+            },
+
+
+
         ...(lessOpinionated
           ? {
               curly: ['error', 'all'],
             }
           : {
               'kriszu/curly': 'error',
+              'kriszu/top-level-function': 'error',
             }
         ),
 
