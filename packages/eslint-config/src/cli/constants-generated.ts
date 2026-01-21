@@ -1,11 +1,11 @@
 /* eslint-disable eslint-comments/no-unlimited-disable */
 /* eslint-disable */
 export const versionsMap = {
-  "@eslint-react/eslint-plugin": "^2.7.0",
-  "@next/eslint-plugin-next": "^16.1.2",
-  "@unocss/eslint-plugin": "^66.4.1",
-  "eslint": "^9.32.0",
-  "eslint-plugin-format": "^1.0.1",
+  "@eslint-react/eslint-plugin": "^2.7.2",
+  "@next/eslint-plugin-next": "^16.1.4",
+  "@unocss/eslint-plugin": "^66.6.0",
+  "eslint": "^9.39.2",
+  "eslint-plugin-format": "^1.3.1",
   "eslint-plugin-react-hooks": "^7.0.1",
-  "eslint-plugin-react-refresh": "^0.4.20"
+  "eslint-plugin-react-refresh": "^0.4.26"
 }
