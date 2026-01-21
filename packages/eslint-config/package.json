@@ -47,7 +47,6 @@
     "eslint-plugin-vuejs-accessibility": "^2.4.1"
   },
   "peerDependenciesMeta": {
-
     "@eslint-react/eslint-plugin": {
       "optional": true
     },
