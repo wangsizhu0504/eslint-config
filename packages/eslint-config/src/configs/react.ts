@@ -2,7 +2,7 @@
 import type { OptionsFiles, OptionsReact, OptionsTypeScriptParserOptions, OptionsTypeScriptWithTypes, TypedFlatConfigItem } from '../types'
 
 import { isPackageExists } from 'local-pkg'
-import { GLOB_MARKDOWN, GLOB_SRC, GLOB_TS, GLOB_TSX } from '../globs'
+import {  GLOB_MARKDOWN, GLOB_SRC, GLOB_TS, GLOB_TSX } from '../globs'
 
 import { ensurePackages, interopDefault } from '../utils'
 
@@ -53,6 +53,7 @@ export async function react(
 
   const typeAwareRules: TypedFlatConfigItem['rules'] = {
     'react/no-leaked-conditional-rendering': 'warn',
+    'react/no-implicit-key': 'error',
   }
 
   const [
@@ -82,6 +83,7 @@ export async function react(
         'react-hooks-extra': plugins['@eslint-react/hooks-extra'],
         'react-naming-convention': plugins['@eslint-react/naming-convention'],
         'react-refresh': pluginReactRefresh,
+        'react-rsc': plugins['@eslint-react/rsc'],
         'react-web-api': plugins['@eslint-react/web-api'],
       },
     },
@@ -95,7 +97,7 @@ export async function react(
         },
         sourceType: 'module',
       },
-      name: 'kriszu/react/rules',
+      name: 'antfu/react/rules',
       rules: {
         // recommended rules from eslint-plugin-react-x https://eslint-react.xyz/docs/rules/overview#core-rules
         'react/jsx-key-before-spread': 'warn',
@@ -118,9 +120,7 @@ export async function react(
         'react/no-create-ref': 'error',
         'react/no-default-props': 'error',
         'react/no-direct-mutation-state': 'error',
-        'react/no-duplicate-key': 'error',
         'react/no-forward-ref': 'warn',
-        'react/no-implicit-key': 'warn',
         'react/no-missing-key': 'error',
         'react/no-nested-component-definitions': 'error',
         'react/no-nested-lazy-component-declarations': 'error',
@@ -134,10 +134,15 @@ export async function react(
         'react/no-unsafe-component-will-mount': 'warn',
         'react/no-unsafe-component-will-receive-props': 'warn',
         'react/no-unsafe-component-will-update': 'warn',
+        'react/no-unused-class-component-members': 'warn',
         'react/no-use-context': 'warn',
         'react/no-useless-forward-ref': 'warn',
         'react/prefer-use-state-lazy-initialization': 'warn',
+
         'react/prefer-namespace-import': 'error',
+
+        // recommended rules from eslint-plugin-react-rsc https://eslint-react.xyz/docs/rules/overview#rsc-rules
+        'react-rsc/function-definition': 'error',
 
         // recommended rules from eslint-plugin-react-dom https://eslint-react.xyz/docs/rules/overview#dom-rules
         'react-dom/no-dangerously-set-innerhtml': 'warn',
@@ -152,6 +157,20 @@ export async function react(
         'react-dom/no-unsafe-iframe-sandbox': 'warn',
         'react-dom/no-use-form-state': 'error',
         'react-dom/no-void-elements-with-children': 'error',
+
+        // recommended rules from eslint-plugin-react-hooks-extra https://eslint-react.xyz/docs/rules/overview#hooks-extra-rules
+        'react-hooks-extra/no-direct-set-state-in-use-effect': 'warn',
+
+        // recommended rules from eslint-plugin-react-naming-convention https://eslint-react.xyz/docs/rules/overview#naming-convention-rules
+        'react-naming-convention/context-name': 'warn',
+        'react-naming-convention/ref-name': 'warn',
+        'react-naming-convention/use-state': 'warn',
+
+        // recommended rules from eslint-plugin-react-web-api https://eslint-react.xyz/docs/rules/overview#web-api-rules
+        'react-web-api/no-leaked-event-listener': 'warn',
+        'react-web-api/no-leaked-interval': 'warn',
+        'react-web-api/no-leaked-resize-observer': 'warn',
+        'react-web-api/no-leaked-timeout': 'warn',
 
         // recommended rules eslint-plugin-react-hooks https://github.com/facebook/react/blob/main/packages/eslint-plugin-react-hooks/README.md
         // Core hooks rules
@@ -178,15 +197,6 @@ export async function react(
               'react-hooks/incompatible-library': 'warn',
             }
           : {}),
-
-        // recommended rules from eslint-plugin-react-hooks-extra https://eslint-react.xyz/docs/rules/overview#hooks-extra-rules
-        'react-hooks-extra/no-direct-set-state-in-use-effect': 'warn',
-
-        // recommended rules from eslint-plugin-react-web-api https://eslint-react.xyz/docs/rules/overview#web-api-rules
-        'react-web-api/no-leaked-event-listener': 'warn',
-        'react-web-api/no-leaked-interval': 'warn',
-        'react-web-api/no-leaked-resize-observer': 'warn',
-        'react-web-api/no-leaked-timeout': 'warn',
 
         // preconfigured rules from eslint-plugin-react-refresh https://github.com/ArnaudBarre/eslint-plugin-react-refresh/tree/main/src
         'react-refresh/only-export-components': [
@@ -215,7 +225,7 @@ export async function react(
                     // https://nextjs.org/docs/app/api-reference/functions/generate-image-metadata
                     'generateImageMetadata',
                     // https://nextjs.org/docs/app/api-reference/functions/generate-sitemaps
-                    'generateSitemaps'
+                    'generateSitemaps',
                   ]
                 : []),
               ...(isUsingRemix || isUsingReactRouter
@@ -239,11 +249,24 @@ export async function react(
         ...overrides,
       },
     },
+    {
+      files: filesTypeAware,
+      name: 'kriszu/react/typescript',
+      rules: {
+        // Disables rules that are already handled by TypeScript
+        'react-dom/no-string-style-prop': 'off',
+        'react-dom/no-unknown-property': 'off',
+        'react/jsx-no-duplicate-props': 'off',
+        'react/jsx-no-undef': 'off',
+        'react/jsx-uses-react': 'off',
+        'react/jsx-uses-vars': 'off',
+      },
+    },
     ...isTypeAware
       ? [{
-          name: 'kriszu/react/type-aware-rules',
           files: filesTypeAware,
           ignores: ignoresTypeAware,
+          name: 'antfu/react/type-aware-rules',
           rules: {
             ...typeAwareRules,
           },

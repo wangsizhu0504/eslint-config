@@ -1,7 +1,7 @@
 /* eslint-disable eslint-comments/no-unlimited-disable */
 /* eslint-disable */
 export const versionsMap = {
-  "@eslint-react/eslint-plugin": "^2.7.2",
+  "@eslint-react/eslint-plugin": "^2.11.0",
   "@next/eslint-plugin-next": "^16.1.4",
   "@unocss/eslint-plugin": "^66.6.0",
   "eslint": "^9.39.2",
