@@ -1,7 +1,7 @@
 {
   "name": "@kriszu/eslint-config-monorepo",
   "type": "module",
-  "version": "5.0.3",
+  "version": "5.0.4",
   "private": true,
   "author": "Kriszu <wangsizhu0504@outlook.com>",
   "license": "MIT",
