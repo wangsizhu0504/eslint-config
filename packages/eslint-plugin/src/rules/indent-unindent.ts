@@ -1,4 +1,4 @@
-import { unindent,createEslintRule } from '../utils'
+import { createEslintRule, unindent } from '../utils'
 
 export type MessageIds = 'indent-unindent'
 export type Options = [{

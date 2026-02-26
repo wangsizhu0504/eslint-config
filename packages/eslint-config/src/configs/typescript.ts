@@ -14,9 +14,7 @@ import type {
 
 import process from 'node:process'
 import { GLOB_MARKDOWN, GLOB_TS, GLOB_TSX } from '../globs'
-
 import { pluginKriszu } from '../plugins'
-
 import { interopDefault, renameRules } from '../utils'
 
 export async function typescript(
@@ -80,8 +78,8 @@ export async function typescript(
 
   function makeParser(typeAware: boolean, fileLists: string[], ignores?: string[]): TypedFlatConfigItem {
     return {
-      name: `kriszu/typescript/${typeAware ? 'type-aware-parser' : 'parser'}`,
       files: fileLists,
+      name: `kriszu/typescript/${typeAware ? 'type-aware-parser' : 'parser'}`,
       ...ignores ? { ignores } : {},
       languageOptions: {
         parser: parserTs,
@@ -122,8 +120,8 @@ export async function typescript(
           makeParser(false, files),
         ],
     {
-      name: 'kriszu/typescript/rules',
       files,
+      name: 'kriszu/typescript/rules',
       rules: {
         ...renameRules(
           pluginTs.configs['eslint-recommended'].overrides![0].rules!,
@@ -262,9 +260,9 @@ export async function typescript(
     },
     ...isTypeAware
       ? [{
-          name: 'kriszu/typescript/rules-type-aware',
           files: filesTypeAware,
           ignores: ignoresTypeAware,
+          name: 'kriszu/typescript/rules-type-aware',
           rules: {
             ...typeAwareRules,
             ...overridesTypeAware,

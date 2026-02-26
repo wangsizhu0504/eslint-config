@@ -7,7 +7,8 @@ import process from 'node:process'
 import * as p from '@clack/prompts'
 import c from 'ansis'
 
-// @ts-expect-error missing types
+// @ts-ignore - no types for parse-gitignore
+// eslint-disable-next-line perfectionist/sort-imports
 import parse from 'parse-gitignore'
 
 import { getEslintConfigContent } from '../utils'

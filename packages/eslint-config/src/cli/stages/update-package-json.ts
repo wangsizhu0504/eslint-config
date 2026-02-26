@@ -1,10 +1,8 @@
 import type { ExtraLibrariesOption, PromptResult } from '../types'
 import fsp from 'node:fs/promises'
 import path from 'node:path'
-
 import process from 'node:process'
 import * as p from '@clack/prompts'
-
 import c from 'ansis'
 
 import { version } from '../../../package.json'

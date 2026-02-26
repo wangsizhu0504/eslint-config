@@ -1,7 +1,6 @@
 import type { OptionsOverrides, StylisticConfig, TypedFlatConfigItem } from '../types'
 
 import { pluginKriszu } from '../plugins'
-
 import { interopDefault } from '../utils'
 
 export const StylisticConfigDefaults: StylisticConfig = {
@@ -59,8 +58,6 @@ export async function stylistic(
           : {
               'kriszu/consistent-list-newline': 'error',
             },
-
-
 
         ...(lessOpinionated
           ? {

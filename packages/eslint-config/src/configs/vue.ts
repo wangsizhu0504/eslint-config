@@ -9,9 +9,7 @@ import type {
 import { mergeProcessors } from 'eslint-merge-processors'
 
 import { GLOB_VUE } from '../globs'
-
 import { pluginKriszu } from '../plugins'
-
 import { ensurePackages, interopDefault } from '../utils'
 
 export async function vue(

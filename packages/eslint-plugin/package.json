@@ -24,7 +24,7 @@
     "lint": "pnpm run dev && eslint .",
     "prepublishOnly": "npm run build",
     "release": "bumpp && npm publish",
-    "start": "esno src/index.ts",
+    "start": "tsx src/index.ts",
     "test": "vitest",
     "typecheck": "tsc --noEmit",
     "prepare": "simple-git-hooks"
@@ -32,16 +32,10 @@
   "peerDependencies": {
     "eslint": ">=9.0.0"
   },
-  "devDependencies": {
-    "@types/lodash.merge": "catalog:dev",
-    "@types/semver": "catalog:dev",
-    "@typescript-eslint/rule-tester": "catalog:dev",
-    "@typescript-eslint/typescript-estree": "catalog:dev",
-    "@typescript-eslint/utils": "catalog:dev",
-    "ajv": "catalog:dev",
-    "eslint-vitest-rule-tester": "catalog:dev",
-    "lodash.merge": "catalog:dev",
-    "semver": "catalog:dev"
+  "dependencies": {
+    "@typescript-eslint/typescript-estree": "catalog:prod",
+    "@typescript-eslint/utils": "catalog:peer",
+    "eslint-vitest-rule-tester": "catalog:prod"
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"

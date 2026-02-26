@@ -6,7 +6,7 @@ export type VendoredPrettierOptions = Partial<VendoredPrettierOptionsRequired>
 
 export type VendoredPrettierRuleOptions = VendoredPrettierOptions & {
   [k: string]: unknown | undefined
-  parser?: BuiltInParserName
+  parser: BuiltInParserName | ExternalParserName
 }
 
 export interface VendoredPrettierOptionsRequired {
@@ -125,31 +125,33 @@ export interface VendoredPrettierOptionsRequired {
   xmlWhitespaceSensitivity: 'ignore' | 'strict' | 'preserve'
 }
 
-export type BuiltInParserName =
-  | 'acorn'
-  | 'angular'
-  | 'babel-flow'
-  | 'babel-ts'
-  | 'babel'
-  | 'css'
-  | 'espree'
-  | 'flow'
-  | 'glimmer'
-  | 'graphql'
-  | 'html'
-  | 'json-stringify'
-  | 'json'
-  | 'json5'
-  | 'less'
-  | 'lwc'
-  | 'markdown'
-  | 'mdx'
-  | 'meriyah'
-  | 'scss'
-  | 'typescript'
-  | 'vue'
-  | 'xml'
-  | 'yaml'
+export type BuiltInParserName
+  = | 'acorn'
+    | 'angular'
+    | 'babel-flow'
+    | 'babel-ts'
+    | 'babel'
+    | 'css'
+    | 'espree'
+    | 'flow'
+    | 'glimmer'
+    | 'graphql'
+    | 'html'
+    | 'json-stringify'
+    | 'json'
+    | 'json5'
+    | 'less'
+    | 'lwc'
+    | 'markdown'
+    | 'mdx'
+    | 'meriyah'
+    | 'scss'
+    | 'typescript'
+    | 'vue'
+    | 'xml'
+    | 'yaml'
+
+export type ExternalParserName = 'slidev' | 'astro'
 
 // This utility is here to handle the case where you have an explicit union
 // between string literals and the generic string type. It would normally
@@ -158,6 +160,6 @@ export type BuiltInParserName =
 //
 // It comes from this issue: microsoft/TypeScript#29729:
 //   https://github.com/microsoft/TypeScript/issues/29729#issuecomment-700527227
-export type LiteralUnion<T extends U, U = string> =
-  | T
-  | (Pick<U, never> & { _?: never | undefined })
+export type LiteralUnion<T extends U, U = string>
+  = | T
+    | (Pick<U, never> & { _?: never | undefined })

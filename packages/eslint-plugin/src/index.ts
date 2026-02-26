@@ -5,8 +5,6 @@ import consistentListNewline from './rules/consistent-list-newline'
 import curly from './rules/curly'
 import importDedupe from './rules/import-dedupe'
 import indentUnindent from './rules/indent-unindent'
-
-// import importEnforceNewlines from './rules/import-enforce-newlines';
 import noImportDist from './rules/no-import-dist'
 import noImportNodeModulesByPath from './rules/no-import-node-modules-by-path'
 import noIndexVue from './rules/no-index-vue'

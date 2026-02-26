@@ -10,7 +10,7 @@ export async function ignores(
     ...GLOB_EXCLUDE,
   ]
 
-  if (ignoreTypeScript){
+  if (ignoreTypeScript) {
     ignores.push(GLOB_TS, GLOB_TSX)
   }
 

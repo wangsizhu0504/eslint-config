@@ -1,7 +1,6 @@
 import type { Linter } from 'eslint'
 import type { RuleOptions } from './typegen'
 import type { Awaitable, ConfigNames, OptionsConfig, TypedFlatConfigItem } from './types'
-import fs from 'node:fs'
 
 import { FlatConfigComposer } from 'eslint-flat-config-utils'
 import { findUpSync } from 'find-up-simple'
@@ -34,9 +33,9 @@ import {
   yaml,
 } from './configs'
 import { formatters } from './configs/formatters'
-import gitignore from './gitignore'
 import { regexp } from './configs/regexp'
-import { interopDefault, isInEditorEnv } from './utils'
+import gitignore from './gitignore'
+import { isInEditorEnv } from './utils'
 
 const flatConfigProps = [
   'name',
@@ -46,7 +45,7 @@ const flatConfigProps = [
   'plugins',
   'rules',
   'settings',
-] satisfies (keyof TypedFlatConfigItem)[]
+] satisfies Array<keyof TypedFlatConfigItem>
 
 const VuePackages = [
   'vue',
@@ -82,7 +81,7 @@ export const defaultPluginRenaming = {
  */
 export function defineEslintConfig(
   options: OptionsConfig & Omit<TypedFlatConfigItem, 'files' | 'ignores'> = {},
-  ...userConfigs: Awaitable<TypedFlatConfigItem | TypedFlatConfigItem[] | FlatConfigComposer<any, any> | Linter.Config[]>[]
+  ...userConfigs: Array<Awaitable<TypedFlatConfigItem | TypedFlatConfigItem[] | FlatConfigComposer<any, any> | Linter.Config[]>>
 ): FlatConfigComposer<TypedFlatConfigItem, ConfigNames> {
   const {
     autoRenamePlugins = true,
@@ -119,18 +118,18 @@ export function defineEslintConfig(
   if (stylisticOptions && !('jsx' in stylisticOptions))
     stylisticOptions.jsx = typeof enableJsx === 'object' ? true : enableJsx
 
-  const configs: Awaitable<TypedFlatConfigItem[]>[] = []
+  const configs: Array<Awaitable<TypedFlatConfigItem[]>> = []
 
   if (enableGitignore) {
     if (typeof enableGitignore !== 'boolean') {
       configs.push([gitignore({
         name: 'kriszu/gitignore',
-        ...enableGitignore
+        ...enableGitignore,
       })])
-    }else {
+    } else {
       configs.push([gitignore({
         name: 'kriszu/gitignore',
-          strict: false,
+        strict: false,
       })])
     }
   }
@@ -140,7 +139,7 @@ export function defineEslintConfig(
 
   // Base configs
   configs.push(
-    ignores(userIgnores,!enableTypeScript),
+    ignores(userIgnores, !enableTypeScript),
     javascript({
       isInEditor,
       overrides: getOverrides(options, 'javascript'),

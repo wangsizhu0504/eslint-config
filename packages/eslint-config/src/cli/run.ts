@@ -10,7 +10,6 @@ import { extra, extraOptions, frameworkOptions, frameworks } from './constants'
 import { updateEslintFiles } from './stages/update-eslint-files'
 import { updatePackageJson } from './stages/update-package-json'
 import { updateVscodeSettings } from './stages/update-vscode-settings'
-
 import { isGitClean } from './utils'
 
 export interface CliRunOptions {

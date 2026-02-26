@@ -1,6 +1,5 @@
 import type { Awaitable, TypedFlatConfigItem } from './types'
 import process from 'node:process'
-
 import { fileURLToPath } from 'node:url'
 
 import { isPackageExists } from 'local-pkg'
@@ -32,7 +31,7 @@ export const parserPlain = {
 /**
  * Combine array and non-array configs into a single array.
  */
-export async function combine(...configs: Awaitable<TypedFlatConfigItem | TypedFlatConfigItem[]>[]): Promise<TypedFlatConfigItem[]> {
+export async function combine(...configs: Array<Awaitable<TypedFlatConfigItem | TypedFlatConfigItem[]>>): Promise<TypedFlatConfigItem[]> {
   const resolved = await Promise.all(configs)
   return resolved.flat()
 }
@@ -43,7 +42,7 @@ export async function combine(...configs: Awaitable<TypedFlatConfigItem | TypedF
  *
  * @example
  * ```ts
- * import { renameRules } from '@kriszu/eslint-config'
+ *import { renameRules } from '@kriszu/eslint-config'
  *
  * export default [{
  *   rules: renameRules(
@@ -117,7 +116,7 @@ export function isPackageInScope(name: string): boolean {
   return isPackageExists(name, { paths: [scopeUrl] })
 }
 
-export async function ensurePackages(packages: (string | undefined)[]): Promise<void> {
+export async function ensurePackages(packages: Array<string | undefined>): Promise<void> {
   if (process.env.CI || process.stdout.isTTY === false || isCwdInScope === false)
     return
 

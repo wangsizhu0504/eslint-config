@@ -8,45 +8,40 @@ trustPolicyExclude:
   - cached-factory@0.1.0
 
 packages:
-  - 'packages/*'
   - fixtures/*
+  - packages/*
 
 catalogs:
   dev:
     '@eslint/config-inspector': ^1.4.2
     '@types/eslint-plugin-jsx-a11y': ^6.10.1
-    '@types/lodash.merge': ^4.6.9
-    '@types/node': ^25.3.1
-    '@types/semver': ^7.7.1
-    '@typescript-eslint/rule-tester': ^8.56.1
-    '@typescript-eslint/typescript-estree': ^8.56.1
-    '@typescript-eslint/utils': ^8.56.1
-    ajv: ^8.18.0
+    '@types/node': ^25.3.0
+    baseline-browser-mapping: ^2.10.0
     bumpp: ^10.4.1
+    chokidar: ^5.0.0
     eslint-typegen: ^2.3.1
-    eslint-vitest-rule-tester: ^3.1.0
-    esno: ^4.8.0
     execa: ^9.6.1
-
-    find-up-simple: ^1.0.1
     jiti: ^2.6.1
     lint-staged: ^16.2.7
-    lodash.merge: 4.6.2
     pnpm-workspace-yaml: ^1.6.0
     semver: ^7.7.4
-
     simple-git-hooks: ^2.13.1
+    synckit: ^0.11.12
     tinyglobby: ^0.2.15
-    tsdown: ^0.20.3
+    tsdown: ^0.18.4
     tsx: ^4.21.0
     typescript: ^5.9.3
     vitest: ^4.0.18
-
+  inline:
+    find-up-simple: ^1.0.1
   peer:
+    '@eslint-community/eslint-utils': ^4.9.1
     '@eslint-react/eslint-plugin': ^2.13.0
     '@next/eslint-plugin-next': ^16.1.6
     '@prettier/plugin-xml': ^3.4.2
-    '@unocss/eslint-plugin': ^66.6.2
+    '@typescript-eslint/types': ^8.56.1
+    '@typescript-eslint/utils': ^8.56.1
+    '@unocss/eslint-plugin': ^66.6.1
     eslint: ^10.0.2
     eslint-plugin-erasable-syntax-only: ^0.4.0
     eslint-plugin-format: ^2.0.1
@@ -54,7 +49,7 @@ catalogs:
     eslint-plugin-react-hooks: ^7.0.1
     eslint-plugin-react-refresh: ^0.5.2
     eslint-plugin-vuejs-accessibility: ^2.5.0
-
+    vue: ^3.5.29
   prod:
     '@antfu/install-pkg': ^1.1.0
     '@clack/prompts': ^1.0.1
@@ -64,6 +59,7 @@ catalogs:
     '@stylistic/eslint-plugin': ^5.9.0
     '@typescript-eslint/eslint-plugin': ^8.56.1
     '@typescript-eslint/parser': ^8.56.1
+    '@typescript-eslint/typescript-estree': ^8.55.0
     '@vitest/eslint-plugin': ^1.6.9
     ansis: ^4.2.0
     cac: ^6.7.14
@@ -84,6 +80,7 @@ catalogs:
     eslint-plugin-vue: ^10.8.0
     eslint-plugin-yml: ^3.3.0
     eslint-processor-vue-blocks: ^2.0.0
+    eslint-vitest-rule-tester: ^3.1.0
     globals: ^17.3.0
     local-pkg: ^1.1.2
     parse-gitignore: ^2.0.0

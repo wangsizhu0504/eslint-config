@@ -119,6 +119,7 @@
     "@prettier/plugin-xml": "catalog:peer",
     "@types/eslint-plugin-jsx-a11y": "catalog:dev",
     "@unocss/eslint-plugin": "catalog:peer",
+    "baseline-browser-mapping": "catalog:dev",
     "eslint": "catalog:peer",
     "eslint-plugin-erasable-syntax-only": "catalog:peer",
     "eslint-plugin-format": "catalog:peer",
@@ -127,7 +128,19 @@
     "eslint-plugin-react-refresh": "catalog:peer",
     "eslint-plugin-vuejs-accessibility": "catalog:peer",
     "eslint-typegen": "catalog:dev",
-    "find-up-simple": "catalog:dev"
+    "find-up-simple": "catalog:inline",
+    "vitest": "catalog:dev",
+    "vue": "catalog:peer"
+  },
+  "resolutions": {
+    "@eslint-community/eslint-utils": "catalog:peer",
+    "@typescript-eslint/types": "catalog:peer",
+    "@typescript-eslint/utils": "catalog:peer",
+    "chokidar": "catalog:dev",
+    "eslint": "catalog:peer",
+    "semver": "catalog:dev",
+    "synckit": "catalog:dev",
+    "tsx": "catalog:dev"
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"

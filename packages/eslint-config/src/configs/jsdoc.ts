@@ -1,6 +1,5 @@
-import { GLOB_SRC } from '../globs'
 import type { OptionsStylistic, TypedFlatConfigItem } from '../types'
-
+import { GLOB_SRC } from '../globs'
 import { interopDefault } from '../utils'
 
 export async function jsdoc(
@@ -15,7 +14,8 @@ export async function jsdoc(
       name: 'kriszu/jsdoc/setup',
       plugins: {
         jsdoc: await interopDefault(import('eslint-plugin-jsdoc')),
-      },},
+      },
+    },
     {
       files: [GLOB_SRC],
       name: 'kriszu/jsdoc/rules',

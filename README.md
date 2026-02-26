@@ -1,4 +1,6 @@
-<picture><img src=".github/cover.png" /></picture>
+<picture>
+<img src=".github/cover.png" alt="Cover Image" />
+</picture>
 
 <div align="center">
 
@@ -143,6 +145,14 @@ export default defineEslintConfig({
   // Enable stylistic formatting rules
   // stylistic: true,
 
+  // `.eslintignore` is no longer supported in Flat config, use `ignores` instead
+  ignores: [
+    '**/fixtures',
+    // ...globs
+  ],
+
+  // Disable jsonc support
+  jsonc: false,
   // Or customize the stylistic rules
   stylistic: {
     indent: 2, // 4, or 'tab'
@@ -152,16 +162,8 @@ export default defineEslintConfig({
   // TypeScript and Vue are auto-detected, you can also explicitly enable them:
   typescript: true,
   vue: true,
-
-  // Disable jsonc and yaml support
-  jsonc: false,
-  yaml: false,
-
-  // `.eslintignore` is no longer supported in Flat config, use `ignores` instead
-  ignores: [
-    '**/fixtures',
-    // ...globs
-  ]
+  // Disable yaml support
+  yaml: false
 })
 ```
 

@@ -1,9 +1,8 @@
-/* eslint-disable perfectionist/sort-objects */
+
 import type { OptionsFiles, OptionsReact, OptionsTypeScriptParserOptions, OptionsTypeScriptWithTypes, TypedFlatConfigItem } from '../types'
 
 import { isPackageExists } from 'local-pkg'
-import {  GLOB_MARKDOWN, GLOB_SRC, GLOB_TS, GLOB_TSX } from '../globs'
-
+import { GLOB_MARKDOWN, GLOB_SRC, GLOB_TS, GLOB_TSX } from '../globs'
 import { ensurePackages, interopDefault } from '../utils'
 
 // react refresh
@@ -97,7 +96,7 @@ export async function react(
         },
         sourceType: 'module',
       },
-      name: 'antfu/react/rules',
+      name: 'kriszu/react/rules',
       rules: {
         // recommended rules from eslint-plugin-react-x https://eslint-react.xyz/docs/rules/overview#core-rules
         'react/jsx-key-before-spread': 'warn',
@@ -264,9 +263,9 @@ export async function react(
     },
     ...isTypeAware
       ? [{
+          name: 'kriszu/react/type-aware-rules',
           files: filesTypeAware,
           ignores: ignoresTypeAware,
-          name: 'antfu/react/type-aware-rules',
           rules: {
             ...typeAwareRules,
           },

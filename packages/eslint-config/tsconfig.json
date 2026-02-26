@@ -3,8 +3,8 @@
   "compilerOptions": {
     "jsx": "preserve",
     "baseUrl": ".",
-    "esModuleInterop": true,
-    "moduleResolution": "Bundler"
+    "moduleResolution": "Bundler",
+    "esModuleInterop": true
   },
   "include": [
     "**/*.ts"

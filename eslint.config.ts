@@ -2,23 +2,25 @@ import { defineEslintConfig } from './packages/eslint-config/src'
 
 export default defineEslintConfig(
   {
-    vue: {
+    formatters: true,
+    jsx: {
       a11y: true,
-    },
-    react: true,
-    nextjs: false,
-    typescript: {
-      erasableOnly: true,
     },
     markdown: {
       overrides: {
         'no-dupe-keys': 'off',
       },
     },
-    formatters: true,
+    nextjs: false,
     pnpm: true,
-    type: 'lib',
-    jsx: {
+    react: true,
+    stylistic: {
+      semi: false,
+    },
+    typescript: {
+      erasableOnly: true,
+    },
+    vue: {
       a11y: true,
     },
   },
@@ -30,9 +32,8 @@ export default defineEslintConfig(
     ],
   },
   {
-    files: ['src/**/*.ts'],
     rules: {
-      'perfectionist/sort-objects': 'error',
+      'style/no-multiple-empty-lines': ['error', { max: 2, maxBOF: 1 }],
     },
   },
 )
