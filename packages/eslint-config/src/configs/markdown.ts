@@ -2,8 +2,7 @@ import type { OptionsComponentExts, OptionsFiles, OptionsMarkdown, TypedFlatConf
 
 import { mergeProcessors, processorPassThrough } from 'eslint-merge-processors'
 import { GLOB_MARKDOWN, GLOB_MARKDOWN_CODE, GLOB_MARKDOWN_IN_MARKDOWN } from '../globs'
-
-import { interopDefault, parserPlain } from '../utils'
+import { interopDefault } from '../utils'
 
 export async function markdown(
   options: OptionsFiles & OptionsComponentExts & OptionsMarkdown = {},
@@ -26,9 +25,8 @@ export async function markdown(
       },
     },
     {
-      name: 'kriszu/markdown/processor',
-      language: gfm ? 'markdown/gfm' : 'markdown/commonmark',
       ignores: [GLOB_MARKDOWN_IN_MARKDOWN],
+      name: 'kriszu/markdown/processor',
       // `eslint-plugin-markdown` only creates virtual files for code blocks,
       // but not the markdown file itself. We use `eslint-merge-processors` to
       // add a pass-through processor for the markdown file itself.
@@ -38,11 +36,9 @@ export async function markdown(
       ]),
     },
     {
-      name: 'kriszu/markdown/parser',
       files,
-      languageOptions: {
-        parser: parserPlain,
-      },
+      language: gfm ? 'markdown/gfm' : 'markdown/commonmark',
+      name: 'kriszu/markdown/parser',
     },
     {
       files,
@@ -71,7 +67,6 @@ export async function markdown(
       },
     },
     {
-      name: 'kriszu/markdown/disables/code',
       files: [
         GLOB_MARKDOWN_CODE,
         ...componentExts.map(ext => `${GLOB_MARKDOWN}/**/*.${ext}`),
@@ -83,6 +78,7 @@ export async function markdown(
           },
         },
       },
+      name: 'kriszu/markdown/disables/code',
       rules: {
 
         'import/newline-after-import': 'off',
