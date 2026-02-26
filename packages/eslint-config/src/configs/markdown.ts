@@ -1,4 +1,4 @@
-import type { OptionsComponentExts, OptionsFiles, OptionsOverrides, TypedFlatConfigItem } from '../types'
+import type { OptionsComponentExts, OptionsFiles, OptionsMarkdown, TypedFlatConfigItem } from '../types'
 
 import { mergeProcessors, processorPassThrough } from 'eslint-merge-processors'
 import { GLOB_MARKDOWN, GLOB_MARKDOWN_CODE, GLOB_MARKDOWN_IN_MARKDOWN } from '../globs'
@@ -6,12 +6,14 @@ import { GLOB_MARKDOWN, GLOB_MARKDOWN_CODE, GLOB_MARKDOWN_IN_MARKDOWN } from '..
 import { interopDefault, parserPlain } from '../utils'
 
 export async function markdown(
-  options: OptionsFiles & OptionsComponentExts & OptionsOverrides = {},
+  options: OptionsFiles & OptionsComponentExts & OptionsMarkdown = {},
 ): Promise<TypedFlatConfigItem[]> {
   const {
     componentExts = [],
     files = [GLOB_MARKDOWN],
+    gfm = true,
     overrides = {},
+    overridesMarkdown = {},
   } = options
 
   const pluginMarkdown = await interopDefault(import('@eslint/markdown'))
@@ -25,7 +27,7 @@ export async function markdown(
     },
     {
       name: 'kriszu/markdown/processor',
-      files,
+      language: gfm ? 'markdown/gfm' : 'markdown/commonmark',
       ignores: [GLOB_MARKDOWN_IN_MARKDOWN],
       // `eslint-plugin-markdown` only creates virtual files for code blocks,
       // but not the markdown file itself. We use `eslint-merge-processors` to
@@ -43,7 +45,33 @@ export async function markdown(
       },
     },
     {
-      name: 'kriszu/markdown/disables',
+      files,
+      name: 'kriszu/markdown/rules',
+      rules: {
+        ...pluginMarkdown.configs.recommended.at(0)?.rules,
+        // https://github.com/eslint/markdown/issues/294
+        'markdown/no-missing-label-refs': 'off',
+        ...overridesMarkdown,
+      },
+    },
+    {
+      files,
+      name: 'kriszu/markdown/disables/markdown',
+      rules: {
+        // Disable rules do not work with markdown sourcecode.
+        'command/command': 'off',
+        'no-irregular-whitespace': 'off',
+        'perfectionist/sort-exports': 'off',
+        'perfectionist/sort-imports': 'off',
+        'regexp/no-legacy-features': 'off',
+        'regexp/no-missing-g-flag': 'off',
+        'regexp/no-useless-dollar-replacements': 'off',
+        'regexp/no-useless-flag': 'off',
+        'style/indent': 'off',
+      },
+    },
+    {
+      name: 'kriszu/markdown/disables/code',
       files: [
         GLOB_MARKDOWN_CODE,
         ...componentExts.map(ext => `${GLOB_MARKDOWN}/**/*.${ext}`),
