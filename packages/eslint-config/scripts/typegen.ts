@@ -2,7 +2,7 @@ import fs from 'node:fs/promises'
 
 import { flatConfigsToRulesDTS } from 'eslint-typegen/core'
 import { builtinRules } from 'eslint/use-at-your-own-risk'
-import { CONFIG_PRESET_FULL_ON } from 'src/config-presets'
+import { CONFIG_PRESET_FULL_ON } from '../src/config-presets'
 import { defineEslintConfig } from '../src/factory'
 
 const configs = await defineEslintConfig(CONFIG_PRESET_FULL_ON)
@@ -27,4 +27,4 @@ dts += `
 export type ConfigNames = ${configNames.map(i => `'${i}'`).join(' | ')}
 `
 
-await fs.writeFile('src/typegen.d.ts', dts)
+await fs.writeFile('../src/typegen.d.ts', dts)
