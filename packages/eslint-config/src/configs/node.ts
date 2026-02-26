@@ -1,14 +1,19 @@
 import type { TypedFlatConfigItem } from '../types'
 
+import { GLOB_SRC } from '../globs'
 import { pluginNode } from '../plugins'
 
 export async function node(): Promise<TypedFlatConfigItem[]> {
   return [
     {
-      name: 'kriszu/node/rules',
+      name: 'kriszu/node/setup',
       plugins: {
         node: pluginNode,
       },
+    },
+    {
+      name: 'kriszu/node/rules',
+      files: [GLOB_SRC],
       rules: {
 
         // https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/handle-callback-err.md
