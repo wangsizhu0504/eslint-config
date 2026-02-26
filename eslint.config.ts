@@ -6,23 +6,27 @@ export default defineEslintConfig(
       a11y: true,
     },
     react: true,
-    nextjs: true,
-    typescript: true,
+    nextjs: false,
+    typescript: {
+      erasableOnly: true,
+    },
+    markdown: {
+      overrides: {
+        'no-dupe-keys': 'off',
+      },
+    },
     formatters: true,
     pnpm: true,
-    type:"lib",
+    type: 'lib',
     jsx: {
       a11y: true,
-    },
-    stylistic: {
-      semi: false,
     },
   },
   {
     ignores: [
       'fixtures',
       '_fixtures',
-      'packages/eslint-plugin/vendor',
+      '**/constants-generated.ts',
     ],
   },
   {
@@ -30,5 +34,5 @@ export default defineEslintConfig(
     rules: {
       'perfectionist/sort-objects': 'error',
     },
-  }
+  },
 )

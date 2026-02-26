@@ -1,12 +1,15 @@
+catalogMode: prefer
+ignoreWorkspaceRootCheck: true
+shamefullyHoist: true
+shellEmulator: true
+strictPeerDependencies: false
+trustPolicy: no-downgrade
+trustPolicyExclude:
+  - cached-factory@0.1.0
+
 packages:
   - 'packages/*'
-
-overrides:
-  '@eslint-community/eslint-utils': ^4.9.1
-  '@typescript-eslint/types': ^8.56.1
-  '@typescript-eslint/utils': ^8.56.1
-  eslint: ^9.39.2
-  tsx: ^4.21.0
+  - fixtures/*
 
 catalogs:
   dev:
@@ -44,7 +47,7 @@ catalogs:
     '@next/eslint-plugin-next': ^16.1.6
     '@prettier/plugin-xml': ^3.4.2
     '@unocss/eslint-plugin': ^66.6.2
-    eslint: ^9.39.2
+    eslint: ^10.0.2
     eslint-plugin-erasable-syntax-only: ^0.4.0
     eslint-plugin-format: ^2.0.1
     eslint-plugin-jsx-a11y: ^6.10.2
@@ -69,7 +72,7 @@ catalogs:
     eslint-plugin-command: ^3.5.2
     eslint-plugin-import-lite: ^0.5.2
     eslint-plugin-jsdoc: ^62.7.1
-    eslint-plugin-jsonc: ^3.1.1
+    eslint-plugin-jsonc: ^3.1.0
     eslint-plugin-n: ^17.24.0
     eslint-plugin-no-only-tests: ^3.3.0
     eslint-plugin-perfectionist: ^5.6.0
@@ -82,7 +85,6 @@ catalogs:
     eslint-plugin-yml: ^3.3.0
     eslint-processor-vue-blocks: ^2.0.0
     globals: ^17.3.0
-    jsonc-eslint-parser: ^3.1.0
     local-pkg: ^1.1.2
     parse-gitignore: ^2.0.0
     toml-eslint-parser: ^1.0.3
