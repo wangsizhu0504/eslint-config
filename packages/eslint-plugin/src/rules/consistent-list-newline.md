@@ -5,6 +5,7 @@ Enforce consistent line breaks inside braces of object/array/named imports/expor
 ## Rule Details
 
 <!-- eslint-skip -->
+
 ```js
 // 👎 bad
 const foo = {
@@ -14,6 +15,7 @@ const foo = {
 ```
 
 <!-- eslint-skip -->
+
 ```js
 // 👍 good
 const foo = {

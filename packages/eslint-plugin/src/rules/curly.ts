@@ -70,15 +70,15 @@ export default createEslintRule<Options, MessageIds>({
         const statements: TSESTree.Statement[] = []
         const tests: TSESTree.Expression[] = []
 
-        function addIf(node: TSESTree.IfStatement): void {
-          statements.push(node.consequent)
-          if (node.test)
-            tests.push(node.test)
-          if (node.alternate) {
-            if (node.alternate.type === 'IfStatement')
-              addIf(node.alternate)
+        function addIf(_node: TSESTree.IfStatement): void {
+          statements.push(_node.consequent)
+          if (_node.test)
+            tests.push(_node.test)
+          if (_node.alternate) {
+            if (_node.alternate.type === 'IfStatement')
+              addIf(_node.alternate)
             else
-              statements.push(node.alternate)
+              statements.push(_node.alternate)
           }
         }
 
