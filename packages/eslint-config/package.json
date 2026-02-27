@@ -14,10 +14,13 @@
     "eslint-config"
   ],
   "exports": {
-    ".": "./dist/index.mjs"
+    ".": "./dist/index.mjs",
+    "./cli": "./dist/cli.mjs",
+    "./package.json": "./package.json"
   },
   "main": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
   "bin": "./bin/index.mjs",
   "files": [
     "bin",
