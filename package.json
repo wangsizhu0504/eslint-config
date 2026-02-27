@@ -14,7 +14,7 @@
     "lint": "eslint .",
     "test": "vitest",
     "prepare": "simple-git-hooks",
-    "release": "npm run build && bumpp -r"
+    "release": "pnpm build && bumpp -r"
   },
   "devDependencies": {
     "@eslint/config-inspector": "catalog:dev",

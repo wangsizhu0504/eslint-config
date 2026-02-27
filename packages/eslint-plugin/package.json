@@ -21,9 +21,8 @@
   ],
   "scripts": {
     "build": "tsdown --clean --dts",
-    "lint": "pnpm run dev && eslint .",
-    "prepublishOnly": "npm run build",
-    "release": "bumpp && npm publish",
+    "lint": "pnpm dev && eslint .",
+    "prepublishOnly": "pnpm build",
     "start": "tsx src/index.ts",
     "test": "vitest",
     "typecheck": "tsc --noEmit"

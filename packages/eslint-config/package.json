@@ -24,7 +24,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "npm run gen && tsdown --clean --dts",
+    "build": "pnpm gen && tsdown --clean --dts",
     "stub": "tsdown",
     "dev": "npx @eslint/config-inspector --config eslint.config.ts",
     "build:inspector": "pnpm build && npx @eslint/config-inspector build",
@@ -32,7 +32,7 @@
     "lint": "eslint",
     "gen": "tsx scripts/typegen.ts && tsx scripts/versiongen.ts",
     "typecheck": "tsc --noEmit",
-    "prepack": "npm run build"
+    "prepack": "pnpm build"
   },
   "peerDependencies": {
     "@eslint-react/eslint-plugin": "^2.11.0",
