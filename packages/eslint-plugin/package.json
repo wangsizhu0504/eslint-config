@@ -38,6 +38,9 @@
     "eslint-vitest-rule-tester": "catalog:prod",
     "jsonc-eslint-parser": "catalog:prod"
   },
+  "resolutions": {
+    "tsx": "catalog:dev"
+  },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"
   },

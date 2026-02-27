@@ -9,9 +9,10 @@
     "build": "pnpm -r build",
     "dev": "npx @eslint/config-inspector --config eslint.config.ts",
     "stub": "pnpm -r --parallel run stub",
+    "typecheck": "pnpm -r --parallel run typecheck",
     "lint": "eslint .",
     "test": "vitest",
-    "release": "npm run build && bumpp -r && pnpm -r publish"
+    "release": "npm run build && bumpp -r"
   },
   "devDependencies": {
     "@eslint/config-inspector": "catalog:dev",

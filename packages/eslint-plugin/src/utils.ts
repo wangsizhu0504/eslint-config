@@ -46,6 +46,7 @@ function RuleCreator(urlCreator: (ruleName: string) => string) {
   }
 }
 
+
 /**
  * Creates a well-typed TSESLint custom ESLint rule without a docs URL.
  *
@@ -66,13 +67,13 @@ function createRule<
     ): RuleListener => {
       const optionsWithDefault = context.options.map((options, index) => {
         return {
-          ...defaultOptions[index] || {},
+          ...defaultOptions?.[index] || {},
           ...options || {},
         }
       }) as unknown as TOptions
       return create(context, optionsWithDefault)
     }) as any,
-    defaultOptions,
+    defaultOptions: defaultOptions as TOptions,
     meta: meta as any,
   }
 }
@@ -85,7 +86,7 @@ export const createEslintRule = RuleCreator(
 
 const warned = new Set<string>()
 
-export function warnOnce(message: string) {
+export function warnOnce(message: string): void {
   if (warned.has(message))
     return
   warned.add(message)
