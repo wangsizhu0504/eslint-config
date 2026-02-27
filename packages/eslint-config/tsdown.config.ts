@@ -10,7 +10,7 @@ export default defineConfig({
   shims: true,
   hooks: {
     'build:done': async () => {
-      await fs.copyFile('../../README.md', 'dist/README.md')
+      await fs.copyFile('../../README.md', 'README.md')
     },
   },
 })

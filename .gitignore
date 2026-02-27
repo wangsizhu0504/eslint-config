@@ -85,3 +85,4 @@ _fixtures
 
 typegen.d.ts
 .eslint-config-inspector
+packages/eslint-config/README.md
