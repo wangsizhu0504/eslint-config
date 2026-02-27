@@ -32,8 +32,7 @@
     "lint": "eslint",
     "gen": "tsx scripts/typegen.ts && tsx scripts/versiongen.ts",
     "typecheck": "tsc --noEmit",
-    "prepack": "npm run build",
-    "prepare": "simple-git-hooks"
+    "prepack": "npm run build"
   },
   "peerDependencies": {
     "@eslint-react/eslint-plugin": "^2.11.0",
@@ -133,21 +132,5 @@
     "jiti": "catalog:dev",
     "vitest": "catalog:dev",
     "vue": "catalog:peer"
-  },
-  "resolutions": {
-    "@eslint-community/eslint-utils": "catalog:peer",
-    "@typescript-eslint/types": "catalog:peer",
-    "@typescript-eslint/utils": "catalog:peer",
-    "chokidar": "catalog:dev",
-    "eslint": "catalog:peer",
-    "semver": "catalog:dev",
-    "synckit": "catalog:dev",
-    "tsx": "catalog:dev"
-  },
-  "simple-git-hooks": {
-    "pre-commit": "npx lint-staged"
-  },
-  "lint-staged": {
-    "*": "eslint --fix"
   }
 }

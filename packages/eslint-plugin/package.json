@@ -26,8 +26,7 @@
     "release": "bumpp && npm publish",
     "start": "tsx src/index.ts",
     "test": "vitest",
-    "typecheck": "tsc --noEmit",
-    "prepare": "simple-git-hooks"
+    "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
     "eslint": ">=9.0.0"
@@ -37,14 +36,5 @@
     "@typescript-eslint/utils": "catalog:peer",
     "eslint-vitest-rule-tester": "catalog:prod",
     "jsonc-eslint-parser": "catalog:prod"
-  },
-  "resolutions": {
-    "tsx": "catalog:dev"
-  },
-  "simple-git-hooks": {
-    "pre-commit": "npx lint-staged"
-  },
-  "lint-staged": {
-    "*": "eslint --fix"
   }
 }
