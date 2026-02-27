@@ -20,6 +20,11 @@ jobs:
         with:
           fetch-all: true
 
+      - name: Setup Node Auth
+        uses: actions/setup-node@v4
+        with:
+          registry-url: https://registry.npmjs.org/
+
       - name: Generate GitHub Changelog
         run: pnpx changelogithub
         continue-on-error: true
