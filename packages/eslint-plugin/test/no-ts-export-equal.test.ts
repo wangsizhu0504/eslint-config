@@ -1,18 +1,11 @@
+import rule, { RULE_NAME } from '../src/rules/no-ts-export-equal'
 import { run } from './_test'
-import rule, { RULE_NAME } from './no-ts-export-equal'
 
 run({
   invalid: [
     {
       code: 'export = {}',
-      errors(errors) {
-        expect(errors.map(i => i.message))
-          .toMatchInlineSnapshot(`
-            [
-              "Use ESM \`export default\` instead",
-            ]
-          `)
-      },
+      errors: [{ messageId: 'noTsExportEqual' }],
       filename: 'test.ts',
     },
   ],

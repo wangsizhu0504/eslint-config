@@ -10,12 +10,14 @@
     "dev": "npx @eslint/config-inspector --config eslint.config.ts",
     "stub": "pnpm -r --parallel run stub",
     "lint": "eslint .",
+    "test": "vitest",
     "release": "npm run build && bumpp -r && pnpm -r publish"
   },
   "devDependencies": {
     "@eslint/config-inspector": "catalog:dev",
     "@kriszu/eslint-config": "workspace:*",
     "@types/node": "catalog:dev",
+    "@vitest/ui": "catalog:dev",
     "bumpp": "catalog:dev",
     "execa": "catalog:dev",
     "jiti": "catalog:dev",

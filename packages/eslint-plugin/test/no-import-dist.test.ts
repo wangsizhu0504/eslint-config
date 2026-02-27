@@ -1,5 +1,5 @@
+import rule, { RULE_NAME } from '../src/rules/no-import-dist'
 import { run } from './_test'
-import rule, { RULE_NAME } from './no-import-dist'
 
 const valids = [
   'import xxx from "a"',

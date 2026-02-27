@@ -129,6 +129,7 @@
     "eslint-plugin-vuejs-accessibility": "catalog:peer",
     "eslint-typegen": "catalog:dev",
     "find-up-simple": "catalog:inline",
+    "jiti": "catalog:dev",
     "vitest": "catalog:dev",
     "vue": "catalog:peer"
   },

@@ -35,7 +35,8 @@
   "dependencies": {
     "@typescript-eslint/typescript-estree": "catalog:prod",
     "@typescript-eslint/utils": "catalog:peer",
-    "eslint-vitest-rule-tester": "catalog:prod"
+    "eslint-vitest-rule-tester": "catalog:prod",
+    "jsonc-eslint-parser": "catalog:prod"
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"

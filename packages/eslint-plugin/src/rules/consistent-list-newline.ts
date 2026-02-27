@@ -12,6 +12,7 @@ export type Options = [{
   ExportNamedDeclaration?: boolean
   FunctionDeclaration?: boolean
   FunctionExpression?: boolean
+  IfStatement?: boolean
   ImportDeclaration?: boolean
   JSONArrayExpression?: boolean
   JSONObjectExpression?: boolean
@@ -26,6 +27,10 @@ export type Options = [{
   TSTypeParameterDeclaration?: boolean
   TSTypeParameterInstantiation?: boolean
 }]
+
+function isCommaToken(token: TSESTree.Token): boolean {
+  return token.type === 'Punctuator' && token.value === ','
+}
 
 export default createEslintRule<Options, MessageIds>({
   name: RULE_NAME,
@@ -45,6 +50,7 @@ export default createEslintRule<Options, MessageIds>({
         ExportNamedDeclaration: { type: 'boolean' },
         FunctionDeclaration: { type: 'boolean' },
         FunctionExpression: { type: 'boolean' },
+        IfStatement: { type: 'boolean' },
         ImportDeclaration: { type: 'boolean' },
         JSONArrayExpression: { type: 'boolean' },
         JSONObjectExpression: { type: 'boolean' },
@@ -71,6 +77,7 @@ export default createEslintRule<Options, MessageIds>({
     const multilineNodes = new Set([
       'ArrayExpression',
       'FunctionDeclaration',
+      'IfStatement',
       'ObjectExpression',
       'ObjectPattern',
       'TSTypeLiteral',
@@ -208,7 +215,8 @@ export default createEslintRule<Options, MessageIds>({
         // If there is only one multiline item, we allow the closing bracket to be on the a different line
         if (items.length === 1 && !(multilineNodes as Set<AST_NODE_TYPES>).has(node.type))
           return
-        if (context.sourceCode.getCommentsAfter(lastItem).length > 0)
+        const nextToken = context.sourceCode.getTokenAfter(lastItem)
+        if (context.sourceCode.getCommentsAfter(nextToken && isCommaToken(nextToken) ? nextToken : lastItem).length > 0)
           return
 
         const content = context.sourceCode.text.slice(lastItem.range[1], endRange)
@@ -259,6 +267,9 @@ export default createEslintRule<Options, MessageIds>({
           node.params,
           node.returnType || node.body,
         )
+      },
+      IfStatement: (node) => {
+        check(node, [node.test], node.consequent)
       },
       ArrowFunctionExpression: (node) => {
         if (node.params.length <= 1)
@@ -335,5 +346,5 @@ export default createEslintRule<Options, MessageIds>({
   },
 })
 
-// eslint-disable-next-line unused-imports/no-unused-vars, ts/explicit-function-return-type
+// eslint-disable-next-line unused-imports/no-unused-vars
 function exportType<A, B extends A>() {}

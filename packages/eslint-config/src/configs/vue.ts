@@ -40,7 +40,7 @@ export async function vue(
     pluginVue,
     parserVue,
     processorVueBlocks,
-    ...pluginVueA11y
+    pluginVueA11y,
   ] = await Promise.all([
     interopDefault(import('eslint-plugin-vue')),
     interopDefault(import('vue-eslint-parser')),
@@ -196,6 +196,7 @@ export async function vue(
           },
         ],
         'vue/camelcase': 'off',
+        'vue/comment-directive': 'off',
         'vue/component-options-name-casing': ['error', 'PascalCase'],
         'vue/html-closing-bracket-spacing': 'off',
         'vue/html-comment-content-newline': [

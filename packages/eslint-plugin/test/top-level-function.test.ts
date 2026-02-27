@@ -1,5 +1,5 @@
+import rule, { RULE_NAME } from '../src/rules/top-level-function'
 import { run } from './_test'
-import rule, { RULE_NAME } from './top-level-function'
 
 const valids = [
   'function foo() {}',
