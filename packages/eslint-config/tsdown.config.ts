@@ -1,3 +1,4 @@
+import fs from 'node:fs/promises'
 import { defineConfig } from 'tsdown'
 
 export default defineConfig({
@@ -7,4 +8,9 @@ export default defineConfig({
   ],
   format: ['esm'],
   shims: true,
+  hooks: {
+    'build:done': async () => {
+      await fs.copyFile('../../README.md', 'dist/README.md')
+    },
+  },
 })

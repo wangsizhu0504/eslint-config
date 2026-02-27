@@ -1,5 +1,5 @@
 <picture>
-<img src=".github/cover.png" alt="Cover Image" />
+<img src="https://github.com/wangsizhu0504/eslint-config/blob/main/.github/cover.svg?raw=true" alt="Cover Image" />
 </picture>
 
 <div align="center">
